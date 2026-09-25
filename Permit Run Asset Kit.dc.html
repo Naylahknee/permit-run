@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#11152A;color:#F7EEDD;font-family:Barlow,sans-serif;-webkit-font-smoothing:antialiased}a{color:#FFC53D}a:hover{color:#FF3E7F}*{box-sizing:border-box}</style>
+</helmet>
+<div style="max-width:1320px;margin:0 auto;padding:48px 32px 96px;display:flex;flex-direction:column;gap:72px">
+
+<header style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:end">
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <div style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#FFC53D">ASSET KIT · V1 · FOR GOOGLE AI STUDIO</div>
+    <img src="assets/brand/logo-wordmark.svg" alt="Permit Run California" style="width:100%;max-width:560px;display:block"></img>
+    <p style="margin:0;font-size:18px;line-height:1.5;color:rgba(247,238,221,.8);max-width:560px;text-wrap:pretty">An open-world style driving quiz game built on the California Driver’s Handbook. Every asset below is a standalone SVG in the <b>assets/</b> folder. Click any asset to download it.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;font-size:14px;line-height:1.45">
+    <div style="background:#1B2140;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px"><b style="font:800 18px 'Big Shoulders Display';letter-spacing:.04em">ISO GRID</b><span style="color:rgba(247,238,221,.72)">Tiles are 128×64 diamonds (2:1). Place tile (i,j) at x=(i−j)·64, y=(i+j)·32. Draw back to front by i+j.</span></div>
+    <div style="background:#1B2140;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px"><b style="font:800 18px 'Big Shoulders Display';letter-spacing:.04em">VEHICLES</b><span style="color:rgba(247,238,221,.72)">Front and rear views. Flip horizontally for the other two directions. Scale 0.8 to fit one lane.</span></div>
+    <div style="background:#1B2140;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px"><b style="font:800 18px 'Big Shoulders Display';letter-spacing:.04em">TYPE</b><span style="color:rgba(247,238,221,.72)">Big Shoulders Display (headlines, HUD), Barlow (body, answers), JetBrains Mono (labels).</span></div>
+    <div style="background:#1B2140;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px"><b style="font:800 18px 'Big Shoulders Display';letter-spacing:.04em">PALETTE</b>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <div title="#11152A" style="width:26px;height:26px;border-radius:6px;background:#11152A;border:1px solid rgba(255,255,255,.2)"></div>
+        <div title="#1B2140" style="width:26px;height:26px;border-radius:6px;background:#1B2140;border:1px solid rgba(255,255,255,.2)"></div>
+        <div title="#FF3E7F" style="width:26px;height:26px;border-radius:6px;background:#FF3E7F"></div>
+        <div title="#FF8A2A" style="width:26px;height:26px;border-radius:6px;background:#FF8A2A"></div>
+        <div title="#FFC53D" style="width:26px;height:26px;border-radius:6px;background:#FFC53D"></div>
+        <div title="#1FC7B6" style="width:26px;height:26px;border-radius:6px;background:#1FC7B6"></div>
+        <div title="#F7EEDD" style="width:26px;height:26px;border-radius:6px;background:#F7EEDD"></div>
+        <div title="#3B4050" style="width:26px;height:26px;border-radius:6px;background:#3B4050"></div>
+      </div>
+      <span style="font:400 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.6)">navy · night · magenta · orange · gold · teal · cream · asphalt</span>
+    </div>
+  </div>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #FF3E7F;padding-bottom:10px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#FF3E7F">01</span><h2 style="margin:0;font:900 40px/1 'Big Shoulders Display';letter-spacing:.02em">SAMPLE GAME SCREEN</h2><span style="color:rgba(247,238,221,.6);font-size:15px">Mission 3 · question from DMV Sample Test 1. Tap an answer.</span></div>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:390px;height:844px;border-radius:52px;border:10px solid #05060B;background:#11152A;position:relative;overflow:hidden;flex:none;box-shadow:0 30px 80px rgba(0,0,0,.5)">
+      <img src="assets/scenes/scene-school-bus-intersection.svg" alt="" style="position:absolute;width:980px;left:-300px;top:40px;display:block"></img>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,21,42,.85) 0%,rgba(17,21,42,0) 22%,rgba(17,21,42,0) 55%,rgba(17,21,42,.6) 70%)"></div>
+      <div style="position:absolute;top:52px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;background:#FF3E7F;border-radius:8px;padding:6px 10px;font:800 15px 'Big Shoulders Display';letter-spacing:.06em"><img src="assets/icons/mission-flag.svg" style="width:18px;height:18px"></img>MISSION 3</div>
+          <div style="font:600 13px Barlow;color:rgba(247,238,221,.85)">Laws &amp; Rules of the Road</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div style="font:900 34px/1 'Big Shoulders Display';color:#FFC53D;text-shadow:0 2px 0 #11152A">${{ cashFmt }}</div>
+          <div style="display:flex;gap:2px">
+            <sc-for list="{{ strikeList }}" as="s" hint-placeholder-count="5"><img src="{{ s.src }}" style="width:22px;height:22px"></img></sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font:800 18px 'Big Shoulders Display';letter-spacing:.04em"><img src="assets/icons/timer.svg" style="width:18px;height:18px"></img>0:42</div>
+        </div>
+      </div>
+      <div style="position:absolute;left:18px;top:420px;width:84px;height:84px;border-radius:50%;border:3px solid #F7EEDD;overflow:hidden;background:#1B2140">
+        <img src="assets/scenes/scene-school-bus-intersection.svg" style="position:absolute;width:300px;left:-118px;top:-40px"></img>
+        <div style="position:absolute;left:36px;top:34px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:14px solid #FF3E7F"></div>
+      </div>
+      <sc-if value="{{ picked }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:150px;left:0;right:0;display:flex;justify-content:center">
+          <div style="font:900 44px/1 'Big Shoulders Display';letter-spacing:.04em;color:{{ fbColor }};text-shadow:0 3px 0 #11152A,0 0 24px rgba(0,0,0,.6)">{{ fbTitle }}</div>
+        </div>
+      </sc-if>
+      <div style="position:absolute;left:0;right:0;bottom:0;background:rgba(17,21,42,.96);border-radius:28px 28px 0 0;padding:20px 18px 30px;display:flex;flex-direction:column;gap:12px;border-top:3px solid #FF3E7F">
+        <div style="display:flex;justify-content:space-between;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#FFC53D"><span style="white-space:nowrap">QUESTION {{ qNum }} OF {{ qTotal }}</span><span>+$100</span></div>
+        <div style="font:600 18px/1.3 Barlow;text-wrap:pretty">{{ q.q }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ answers }}" as="a" hint-placeholder-count="3">
+            <button onClick="{{ a.onPick }}" style="display:flex;align-items:center;gap:12px;text-align:left;min-height:52px;padding:10px 12px;border-radius:12px;border:2px solid {{ a.bd }};background:{{ a.bg }};color:#F7EEDD;font:500 15px/1.3 Barlow;cursor:pointer">
+              <span style="flex:none;width:28px;height:28px;border-radius:8px;background:{{ a.chip }};color:#11152A;display:flex;align-items:center;justify-content:center;font:900 16px 'Big Shoulders Display'">{{ a.letter }}</span>
+              <span>{{ a.text }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ picked }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div style="flex:1;font-size:13px;line-height:1.4;color:rgba(247,238,221,.75)">{{ q.tip }}</div>
+            <button onClick="{{ next }}" style="flex:none;height:44px;padding:0 18px;border-radius:22px;border:none;background:#FFC53D;color:#11152A;font:900 16px 'Big Shoulders Display';letter-spacing:.06em;cursor:pointer">NEXT</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;flex:1;min-width:280px;max-width:520px">
+      <img src="assets/brand/splash-1080x1920.svg" alt="Splash" style="width:240px;border-radius:24px;display:block"></img>
+      <div style="display:flex;gap:16px;align-items:center">
+        <img src="assets/brand/app-icon-1024.svg" style="width:96px;height:96px"></img>
+        <img src="assets/brand/app-icon-1024.svg" style="width:60px;height:60px"></img>
+        <img src="assets/brand/app-icon-1024.svg" style="width:40px;height:40px"></img>
+        <span style="font:400 12px 'JetBrains Mono',monospace;color:rgba(247,238,221,.6)">app icon at 96 / 60 / 40</span>
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.5;color:rgba(247,238,221,.7);text-wrap:pretty">The scene is assembled from the tile, prop and vehicle files below. Correct answers add cash. Wrong answers add a strike; five strikes fails the mission.</p>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #FF3E7F;padding-bottom:10px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#FF3E7F">02</span><h2 style="margin:0;font:900 40px/1 'Big Shoulders Display';letter-spacing:.02em">HUD</h2><span style="color:rgba(247,238,221,.6);font-size:15px">Build these in code; icons come from assets/icons.</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">
+    <div style="background:#1B2140;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">cash-counter</span>
+      <div style="font:900 52px/1 'Big Shoulders Display';color:#FFC53D;text-shadow:0 3px 0 #11152A">$2,450</div>
+      <div style="font:900 22px/1 'Big Shoulders Display';color:#1FC7B6">+$100</div>
+    </div>
+    <div style="background:#1B2140;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">strike-meter (0–5)</span>
+      <div style="display:flex;gap:4px"><img src="assets/icons/strike-on.svg" style="width:36px"></img><img src="assets/icons/strike-on.svg" style="width:36px"></img><img src="assets/icons/strike-off.svg" style="width:36px"></img><img src="assets/icons/strike-off.svg" style="width:36px"></img><img src="assets/icons/strike-off.svg" style="width:36px"></img></div>
+      <div style="align-self:flex-start;background:#FF3E7F;border-radius:8px;padding:8px 14px;font:900 24px/1 'Big Shoulders Display';letter-spacing:.06em">STRIKE!</div>
+    </div>
+    <div style="background:#1B2140;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">timer (challenge mode)</span>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:84px;height:84px;border-radius:50%;background:conic-gradient(#FFC53D 0 70%,#2B3160 70% 100%);display:flex;align-items:center;justify-content:center"><div style="width:68px;height:68px;border-radius:50%;background:#1B2140;display:flex;align-items:center;justify-content:center;font:900 26px 'Big Shoulders Display'">0:42</div></div>
+        <div style="font:800 16px/1.3 'Big Shoulders Display';letter-spacing:.04em;color:rgba(247,238,221,.8)">10 QUESTIONS<br>60 SECONDS</div>
+      </div>
+    </div>
+    <div style="background:#1B2140;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">minimap</span>
+      <div style="width:120px;height:120px;border-radius:50%;border:4px solid #F7EEDD;overflow:hidden;position:relative;background:#1B2140">
+        <img src="assets/scenes/scene-school-bus-intersection.svg" style="position:absolute;width:420px;left:-150px;top:-40px"></img>
+        <div style="position:absolute;left:51px;top:48px;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:18px solid #FF3E7F"></div>
+      </div>
+    </div>
+    <div style="background:#1B2140;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;grid-column:span 2">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">mission-complete overlay</span>
+      <div style="background:linear-gradient(90deg,rgba(17,21,42,0),rgba(17,21,42,.95) 20%,rgba(17,21,42,.95) 80%,rgba(17,21,42,0));padding:22px 0;display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div style="font:900 64px/1 'Big Shoulders Display';letter-spacing:.04em;color:#FFC53D">TEST PASSED</div>
+        <div style="font:700 16px Barlow;color:#F7EEDD">Laws &amp; Rules of the Road · 9 / 10 · +$900</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #FF3E7F;padding-bottom:10px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#FF3E7F">03</span><h2 style="margin:0;font:900 40px/1 'Big Shoulders Display';letter-spacing:.02em">QUIZ UI STATES</h2></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+    <div style="background:#1B2140;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">answer · default / selected</span>
+      <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 12px;border-radius:12px;border:2px solid rgba(247,238,221,.14);background:rgba(247,238,221,.04);font:500 15px Barlow"><span style="width:28px;height:28px;border-radius:8px;background:#F7EEDD;color:#11152A;display:flex;align-items:center;justify-content:center;font:900 16px 'Big Shoulders Display'">A</span>At or near the speed of traffic.</div>
+      <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 12px;border-radius:12px;border:2px solid #FFC53D;background:rgba(255,197,61,.12);font:500 15px Barlow"><span style="width:28px;height:28px;border-radius:8px;background:#FFC53D;color:#11152A;display:flex;align-items:center;justify-content:center;font:900 16px 'Big Shoulders Display'">B</span>Faster than the speed of traffic.</div>
+    </div>
+    <div style="background:#1B2140;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">answer · correct / wrong</span>
+      <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 12px;border-radius:12px;border:2px solid #1FC7B6;background:rgba(31,199,182,.16);font:500 15px Barlow"><img src="assets/icons/check.svg" style="width:28px;height:28px"></img>At or near the speed of traffic.</div>
+      <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 12px;border-radius:12px;border:2px solid #FF3E7F;background:rgba(255,62,127,.16);font:500 15px Barlow"><img src="assets/icons/wrong.svg" style="width:28px;height:28px"></img>Slower than the speed of traffic.</div>
+    </div>
+    <div style="background:#1B2140;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center">
+      <span style="align-self:flex-start;font:600 11px 'JetBrains Mono',monospace;color:rgba(247,238,221,.55)">results</span>
+      <img src="assets/badges/rank-2-permit.svg" style="width:84px"></img>
+      <div style="font:900 44px/1 'Big Shoulders Display';color:#FFC53D">9 / 10</div>
+      <div style="font:600 15px Barlow;color:rgba(247,238,221,.8)">Rank up: Permit · +$900</div>
+      <div style="display:flex;gap:8px;width:100%">
+        <div style="flex:1;height:48px;border-radius:24px;border:2px solid rgba(247,238,221,.25);display:flex;align-items:center;justify-content:center;font:900 16px 'Big Shoulders Display';letter-spacing:.06em">REVIEW</div>
+        <div style="flex:1;height:48px;border-radius:24px;background:#FF3E7F;display:flex;align-items:center;justify-content:center;font:900 16px 'Big Shoulders Display';letter-spacing:.06em">NEXT MISSION</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #FF3E7F;padding-bottom:10px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#FF3E7F">04</span><h2 style="margin:0;font:900 40px/1 'Big Shoulders Display';letter-spacing:.02em">DISTRICTS &amp; LEADERBOARD</h2><span style="color:rgba(247,238,221,.6);font-size:15px">One district per handbook topic.</span></div>
+  <div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:16px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+      <sc-for list="{{ districts }}" as="d" hint-placeholder-count="6">
+        <div style="background:#1B2140;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;border:2px solid {{ d.bd }};opacity:{{ d.op }}">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 11px 'JetBrains Mono',monospace;color:#FFC53D">MISSION {{ d.n }}</span><img src="{{ d.icon }}" style="width:22px;height:22px"></img></div>
+          <div style="font:900 26px/1 'Big Shoulders Display';letter-spacing:.02em">{{ d.name }}</div>
+          <div style="font-size:14px;color:rgba(247,238,221,.72)">{{ d.topic }}</div>
+          <div style="font:700 12px 'JetBrains Mono',monospace;color:{{ d.stColor }}">{{ d.status }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#1B2140;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:8px;font:900 22px 'Big Shoulders Display';letter-spacing:.04em;padding-bottom:6px"><img src="assets/icons/leaderboard.svg" style="width:22px"></img>WEEKLY LEADERBOARD</div>
+      <sc-for list="{{ leaders }}" as="p" hint-placeholder-count="5">
+        <div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;background:{{ p.bg }}">
+          <span style="width:22px;font:900 20px 'Big Shoulders Display';color:#FFC53D">{{ p.rank }}</span>
+          <img src="{{ p.av }}" style="width:36px;height:36px"></img>
+          <span style="flex:1;font:600 15px Barlow">{{ p.name }}</span>
+          <span style="font:800 18px 'Big Shoulders Display'">{{ p.cash }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<sc-for list="{{ assetSections }}" as="sec" hint-placeholder-count="3">
+  <section style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;align-items:baseline;gap:14px;border-bottom:2px solid #FF3E7F;padding-bottom:10px;flex-wrap:wrap"><span style="font:600 13px 'JetBrains Mono',monospace;color:#FF3E7F">{{ sec.num }}</span><h2 style="margin:0;font:900 40px/1 'Big Shoulders Display';letter-spacing:.02em">{{ sec.title }}</h2><span style="color:rgba(247,238,221,.6);font-size:15px">{{ sec.sub }}</span><span style="margin-left:auto;font:400 12px 'JetBrains Mono',monospace;color:rgba(247,238,221,.5)">{{ sec.count }} files · {{ sec.dir }}</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+      <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="8">
+        <a href="{{ it.file }}" download="{{ it.dl }}" style="background:#1B2140;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:#F7EEDD;border:1px solid rgba(247,238,221,.06)" style-hover="border-color:#FFC53D;background:#222A52">
+          <div style="height:120px;display:flex;align-items:center;justify-content:center"><img src="{{ it.file }}" alt="{{ it.label }}" style="max-width:100%;max-height:120px;display:block"></img></div>
+          <span style="font:500 11px/1.3 'JetBrains Mono',monospace;color:rgba(247,238,221,.7)">{{ it.label }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+</sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { man: null, qi: 0, pick: null, strikes: 1, cash: 2450 };
+  Q = [
+    { q: 'What should you do when there is a school bus ahead that starts flashing yellow warning lights?', a: ['Slow down and prepare to stop.', 'Stop immediately and remain stopped.', 'Cautiously pass the school bus on the left.'], c: 0, tip: 'Flashing yellow means the bus is about to stop. Flashing red means you must stop.' },
+    { q: 'Who can legally park next to curb painted blue?', a: ['Someone who is either picking up or dropping off passengers at this location.', 'A person who is disabled and has a special placard or vehicle license plate for disabled persons.', 'A person who will only be parked at the curb for less than 15 minutes.'], c: 1, tip: 'Blue curbs are reserved for disabled parking with a placard or plate.' },
+    { q: 'When a railroad crossing is not controlled, what is the speed limit when you are within 100 feet and cannot see for 400 feet in both directions?', a: ['15 mph.', '10 mph.', '25 mph.'], c: 0, tip: 'Uncontrolled crossing with limited visibility: 15 mph.' }
+  ];
+  componentDidMount() { fetch('assets/manifest.json').then(r => r.json()).then(man => this.setState({ man })).catch(() => {}); }
+  renderVals() {
+    const { man, qi, pick, strikes, cash } = this.state;
+    const q = this.Q[qi], picked = pick !== null, ok = pick === q.c;
+    const answers = q.a.map((text, i) => {
+      let bg = 'rgba(247,238,221,.04)', bd = 'rgba(247,238,221,.14)', chip = '#F7EEDD';
+      if (picked && i === q.c) { bg = 'rgba(31,199,182,.18)'; bd = '#1FC7B6'; chip = '#1FC7B6'; }
+      else if (picked && i === pick) { bg = 'rgba(255,62,127,.18)'; bd = '#FF3E7F'; chip = '#FF3E7F'; }
+      return { text, letter: 'ABC'[i], bg, bd, chip, onPick: () => { if (this.state.pick !== null) return; this.setState(s => i === q.c ? { pick: i, cash: s.cash + 100 } : { pick: i, strikes: Math.min(5, s.strikes + 1) }); } };
+    });
+    const meta = {
+      signs: ['ROAD SIGNS', 'Regulatory, warning and guide signs from the handbook.'],
+      signals: ['SIGNALS', 'Traffic lights, arrows and pedestrian signals.'],
+      vehicles: ['VEHICLES', 'Isometric. Player, traffic, and emergency vehicles.'],
+      tiles: ['STREET TILES', 'Roads, crosswalks, lane markings and curb colors.'],
+      props: ['PROPS', 'Isometric street furniture.'],
+      icons: ['UI ICONS', '48px grid.'],
+      badges: ['RANKS & ACHIEVEMENTS', 'Six ranks from Learner to Golden State.'],
+      avatars: ['AVATARS', 'Placeholders. Swap for your character art.'],
+      brand: ['BRAND', 'App icon, splash, wordmark.']
+    };
+    const assetSections = man ? Object.keys(meta).filter(k => man[k]).map((k, i) => ({ num: String(i + 5).padStart(2, '0'), title: meta[k][0], sub: meta[k][1], dir: 'assets/' + k, count: man[k].length, items: man[k].map(it => ({ ...it, dl: it.file.split('/').pop() })) })) : [];
+    const ds = [['Downtown Grid', 'Traffic Controls', 'cleared'], ['Harbor Flats', 'Navigating the Roads', 'cleared'], ['Valley Blvd', 'Laws and Rules of the Road', 'active'], ['Canyon Roads', 'Safe Driving', 'locked'], ['Coast Highway', 'Alcohol and Drugs', 'locked'], ['Freeway Interchange', 'Financial Responsibility & Collisions', 'locked']];
+    const districts = ds.map(([name, topic, st], i) => ({ n: i + 1, name, topic, status: st === 'cleared' ? 'CLEARED · 10/10' : st === 'active' ? 'IN PROGRESS · 4/10' : 'UNLOCK AT RANK ' + (i), stColor: st === 'cleared' ? '#1FC7B6' : st === 'active' ? '#FFC53D' : 'rgba(247,238,221,.5)', bd: st === 'active' ? '#FF3E7F' : 'transparent', op: st === 'locked' ? .6 : 1, icon: st === 'locked' ? 'assets/icons/lock.svg' : st === 'cleared' ? 'assets/icons/check.svg' : 'assets/icons/map-pin.svg' }));
+    const leaders = [['Maya R.', '$18,400'], ['Diego P.', '$16,950'], ['You', '$' + cash.toLocaleString()], ['Ana K.', '$2,100'], ['Jordan T.', '$1,700']].map(([name, c], i) => ({ rank: i + 1, name, cash: c, av: 'assets/avatars/avatar-' + (i + 1) + '.svg', bg: name === 'You' ? 'rgba(255,62,127,.16)' : 'transparent' }));
+    return {
+      q, answers, picked, qNum: qi + 1, qTotal: this.Q.length,
+      fbTitle: ok ? '+$100' : 'STRIKE!', fbColor: ok ? '#1FC7B6' : '#FF3E7F',
+      next: () => this.setState(s => ({ qi: (s.qi + 1) % this.Q.length, pick: null })),
+      cashFmt: cash.toLocaleString(),
+      strikeList: [0, 1, 2, 3, 4].map(i => ({ src: i < strikes ? 'assets/icons/strike-on.svg' : 'assets/icons/strike-off.svg' })),
+      districts, leaders, assetSections
+    };
+  }
+}
+</script>
+</body>
+</html>

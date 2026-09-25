@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#101214;color:#F5F2EA;font-family:Archivo,sans-serif;-webkit-font-smoothing:antialiased}a{color:#E8B63A}a:hover{color:#E8872F}*{box-sizing:border-box}@keyframes heatBlink{0%{opacity:1;transform:scale(1.15)}50%{opacity:.2;transform:scale(1)}100%{opacity:1;transform:scale(1.15)}}@keyframes heatSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/player-coupe-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/player-coupe-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-blue-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-blue-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-silver-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-silver-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-green-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/sedan-green-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/taxi-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/taxi-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/suv-black-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/suv-black-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/pickup-orange-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/pickup-orange-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/police-cruiser-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/police-cruiser-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/ambulance-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/ambulance-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/fire-truck-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/fire-truck-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/school-bus-front.png">
+<meta name="ext-resource-dependency" content="assets-v2/vehicles/school-bus-rear.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/grass.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/sidewalk.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/parking.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/road-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/road-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/road-4lane-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/road-4lane-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/intersection.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/t-junction-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/t-junction-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/crosswalk-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/crosswalk-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/crosswalk-school-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/crosswalk-school-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/stop-line-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/stop-line-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/railroad-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/railroad-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/center-turn-lane-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/center-turn-lane-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/bike-lane-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/bike-lane-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/hov-lane-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/hov-lane-y.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/curb-red-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/curb-yellow-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/curb-white-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/curb-green-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/tiles/curb-blue-x.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/signal-pole-red.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/signal-pole-yellow.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/signal-pole-green.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/stop-post.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/hydrant.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/cone.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/palm-tree.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/streetlight.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/barrier.png">
+<meta name="ext-resource-dependency" content="assets-v2/props/bus-bench.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/stop.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/yield.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/do-not-enter.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/wrong-way.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/speed-limit-65.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/speed-limit-25.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/school-zone.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/railroad-crossbuck.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/railroad-advance.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/no-u-turn.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/no-left-turn.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/no-parking.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/one-way.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/pedestrian-crossing.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/merge.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/lane-ends.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/signal-ahead.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/stop-ahead.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/curve-right.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/two-way-traffic.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/road-work-ahead.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/slow-moving-vehicle.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/disabled-parking.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/keep-right.png">
+<meta name="ext-resource-dependency" content="assets-v2/signs/freeway-entrance.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-red.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-yellow.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-green.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-flashing-red.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-flashing-yellow.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-green-arrow.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-red-arrow.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/signal-yellow-arrow.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/ped-walk.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/ped-dont-walk.png">
+<meta name="ext-resource-dependency" content="assets-v2/signals/ped-countdown.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/cash.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/coin.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/timer.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/heat-on.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/heat-off.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/lock.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/unlock.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/trophy.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/key.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/map-pin.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/mission-marker.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/handbook.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/leaderboard.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/garage.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/phone.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/pause.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/settings.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/check.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/wrong.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/car.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/district-map.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/focus.png">
+<meta name="ext-resource-dependency" content="assets-v2/icons/insurance.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-1-learner.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-2-permit.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-3-provisional.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-4-licensed.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-5-road-pro.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/rank-6-golden-state.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-perfect-score.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-streak-5.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-speed-run.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-sign-master.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-clean-record.png">
+<meta name="ext-resource-dependency" content="assets-v2/badges/ach-district-cleared.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-1.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-2.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-3.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-4.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-5.png">
+<meta name="ext-resource-dependency" content="assets-v2/avatars/avatar-6.png">
+<meta name="ext-resource-dependency" content="assets-v2/brand/app-icon-1024.png">
+<meta name="ext-resource-dependency" content="assets-v2/brand/app-icon-1024-square.png">
+<meta name="ext-resource-dependency" content="assets-v2/brand/splash-1080x1920.png">
+<meta name="ext-resource-dependency" content="assets-v2/brand/logo-wordmark.png">
+<meta name="ext-resource-dependency" content="assets-v2/scenes/scene-school-bus-intersection.png">
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#7FA9C9"></rect><polygon points="37.6,20 62.4,20 80,37.6 80,62.4 62.4,80 37.6,80 20,62.4 20,37.6" fill="#C8102E"></polygon><text x="50" y="58" font-size="22" font-family="Impact,sans-serif" text-anchor="middle" fill="#fff">PR</text></svg></template>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#7FA9C9"></rect><polygon points="50,30 64,36 70,50 64,64 50,70 36,64 30,50 36,36" fill="#C8102E"></polygon><text x="50" y="56" font-size="16" font-family="Impact,sans-serif" text-anchor="middle" fill="#fff">PR</text></svg></template>
+<div style="max-width:1360px;margin:0 auto;padding:48px 32px 96px;display:flex;flex-direction:column;gap:72px">
+
+<header style="position:relative;border-radius:18px;overflow:hidden;min-height:420px;display:flex;align-items:flex-end;background:#7FA9C9">
+  <img src="assets-v2/scenes/scene-school-bus-intersection.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></img>
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,13,16,.88) 0%,rgba(11,13,16,.55) 45%,rgba(11,13,16,0) 75%)"></div>
+  <div style="position:relative;padding:40px;display:flex;flex-direction:column;gap:16px;max-width:620px">
+    <div style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.16em;color:#E8B63A">ASSET KIT V2 · SEMI-REAL · HAZY LA DAYLIGHT</div>
+    <img src="assets-v2/brand/logo-wordmark.png" alt="Permit Run California" style="width:100%;max-width:520px;display:block"></img>
+    <p style="margin:0;font-size:17px;line-height:1.5;color:rgba(245,242,234,.86);text-wrap:pretty">Gradient-lit vehicles with glass reflections, gritty asphalt, bevelled metal signage and an open-world HUD. Every asset is an SVG in <b>assets-v2/</b>. Click any asset to download it.</p>
+  </div>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(245,242,234,.18);padding-bottom:12px;flex-wrap:wrap"><span style="font:600 13px 'JetBrains Mono',monospace;color:#E8872F">01</span><h2 style="margin:0;font:400 44px/1 Anton;letter-spacing:.04em">SAMPLE GAME SCREEN</h2><span style="color:rgba(245,242,234,.6);font-size:15px">Phone landscape. Question intro, then the answer wheel, then the result.</span></div>
+  <div style="width:844px;max-width:100%;height:390px;border-radius:44px;border:10px solid #050607;position:relative;overflow:hidden;background:#AFC7D6;box-shadow:0 30px 80px rgba(0,0,0,.55);flex:none">
+    <img src="assets-v2/scenes/scene-school-bus-intersection.png" alt="" style="position:absolute;width:1180px;left:-190px;top:-150px;display:block"></img>
+    <div style="position:absolute;top:18px;right:30px;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <div style="font:400 34px/1 Anton;color:#72C06A;letter-spacing:.02em;text-shadow:-2px -2px 0 #0B0D10,2px -2px 0 #0B0D10,-2px 2px 0 #0B0D10,2px 2px 0 #0B0D10,0 3px 6px rgba(0,0,0,.5)">${{ cashFmt }}</div>
+      {{ heatEl }}
+    </div>
+    <div style="position:absolute;left:30px;bottom:18px;display:flex;flex-direction:column;gap:4px;width:170px">
+      <div style="width:170px;height:100px;border-radius:6px;overflow:hidden;position:relative;border:2px solid rgba(11,13,16,.7);background:#8C9396;perspective:260px">
+        <img src="assets-v2/scenes/scene-school-bus-intersection.png" style="position:absolute;width:560px;left:-200px;top:-110px;transform:rotateX(38deg);filter:saturate(.6) brightness(.9)"></img>
+        <div style="position:absolute;left:78px;top:40px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:16px solid #F5F2EA;filter:drop-shadow(0 1px 1px #000)"></div>
+        <div style="position:absolute;right:8px;top:8px;width:16px;height:16px;border-radius:50%;background:#E8B63A;color:#0B0D10;font:400 11px/16px Anton;text-align:center">D</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+        <div style="height:7px;background:rgba(11,13,16,.7);border-radius:1px;overflow:hidden"><div style="height:100%;width:{{ focusPct }};background:#5CB85C"></div></div>
+        <div style="height:7px;background:rgba(11,13,16,.7);border-radius:1px;overflow:hidden"><div style="height:100%;width:65%;background:#4A90D9"></div></div>
+      </div>
+    </div>
+    <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;left:0;right:0;top:0;height:46px;background:#000"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:92px;background:#000;display:flex;align-items:center;gap:20px;padding:0 34px">
+        <div style="flex:1;font:500 16px/1.35 Archivo;text-wrap:pretty"><span style="color:#E8B63A;font-weight:700">Instructor Ruiz:</span> {{ q.q }}</div>
+        <button onClick="{{ openWheel }}" style="flex:none;height:44px;padding:0 18px;border:1px solid rgba(245,242,234,.5);background:transparent;color:#F5F2EA;font:400 17px Anton;letter-spacing:.14em;cursor:pointer">ANSWER ▸</button>
+      </div>
+      <div style="position:absolute;top:60px;left:0;right:0;text-align:center;font:400 14px Anton;letter-spacing:.5em;color:#F5F2EA;text-shadow:0 2px 4px #000">MISSION 3 · QUESTION {{ qNum }} OF {{ qTotal }}</div>
+    </sc-if>
+    <sc-if value="{{ isWheel }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgba(11,13,16,.55);display:flex;align-items:center;justify-content:center;gap:28px">
+        <div style="position:relative;width:300px;height:300px;flex:none">
+          <svg viewBox="0 0 300 300" width="300" height="300" style="display:block">
+            <sc-for list="{{ wedges }}" as="w" hint-placeholder-count="3">
+              <path d="{{ w.d }}" fill="{{ w.fill }}" stroke="rgba(245,242,234,.35)" stroke-width="1.5" onClick="{{ w.onPick }}" onMouseEnter="{{ w.onHover }}" style="cursor:pointer"></path>
+              <text x="{{ w.lx }}" y="{{ w.ly }}" text-anchor="middle" dominant-baseline="middle" fill="#F5F2EA" style="font:400 30px Anton;pointer-events:none">{{ w.letter }}</text>
+            </sc-for>
+            <circle cx="150" cy="150" r="62" fill="rgba(11,13,16,.85)" stroke="rgba(245,242,234,.35)"></circle>
+          </svg>
+          <div style="position:absolute;left:94px;top:94px;width:112px;height:112px;display:flex;align-items:center;justify-content:center;text-align:center;font:500 11.5px/1.25 Archivo;color:#F5F2EA;pointer-events:none;text-wrap:balance">{{ hovText }}</div>
+        </div>
+        <div style="max-width:260px;display:flex;flex-direction:column;gap:8px">
+          <div style="font:400 13px Anton;letter-spacing:.3em;color:#E8B63A">CHOOSE AN ANSWER</div>
+          <div style="font:500 15px/1.35 Archivo;text-shadow:0 1px 3px #000;text-wrap:pretty">{{ q.q }}</div>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:0;right:0;top:112px;display:flex;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(90deg,rgba(11,13,16,0),rgba(11,13,16,.8) 25%,rgba(11,13,16,.8) 75%,rgba(11,13,16,0));padding:18px 0">
+        <div style="font:400 52px/1 Anton;letter-spacing:.12em;color:{{ fbColor }};text-shadow:0 3px 0 #0B0D10">{{ fbTitle }}</div>
+        <div style="font:500 14px/1.35 Archivo;max-width:460px;text-align:center;color:rgba(245,242,234,.9)">{{ q.tip }}</div>
+        <button onClick="{{ next }}" style="margin-top:4px;height:40px;padding:0 20px;border:1px solid rgba(245,242,234,.5);background:transparent;color:#F5F2EA;font:400 16px Anton;letter-spacing:.14em;cursor:pointer">NEXT QUESTION ▸</button>
+      </div>
+    </sc-if>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(245,242,234,.18);padding-bottom:12px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#E8872F">02</span><h2 style="margin:0;font:400 44px/1 Anton;letter-spacing:.04em">HUD KIT</h2><span style="color:rgba(245,242,234,.6);font-size:15px">Build in code; icons in assets-v2/icons.</span></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
+    <div style="background:#1A1D21;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(245,242,234,.55)">radar + focus / insurance bars</span>
+      <div style="display:flex;flex-direction:column;gap:4px;width:220px">
+        <div style="width:220px;height:130px;border-radius:6px;overflow:hidden;position:relative;border:2px solid #000;background:#8C9396;perspective:300px">
+          <img src="assets-v2/scenes/scene-school-bus-intersection.png" style="position:absolute;width:700px;left:-240px;top:-130px;transform:rotateX(38deg);filter:saturate(.6) brightness(.9)"></img>
+          <div style="position:absolute;left:103px;top:54px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:18px solid #F5F2EA"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px"><div style="height:8px;background:#0B0D10"><div style="height:100%;width:80%;background:#5CB85C"></div></div><div style="height:8px;background:#0B0D10"><div style="height:100%;width:55%;background:#4A90D9"></div></div></div>
+        <div style="display:flex;justify-content:space-between;font:600 10px 'JetBrains Mono',monospace;color:rgba(245,242,234,.6)"><span>FOCUS</span><span>INSURANCE</span></div>
+      </div>
+      <span style="font-size:13px;line-height:1.45;color:rgba(245,242,234,.65)">Focus drains on wrong answers in a row. Insurance covers one mistake, as a nod to the Financial Responsibility chapter.</span>
+    </div>
+    <div style="background:#1A1D21;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(245,242,234,.55)">DMV heat (strikes 0–5)</span>
+      {{ heatDemo }}
+      <div style="font:400 44px/1 Anton;color:#72C06A;text-shadow:-2px -2px 0 #0B0D10,2px -2px 0 #0B0D10,-2px 2px 0 #0B0D10,2px 2px 0 #0B0D10">$2,450</div>
+      <span style="font-size:13px;line-height:1.45;color:rgba(245,242,234,.65)">A new star blinks when a strike lands. At five stars the mission fails.</span>
+    </div>
+    <div style="background:#1A1D21;border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:14px">
+      <span style="font:600 11px 'JetBrains Mono',monospace;color:rgba(245,242,234,.55)">challenge timer</span>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:92px;height:92px;border-radius:50%;background:conic-gradient(#E8872F 0 70%,#2A2E34 70% 100%);display:flex;align-items:center;justify-content:center"><div style="width:76px;height:76px;border-radius:50%;background:#1A1D21;display:flex;align-items:center;justify-content:center;font:400 28px Anton">0:42</div></div>
+        <div style="font:400 16px/1.3 Anton;letter-spacing:.14em;color:rgba(245,242,234,.85)">10 QUESTIONS<br>60 SECONDS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(245,242,234,.18);padding-bottom:12px"><span style="font:600 13px 'JetBrains Mono',monospace;color:#E8872F">03</span><h2 style="margin:0;font:400 44px/1 Anton;letter-spacing:.04em">TITLE CARDS</h2></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px">
+    <div style="position:relative;height:220px;border-radius:12px;overflow:hidden;background:#7FA9C9">
+      <img src="assets-v2/brand/splash-1080x1920.png" style="position:absolute;width:100%;top:-420px"></img>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(11,13,16,.35)">
+        <div style="font:400 42px/1 Anton;letter-spacing:.28em;padding-left:.28em;white-space:nowrap;text-shadow:0 3px 8px rgba(0,0,0,.6)">VALLEY BLVD</div>
+        <div style="font:500 15px Archivo;letter-spacing:.2em;text-transform:uppercase;text-shadow:0 1px 3px #000">Laws and Rules of the Road</div>
+      </div>
+    </div>
+    <div style="position:relative;height:220px;border-radius:12px;overflow:hidden;background:#1A1D21;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+      <div style="font:400 58px/1 Anton;letter-spacing:.14em;color:#E8B63A;text-shadow:0 3px 0 #0B0D10">TEST PASSED</div>
+      <div style="font:500 15px Archivo;color:rgba(245,242,234,.85)">9 / 10 · +$900 · Rank up: Permit</div>
+    </div>
+    <div style="position:relative;height:220px;border-radius:12px;overflow:hidden;background:#1A1D21;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+      <div style="font:400 58px/1 Anton;letter-spacing:.14em;color:#D8453A;text-shadow:0 3px 0 #0B0D10">FLUNKED</div>
+      <div style="font:500 15px Archivo;color:rgba(245,242,234,.85)">Five stars of DMV heat. Review the handbook and retry.</div>
+    </div>
+    <div style="position:relative;height:220px;border-radius:12px;overflow:hidden;background:#000;display:flex;flex-direction:column;justify-content:space-between">
+      <div style="height:40px;background:#000"></div>
+      <div style="flex:1;background:#6E8796 url(assets-v2/scenes/scene-school-bus-intersection.png) center 40%/140% no-repeat"></div>
+      <div style="height:62px;background:#000;display:flex;align-items:center;padding:0 22px;font:500 14px/1.35 Archivo"><span><span style="color:#E8B63A;font-weight:700">Instructor Ruiz:</span> Letterbox bars slide in for each question intro.</span></div>
+    </div>
+  </div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(245,242,234,.18);padding-bottom:12px;flex-wrap:wrap"><span style="font:600 13px 'JetBrains Mono',monospace;color:#E8872F">04</span><h2 style="margin:0;font:400 44px/1 Anton;letter-spacing:.04em">IN-GAME PHONE</h2><span style="color:rgba(245,242,234,.6);font-size:15px">Main menu, mission list, garage.</span></div>
+  <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+    <div style="width:260px;height:530px;border-radius:34px;background:#15171A;border:8px solid #050607;padding:14px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 50px rgba(0,0,0,.5);position:relative;overflow:hidden">
+      <img src="assets-v2/brand/splash-1080x1920.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55"></img>
+      <div style="position:relative;display:flex;justify-content:space-between;font:600 11px 'JetBrains Mono',monospace;text-shadow:0 1px 2px #000"><span>4:20 PM</span><span>▮▮▮ 72%</span></div>
+      <div style="position:relative;background:rgba(11,13,16,.8);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:3px">
+        <span style="font:700 11px Archivo;color:#E8B63A">DMV · now</span>
+        <span style="font:500 12.5px/1.35 Archivo">Your appointment is confirmed for sometime in the next 4 to 6 business years.</span>
+      </div>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin-top:auto;margin-bottom:10px">
+        <sc-for list="{{ apps }}" as="ap" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div style="width:58px;height:58px;border-radius:16px;background:{{ ap.bg }};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.35)"><img data-src="{{ ap.icon }}" style="width:34px;height:34px"></img></div>
+            <span style="font:600 11px Archivo;text-shadow:0 1px 2px #000">{{ ap.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="width:260px;height:530px;border-radius:34px;background:#15171A;border:8px solid #050607;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.5);overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 22px Anton;letter-spacing:.08em">MISSIONS</span><img src="assets-v2/icons/district-map.png" style="width:24px"></img></div>
+      <sc-for list="{{ districts }}" as="d" hint-placeholder-count="6">
+        <div style="display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:{{ d.bg }};opacity:{{ d.op }}">
+          <img data-src="{{ d.icon }}" style="width:28px;height:28px;flex:none"></img>
+          <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+            <span style="font:400 16px/1.1 Anton;letter-spacing:.04em">{{ d.name }}</span>
+            <span style="font:500 11px/1.25 Archivo;color:rgba(245,242,234,.65)">{{ d.topic }}</span>
+            <span style="font:600 10px 'JetBrains Mono',monospace;color:{{ d.stColor }}">{{ d.status }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="width:260px;height:530px;border-radius:34px;background:#15171A;border:8px solid #050607;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.5);overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span style="font:400 22px Anton;letter-spacing:.08em">GARAGE</span><span style="font:400 18px Anton;color:#72C06A">$2,450</span></div>
+      <sc-for list="{{ garage }}" as="g" hint-placeholder-count="4">
+        <div style="display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;background:#1F2226">
+          <img data-src="{{ g.img }}" style="width:92px;height:64px;object-fit:contain;flex:none;opacity:{{ g.op }}"></img>
+          <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+            <span style="font:400 15px/1.1 Anton;letter-spacing:.04em">{{ g.name }}</span>
+            <span style="font:600 11px 'JetBrains Mono',monospace;color:{{ g.color }}">{{ g.price }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1;min-width:260px;background:#1A1D21;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;align-self:stretch">
+      <div style="display:flex;align-items:center;gap:8px;font:400 22px Anton;letter-spacing:.08em;padding-bottom:6px"><img src="assets-v2/icons/leaderboard.png" style="width:24px"></img>WEEKLY RANKINGS</div>
+      <sc-for list="{{ leaders }}" as="p" hint-placeholder-count="5">
+        <div style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:8px;background:{{ p.bg }}">
+          <span style="width:22px;font:400 20px Anton;color:#E8B63A">{{ p.rank }}</span>
+          <img data-src="{{ p.av }}" style="width:36px;height:36px"></img>
+          <span style="flex:1;font:600 15px Archivo">{{ p.name }}</span>
+          <span style="font:400 18px Anton;color:#72C06A">{{ p.cash }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<sc-for list="{{ assetSections }}" as="sec" hint-placeholder-count="3">
+  <section style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;align-items:baseline;gap:14px;border-bottom:1px solid rgba(245,242,234,.18);padding-bottom:12px;flex-wrap:wrap"><span style="font:600 13px 'JetBrains Mono',monospace;color:#E8872F">{{ sec.num }}</span><h2 style="margin:0;font:400 44px/1 Anton;letter-spacing:.04em">{{ sec.title }}</h2><span style="color:rgba(245,242,234,.6);font-size:15px">{{ sec.sub }}</span><span style="margin-left:auto;font:400 12px 'JetBrains Mono',monospace;color:rgba(245,242,234,.5)">{{ sec.count }} files · {{ sec.dir }}</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+      <sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="8">
+        <a href="{{ it.file }}" download="{{ it.dl }}" style="background:linear-gradient(180deg,#C9D6DC,#E3D8C4);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:#0B0D10;border:2px solid transparent" style-hover="border-color:#E8872F">
+          <div style="height:120px;display:flex;align-items:center;justify-content:center"><img data-src="{{ it.file }}" alt="{{ it.label }}" style="max-width:100%;max-height:120px;display:block"></img></div>
+          <span style="font:500 11px/1.3 'JetBrains Mono',monospace;color:rgba(11,13,16,.75)">{{ it.label }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+</sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { man: null, qi: 0, phase: 'intro', pick: null, hov: null, strikes: 1, cash: 2450, flash: 0 };
+  Q = [
+    { q: 'What should you do when there is a school bus ahead that starts flashing yellow warning lights?', a: ['Slow down and prepare to stop.', 'Stop immediately and remain stopped.', 'Cautiously pass the school bus on the left.'], c: 0, tip: 'Flashing yellow means the bus is about to stop. Flashing red means you must stop.' },
+    { q: 'Who can legally park next to curb painted blue?', a: ['Someone who is either picking up or dropping off passengers at this location.', 'A person who is disabled and has a special placard or vehicle license plate for disabled persons.', 'A person who will only be parked at the curb for less than 15 minutes.'], c: 1, tip: 'Blue curbs are for disabled parking with a placard or plate.' },
+    { q: 'When a railroad crossing is not controlled, what is the speed limit when you are within 100 feet and cannot see for 400 feet in both directions?', a: ['15 mph.', '10 mph.', '25 mph.'], c: 0, tip: 'Uncontrolled crossing with limited visibility: 15 mph.' }
+  ];
+  MAN = {"vehicles":[{"file":"assets-v2/vehicles/player-coupe-front.png","name":"player-coupe-front","label":"player coupe · front","svg":"assets-v2/vehicles/player-coupe-front.svg"},{"file":"assets-v2/vehicles/player-coupe-rear.png","name":"player-coupe-rear","label":"player coupe · rear","svg":"assets-v2/vehicles/player-coupe-rear.svg"},{"file":"assets-v2/vehicles/sedan-blue-front.png","name":"sedan-blue-front","label":"sedan blue · front","svg":"assets-v2/vehicles/sedan-blue-front.svg"},{"file":"assets-v2/vehicles/sedan-blue-rear.png","name":"sedan-blue-rear","label":"sedan blue · rear","svg":"assets-v2/vehicles/sedan-blue-rear.svg"},{"file":"assets-v2/vehicles/sedan-silver-front.png","name":"sedan-silver-front","label":"sedan silver · front","svg":"assets-v2/vehicles/sedan-silver-front.svg"},{"file":"assets-v2/vehicles/sedan-silver-rear.png","name":"sedan-silver-rear","label":"sedan silver · rear","svg":"assets-v2/vehicles/sedan-silver-rear.svg"},{"file":"assets-v2/vehicles/sedan-green-front.png","name":"sedan-green-front","label":"sedan green · front","svg":"assets-v2/vehicles/sedan-green-front.svg"},{"file":"assets-v2/vehicles/sedan-green-rear.png","name":"sedan-green-rear","label":"sedan green · rear","svg":"assets-v2/vehicles/sedan-green-rear.svg"},{"file":"assets-v2/vehicles/taxi-front.png","name":"taxi-front","label":"taxi · front","svg":"assets-v2/vehicles/taxi-front.svg"},{"file":"assets-v2/vehicles/taxi-rear.png","name":"taxi-rear","label":"taxi · rear","svg":"assets-v2/vehicles/taxi-rear.svg"},{"file":"assets-v2/vehicles/suv-black-front.png","name":"suv-black-front","label":"suv black · front","svg":"assets-v2/vehicles/suv-black-front.svg"},{"file":"assets-v2/vehicles/suv-black-rear.png","name":"suv-black-rear","label":"suv black · rear","svg":"assets-v2/vehicles/suv-black-rear.svg"},{"file":"assets-v2/vehicles/pickup-orange-front.png","name":"pickup-orange-front","label":"pickup orange · front","svg":"assets-v2/vehicles/pickup-orange-front.svg"},{"file":"assets-v2/vehicles/pickup-orange-rear.png","name":"pickup-orange-rear","label":"pickup orange · rear","svg":"assets-v2/vehicles/pickup-orange-rear.svg"},{"file":"assets-v2/vehicles/police-cruiser-front.png","name":"police-cruiser-front","label":"police cruiser · front","svg":"assets-v2/vehicles/police-cruiser-front.svg"},{"file":"assets-v2/vehicles/police-cruiser-rear.png","name":"police-cruiser-rear","label":"police cruiser · rear","svg":"assets-v2/vehicles/police-cruiser-rear.svg"},{"file":"assets-v2/vehicles/ambulance-front.png","name":"ambulance-front","label":"ambulance · front","svg":"assets-v2/vehicles/ambulance-front.svg"},{"file":"assets-v2/vehicles/ambulance-rear.png","name":"ambulance-rear","label":"ambulance · rear","svg":"assets-v2/vehicles/ambulance-rear.svg"},{"file":"assets-v2/vehicles/fire-truck-front.png","name":"fire-truck-front","label":"fire truck · front","svg":"assets-v2/vehicles/fire-truck-front.svg"},{"file":"assets-v2/vehicles/fire-truck-rear.png","name":"fire-truck-rear","label":"fire truck · rear","svg":"assets-v2/vehicles/fire-truck-rear.svg"},{"file":"assets-v2/vehicles/school-bus-front.png","name":"school-bus-front","label":"school bus · front","svg":"assets-v2/vehicles/school-bus-front.svg"},{"file":"assets-v2/vehicles/school-bus-rear.png","name":"school-bus-rear","label":"school bus · rear","svg":"assets-v2/vehicles/school-bus-rear.svg"}],"tiles":[{"file":"assets-v2/tiles/grass.png","name":"grass","label":"grass","svg":"assets-v2/tiles/grass.svg"},{"file":"assets-v2/tiles/sidewalk.png","name":"sidewalk","label":"sidewalk","svg":"assets-v2/tiles/sidewalk.svg"},{"file":"assets-v2/tiles/parking.png","name":"parking","label":"parking","svg":"assets-v2/tiles/parking.svg"},{"file":"assets-v2/tiles/road-x.png","name":"road-x","label":"road · x","svg":"assets-v2/tiles/road-x.svg"},{"file":"assets-v2/tiles/road-y.png","name":"road-y","label":"road · y","svg":"assets-v2/tiles/road-y.svg"},{"file":"assets-v2/tiles/road-4lane-x.png","name":"road-4lane-x","label":"road 4lane · x","svg":"assets-v2/tiles/road-4lane-x.svg"},{"file":"assets-v2/tiles/road-4lane-y.png","name":"road-4lane-y","label":"road 4lane · y","svg":"assets-v2/tiles/road-4lane-y.svg"},{"file":"assets-v2/tiles/intersection.png","name":"intersection","label":"intersection","svg":"assets-v2/tiles/intersection.svg"},{"file":"assets-v2/tiles/t-junction-x.png","name":"t-junction-x","label":"t junction · x","svg":"assets-v2/tiles/t-junction-x.svg"},{"file":"assets-v2/tiles/t-junction-y.png","name":"t-junction-y","label":"t junction · y","svg":"assets-v2/tiles/t-junction-y.svg"},{"file":"assets-v2/tiles/crosswalk-x.png","name":"crosswalk-x","label":"crosswalk · x","svg":"assets-v2/tiles/crosswalk-x.svg"},{"file":"assets-v2/tiles/crosswalk-y.png","name":"crosswalk-y","label":"crosswalk · y","svg":"assets-v2/tiles/crosswalk-y.svg"},{"file":"assets-v2/tiles/crosswalk-school-x.png","name":"crosswalk-school-x","label":"crosswalk school · x","svg":"assets-v2/tiles/crosswalk-school-x.svg"},{"file":"assets-v2/tiles/crosswalk-school-y.png","name":"crosswalk-school-y","label":"crosswalk school · y","svg":"assets-v2/tiles/crosswalk-school-y.svg"},{"file":"assets-v2/tiles/stop-line-x.png","name":"stop-line-x","label":"stop line · x","svg":"assets-v2/tiles/stop-line-x.svg"},{"file":"assets-v2/tiles/stop-line-y.png","name":"stop-line-y","label":"stop line · y","svg":"assets-v2/tiles/stop-line-y.svg"},{"file":"assets-v2/tiles/railroad-x.png","name":"railroad-x","label":"railroad · x","svg":"assets-v2/tiles/railroad-x.svg"},{"file":"assets-v2/tiles/railroad-y.png","name":"railroad-y","label":"railroad · y","svg":"assets-v2/tiles/railroad-y.svg"},{"file":"assets-v2/tiles/center-turn-lane-x.png","name":"center-turn-lane-x","label":"center turn lane · x","svg":"assets-v2/tiles/center-turn-lane-x.svg"},{"file":"assets-v2/tiles/center-turn-lane-y.png","name":"center-turn-lane-y","label":"center turn lane · y","svg":"assets-v2/tiles/center-turn-lane-y.svg"},{"file":"assets-v2/tiles/bike-lane-x.png","name":"bike-lane-x","label":"bike lane · x","svg":"assets-v2/tiles/bike-lane-x.svg"},{"file":"assets-v2/tiles/bike-lane-y.png","name":"bike-lane-y","label":"bike lane · y","svg":"assets-v2/tiles/bike-lane-y.svg"},{"file":"assets-v2/tiles/hov-lane-x.png","name":"hov-lane-x","label":"hov lane · x","svg":"assets-v2/tiles/hov-lane-x.svg"},{"file":"assets-v2/tiles/hov-lane-y.png","name":"hov-lane-y","label":"hov lane · y","svg":"assets-v2/tiles/hov-lane-y.svg"},{"file":"assets-v2/tiles/curb-red-x.png","name":"curb-red-x","label":"curb red · x","svg":"assets-v2/tiles/curb-red-x.svg"},{"file":"assets-v2/tiles/curb-yellow-x.png","name":"curb-yellow-x","label":"curb yellow · x","svg":"assets-v2/tiles/curb-yellow-x.svg"},{"file":"assets-v2/tiles/curb-white-x.png","name":"curb-white-x","label":"curb white · x","svg":"assets-v2/tiles/curb-white-x.svg"},{"file":"assets-v2/tiles/curb-green-x.png","name":"curb-green-x","label":"curb green · x","svg":"assets-v2/tiles/curb-green-x.svg"},{"file":"assets-v2/tiles/curb-blue-x.png","name":"curb-blue-x","label":"curb blue · x","svg":"assets-v2/tiles/curb-blue-x.svg"}],"props":[{"file":"assets-v2/props/signal-pole-red.png","name":"signal-pole-red","label":"signal pole · red","svg":"assets-v2/props/signal-pole-red.svg"},{"file":"assets-v2/props/signal-pole-yellow.png","name":"signal-pole-yellow","label":"signal pole · yellow","svg":"assets-v2/props/signal-pole-yellow.svg"},{"file":"assets-v2/props/signal-pole-green.png","name":"signal-pole-green","label":"signal pole · green","svg":"assets-v2/props/signal-pole-green.svg"},{"file":"assets-v2/props/stop-post.png","name":"stop-post","label":"stop post","svg":"assets-v2/props/stop-post.svg"},{"file":"assets-v2/props/hydrant.png","name":"hydrant","label":"hydrant","svg":"assets-v2/props/hydrant.svg"},{"file":"assets-v2/props/cone.png","name":"cone","label":"cone","svg":"assets-v2/props/cone.svg"},{"file":"assets-v2/props/palm-tree.png","name":"palm-tree","label":"palm tree","svg":"assets-v2/props/palm-tree.svg"},{"file":"assets-v2/props/streetlight.png","name":"streetlight","label":"streetlight","svg":"assets-v2/props/streetlight.svg"},{"file":"assets-v2/props/barrier.png","name":"barrier","label":"barrier","svg":"assets-v2/props/barrier.svg"},{"file":"assets-v2/props/bus-bench.png","name":"bus-bench","label":"bus bench","svg":"assets-v2/props/bus-bench.svg"}],"signs":[{"file":"assets-v2/signs/stop.png","name":"stop","label":"stop","svg":"assets-v2/signs/stop.svg"},{"file":"assets-v2/signs/yield.png","name":"yield","label":"yield","svg":"assets-v2/signs/yield.svg"},{"file":"assets-v2/signs/do-not-enter.png","name":"do-not-enter","label":"do not enter","svg":"assets-v2/signs/do-not-enter.svg"},{"file":"assets-v2/signs/wrong-way.png","name":"wrong-way","label":"wrong way","svg":"assets-v2/signs/wrong-way.svg"},{"file":"assets-v2/signs/speed-limit-65.png","name":"speed-limit-65","label":"speed limit 65","svg":"assets-v2/signs/speed-limit-65.svg"},{"file":"assets-v2/signs/speed-limit-25.png","name":"speed-limit-25","label":"speed limit 25","svg":"assets-v2/signs/speed-limit-25.svg"},{"file":"assets-v2/signs/school-zone.png","name":"school-zone","label":"school zone","svg":"assets-v2/signs/school-zone.svg"},{"file":"assets-v2/signs/railroad-crossbuck.png","name":"railroad-crossbuck","label":"railroad crossbuck","svg":"assets-v2/signs/railroad-crossbuck.svg"},{"file":"assets-v2/signs/railroad-advance.png","name":"railroad-advance","label":"railroad advance","svg":"assets-v2/signs/railroad-advance.svg"},{"file":"assets-v2/signs/no-u-turn.png","name":"no-u-turn","label":"no u turn","svg":"assets-v2/signs/no-u-turn.svg"},{"file":"assets-v2/signs/no-left-turn.png","name":"no-left-turn","label":"no left turn","svg":"assets-v2/signs/no-left-turn.svg"},{"file":"assets-v2/signs/no-parking.png","name":"no-parking","label":"no parking","svg":"assets-v2/signs/no-parking.svg"},{"file":"assets-v2/signs/one-way.png","name":"one-way","label":"one way","svg":"assets-v2/signs/one-way.svg"},{"file":"assets-v2/signs/pedestrian-crossing.png","name":"pedestrian-crossing","label":"pedestrian crossing","svg":"assets-v2/signs/pedestrian-crossing.svg"},{"file":"assets-v2/signs/merge.png","name":"merge","label":"merge","svg":"assets-v2/signs/merge.svg"},{"file":"assets-v2/signs/lane-ends.png","name":"lane-ends","label":"lane ends","svg":"assets-v2/signs/lane-ends.svg"},{"file":"assets-v2/signs/signal-ahead.png","name":"signal-ahead","label":"signal ahead","svg":"assets-v2/signs/signal-ahead.svg"},{"file":"assets-v2/signs/stop-ahead.png","name":"stop-ahead","label":"stop ahead","svg":"assets-v2/signs/stop-ahead.svg"},{"file":"assets-v2/signs/curve-right.png","name":"curve-right","label":"curve right","svg":"assets-v2/signs/curve-right.svg"},{"file":"assets-v2/signs/two-way-traffic.png","name":"two-way-traffic","label":"two way traffic","svg":"assets-v2/signs/two-way-traffic.svg"},{"file":"assets-v2/signs/road-work-ahead.png","name":"road-work-ahead","label":"road work ahead","svg":"assets-v2/signs/road-work-ahead.svg"},{"file":"assets-v2/signs/slow-moving-vehicle.png","name":"slow-moving-vehicle","label":"slow moving vehicle","svg":"assets-v2/signs/slow-moving-vehicle.svg"},{"file":"assets-v2/signs/disabled-parking.png","name":"disabled-parking","label":"disabled parking","svg":"assets-v2/signs/disabled-parking.svg"},{"file":"assets-v2/signs/keep-right.png","name":"keep-right","label":"keep right","svg":"assets-v2/signs/keep-right.svg"},{"file":"assets-v2/signs/freeway-entrance.png","name":"freeway-entrance","label":"freeway entrance","svg":"assets-v2/signs/freeway-entrance.svg"}],"signals":[{"file":"assets-v2/signals/signal-red.png","name":"signal-red","label":"signal red","svg":"assets-v2/signals/signal-red.svg"},{"file":"assets-v2/signals/signal-yellow.png","name":"signal-yellow","label":"signal yellow","svg":"assets-v2/signals/signal-yellow.svg"},{"file":"assets-v2/signals/signal-green.png","name":"signal-green","label":"signal green","svg":"assets-v2/signals/signal-green.svg"},{"file":"assets-v2/signals/signal-flashing-red.png","name":"signal-flashing-red","label":"signal flashing red","svg":"assets-v2/signals/signal-flashing-red.svg"},{"file":"assets-v2/signals/signal-flashing-yellow.png","name":"signal-flashing-yellow","label":"signal flashing yellow","svg":"assets-v2/signals/signal-flashing-yellow.svg"},{"file":"assets-v2/signals/signal-green-arrow.png","name":"signal-green-arrow","label":"signal green arrow","svg":"assets-v2/signals/signal-green-arrow.svg"},{"file":"assets-v2/signals/signal-red-arrow.png","name":"signal-red-arrow","label":"signal red arrow","svg":"assets-v2/signals/signal-red-arrow.svg"},{"file":"assets-v2/signals/signal-yellow-arrow.png","name":"signal-yellow-arrow","label":"signal yellow arrow","svg":"assets-v2/signals/signal-yellow-arrow.svg"},{"file":"assets-v2/signals/ped-walk.png","name":"ped-walk","label":"ped · walk","svg":"assets-v2/signals/ped-walk.svg"},{"file":"assets-v2/signals/ped-dont-walk.png","name":"ped-dont-walk","label":"ped · don’t walk","svg":"assets-v2/signals/ped-dont-walk.svg"},{"file":"assets-v2/signals/ped-countdown.png","name":"ped-countdown","label":"ped · countdown","svg":"assets-v2/signals/ped-countdown.svg"}],"icons":[{"file":"assets-v2/icons/cash.png","name":"cash","label":"cash","svg":"assets-v2/icons/cash.svg"},{"file":"assets-v2/icons/coin.png","name":"coin","label":"coin","svg":"assets-v2/icons/coin.svg"},{"file":"assets-v2/icons/timer.png","name":"timer","label":"timer","svg":"assets-v2/icons/timer.svg"},{"file":"assets-v2/icons/heat-on.png","name":"heat-on","label":"heat on","svg":"assets-v2/icons/heat-on.svg"},{"file":"assets-v2/icons/heat-off.png","name":"heat-off","label":"heat off","svg":"assets-v2/icons/heat-off.svg"},{"file":"assets-v2/icons/lock.png","name":"lock","label":"lock","svg":"assets-v2/icons/lock.svg"},{"file":"assets-v2/icons/unlock.png","name":"unlock","label":"unlock","svg":"assets-v2/icons/unlock.svg"},{"file":"assets-v2/icons/trophy.png","name":"trophy","label":"trophy","svg":"assets-v2/icons/trophy.svg"},{"file":"assets-v2/icons/key.png","name":"key","label":"key","svg":"assets-v2/icons/key.svg"},{"file":"assets-v2/icons/map-pin.png","name":"map-pin","label":"map pin","svg":"assets-v2/icons/map-pin.svg"},{"file":"assets-v2/icons/mission-marker.png","name":"mission-marker","label":"mission marker","svg":"assets-v2/icons/mission-marker.svg"},{"file":"assets-v2/icons/handbook.png","name":"handbook","label":"handbook","svg":"assets-v2/icons/handbook.svg"},{"file":"assets-v2/icons/leaderboard.png","name":"leaderboard","label":"leaderboard","svg":"assets-v2/icons/leaderboard.svg"},{"file":"assets-v2/icons/garage.png","name":"garage","label":"garage","svg":"assets-v2/icons/garage.svg"},{"file":"assets-v2/icons/phone.png","name":"phone","label":"phone","svg":"assets-v2/icons/phone.svg"},{"file":"assets-v2/icons/pause.png","name":"pause","label":"pause","svg":"assets-v2/icons/pause.svg"},{"file":"assets-v2/icons/settings.png","name":"settings","label":"settings","svg":"assets-v2/icons/settings.svg"},{"file":"assets-v2/icons/check.png","name":"check","label":"check","svg":"assets-v2/icons/check.svg"},{"file":"assets-v2/icons/wrong.png","name":"wrong","label":"wrong","svg":"assets-v2/icons/wrong.svg"},{"file":"assets-v2/icons/car.png","name":"car","label":"car","svg":"assets-v2/icons/car.svg"},{"file":"assets-v2/icons/district-map.png","name":"district-map","label":"district map","svg":"assets-v2/icons/district-map.svg"},{"file":"assets-v2/icons/focus.png","name":"focus","label":"focus","svg":"assets-v2/icons/focus.svg"},{"file":"assets-v2/icons/insurance.png","name":"insurance","label":"insurance","svg":"assets-v2/icons/insurance.svg"}],"badges":[{"file":"assets-v2/badges/rank-1-learner.png","name":"rank-1-learner","label":"rank 1 · learner","svg":"assets-v2/badges/rank-1-learner.svg"},{"file":"assets-v2/badges/rank-2-permit.png","name":"rank-2-permit","label":"rank 2 · permit","svg":"assets-v2/badges/rank-2-permit.svg"},{"file":"assets-v2/badges/rank-3-provisional.png","name":"rank-3-provisional","label":"rank 3 · provisional","svg":"assets-v2/badges/rank-3-provisional.svg"},{"file":"assets-v2/badges/rank-4-licensed.png","name":"rank-4-licensed","label":"rank 4 · licensed","svg":"assets-v2/badges/rank-4-licensed.svg"},{"file":"assets-v2/badges/rank-5-road-pro.png","name":"rank-5-road-pro","label":"rank 5 · road pro","svg":"assets-v2/badges/rank-5-road-pro.svg"},{"file":"assets-v2/badges/rank-6-golden-state.png","name":"rank-6-golden-state","label":"rank 6 · golden state","svg":"assets-v2/badges/rank-6-golden-state.svg"},{"file":"assets-v2/badges/ach-perfect-score.png","name":"ach-perfect-score","label":"perfect score","svg":"assets-v2/badges/ach-perfect-score.svg"},{"file":"assets-v2/badges/ach-streak-5.png","name":"ach-streak-5","label":"streak 5","svg":"assets-v2/badges/ach-streak-5.svg"},{"file":"assets-v2/badges/ach-speed-run.png","name":"ach-speed-run","label":"speed run","svg":"assets-v2/badges/ach-speed-run.svg"},{"file":"assets-v2/badges/ach-sign-master.png","name":"ach-sign-master","label":"sign master","svg":"assets-v2/badges/ach-sign-master.svg"},{"file":"assets-v2/badges/ach-clean-record.png","name":"ach-clean-record","label":"clean record","svg":"assets-v2/badges/ach-clean-record.svg"},{"file":"assets-v2/badges/ach-district-cleared.png","name":"ach-district-cleared","label":"district cleared","svg":"assets-v2/badges/ach-district-cleared.svg"}],"avatars":[{"file":"assets-v2/avatars/avatar-1.png","name":"avatar-1","label":"avatar 1 (placeholder)","svg":"assets-v2/avatars/avatar-1.svg"},{"file":"assets-v2/avatars/avatar-2.png","name":"avatar-2","label":"avatar 2 (placeholder)","svg":"assets-v2/avatars/avatar-2.svg"},{"file":"assets-v2/avatars/avatar-3.png","name":"avatar-3","label":"avatar 3 (placeholder)","svg":"assets-v2/avatars/avatar-3.svg"},{"file":"assets-v2/avatars/avatar-4.png","name":"avatar-4","label":"avatar 4 (placeholder)","svg":"assets-v2/avatars/avatar-4.svg"},{"file":"assets-v2/avatars/avatar-5.png","name":"avatar-5","label":"avatar 5 (placeholder)","svg":"assets-v2/avatars/avatar-5.svg"},{"file":"assets-v2/avatars/avatar-6.png","name":"avatar-6","label":"avatar 6 (placeholder)","svg":"assets-v2/avatars/avatar-6.svg"}],"brand":[{"file":"assets-v2/brand/app-icon-1024.png","label":"app icon · rounded","svg":"assets-v2/brand/app-icon-1024.svg"},{"file":"assets-v2/brand/app-icon-1024-square.png","label":"app icon · square (store)","svg":"assets-v2/brand/app-icon-1024-square.svg"},{"file":"assets-v2/brand/splash-1080x1920.png","label":"splash · 1080×1920","svg":"assets-v2/brand/splash-1080x1920.svg"},{"file":"assets-v2/brand/logo-wordmark.png","label":"wordmark","svg":"assets-v2/brand/logo-wordmark.svg"}],"scenes":[{"file":"assets-v2/scenes/scene-school-bus-intersection.png","label":"sample scene · school bus at intersection","svg":"assets-v2/scenes/scene-school-bus-intersection.svg"}]};
+  componentDidMount() { this.setState({ man: this.MAN }); this.syncImgs(); }
+  componentDidUpdate() { this.syncImgs(); }
+  syncImgs() { requestAnimationFrame(() => document.querySelectorAll('img[data-src]').forEach(i => { if (i.getAttribute('src') !== i.dataset.src) i.setAttribute('src', i.dataset.src); })); }
+  heat(n, blinkIdx, key) {
+    const h = React.createElement;
+    return h('div', { style: { display: 'flex', gap: 3 } }, [0, 1, 2, 3, 4].map(i => h('img', {
+      key: key + '-' + i, src: i < n ? 'assets-v2/icons/heat-on.png' : 'assets-v2/icons/heat-off.png',
+      style: { width: 24, height: 24, animation: i === blinkIdx ? 'heatBlink .45s linear 6' : 'none' }
+    })));
+  }
+  wedge(i) {
+    const cx = 150, cy = 150, R = 140, r = 66, a0 = (-150 + i * 120 + 2) * Math.PI / 180, a1 = (-30 + i * 120 - 2) * Math.PI / 180;
+    const p = (rad, a) => (cx + rad * Math.cos(a)).toFixed(1) + ' ' + (cy + rad * Math.sin(a)).toFixed(1);
+    const am = (a0 + a1) / 2;
+    return { d: `M${p(r, a0)} L${p(R, a0)} A${R} ${R} 0 0 1 ${p(R, a1)} L${p(r, a1)} A${r} ${r} 0 0 0 ${p(r, a0)} Z`, lx: (cx + 103 * Math.cos(am)).toFixed(1), ly: (cy + 103 * Math.sin(am)).toFixed(1) };
+  }
+  renderVals() {
+    const { man, qi, phase, pick, hov, strikes, cash, flash } = this.state;
+    const q = this.Q[qi], ok = pick === q.c;
+    const wedges = q.a.map((text, i) => ({
+      ...this.wedge(i), letter: 'ABC'[i],
+      fill: hov === i ? 'rgba(232,135,47,.85)' : 'rgba(11,13,16,.72)',
+      onHover: () => this.setState({ hov: i }),
+      onPick: () => this.setState(s => i === q.c ? { pick: i, phase: 'result', cash: s.cash + 100 } : { pick: i, phase: 'result', strikes: Math.min(5, s.strikes + 1), flash: s.flash + 1 })
+    }));
+    const meta = {
+      vehicles: ['VEHICLES', 'Isometric, lit from the upper left. Flip for the other two headings.'],
+      tiles: ['STREET TILES', '128×64 iso diamonds with asphalt grain and tire wear.'],
+      props: ['PROPS', 'Street furniture with soft shadows.'],
+      signs: ['ROAD SIGNS', 'Official colors with a metal finish.'],
+      signals: ['SIGNALS', 'Lit lamps glow; unlit lamps stay dark glass.'],
+      icons: ['HUD ICONS', 'White glyphs with drop shadow for use over the scene.'],
+      badges: ['RANKS & ACHIEVEMENTS', 'Steel, bronze, silver, gold, platinum, golden state.'],
+      avatars: ['AVATARS', 'Placeholders. Swap for character art.'],
+      brand: ['BRAND', 'App icon, splash, wordmark.']
+    };
+    const assetSections = man ? Object.keys(meta).filter(k => man[k]).map((k, i) => ({ num: String(i + 5).padStart(2, '0'), title: meta[k][0], sub: meta[k][1], dir: 'assets-v2/' + k, count: man[k].length, items: man[k].map(it => ({ ...it, dl: it.file.split('/').pop() })) })) : [];
+    const ds = [['Rolling Stop Heights', 'Traffic Controls', 'cleared'], ['Blinker-Optional Blvd', 'Navigating the Roads', 'cleared'], ['Valley Blvd', 'Laws and Rules of the Road', 'active'], ['Tailgate Canyon', 'Safe Driving', 'locked'], ['Last Call Coast', 'Alcohol and Drugs', 'locked'], ['Fender Bender Flats', 'Financial Responsibility & Collisions', 'locked']];
+    const districts = ds.map(([name, topic, st], i) => ({ name, topic, status: st === 'cleared' ? 'CLEARED · 10/10' : st === 'active' ? 'IN PROGRESS · 4/10' : 'UNLOCKS AT RANK ' + i, stColor: st === 'cleared' ? '#72C06A' : st === 'active' ? '#E8B63A' : 'rgba(245,242,234,.5)', bg: st === 'active' ? 'rgba(232,135,47,.2)' : '#1F2226', op: st === 'locked' ? .6 : 1, icon: st === 'locked' ? 'assets-v2/icons/lock.png' : st === 'cleared' ? 'assets-v2/icons/check.png' : 'assets-v2/icons/mission-marker.png' }));
+    const garage = [['Learner Coupe', 'player-coupe', 'OWNED'], ['Commuter Sedan', 'sedan-blue', 'OWNED'], ['Cab Company Special', 'taxi', '$3,000'], ['Weekend Pickup', 'pickup-orange', '$6,500'], ['Suburban Tank', 'suv-black', 'RANK 5']].map(([name, f, price]) => ({ name, img: 'assets-v2/vehicles/' + f + '-front.png', price, color: price === 'OWNED' ? '#72C06A' : price.startsWith('$') ? '#E8B63A' : 'rgba(245,242,234,.5)', op: price === 'OWNED' || price.startsWith('$') ? 1 : .45 }));
+    const apps = [['Missions', 'mission-marker', '#2A2E34'], ['Handbook', 'handbook', '#3A5A7A'], ['Garage', 'garage', '#5A4632'], ['Rankings', 'leaderboard', '#2F4A36'], ['Map', 'district-map', '#6A5234'], ['Settings', 'settings', '#3A3D42']].map(([name, ic, bg]) => ({ name, icon: 'assets-v2/icons/' + ic + '.png', bg }));
+    const leaders = [['Maya R.', '$18,400'], ['Diego P.', '$16,950'], ['You', '$' + cash.toLocaleString()], ['Ana K.', '$2,100'], ['Jordan T.', '$1,700']].map(([name, c], i) => ({ rank: i + 1, name, cash: c, av: 'assets-v2/avatars/avatar-' + (i + 1) + '.png', bg: name === 'You' ? 'rgba(232,135,47,.18)' : 'transparent' }));
+    return {
+      q, wedges, qNum: qi + 1, qTotal: this.Q.length,
+      isIntro: phase === 'intro', isWheel: phase === 'wheel', isResult: phase === 'result',
+      hovText: hov === null ? 'Hover a slice' : q.a[hov],
+      openWheel: () => this.setState({ phase: 'wheel', hov: null }),
+      next: () => this.setState(s => ({ qi: (s.qi + 1) % this.Q.length, phase: 'intro', pick: null, hov: null })),
+      fbTitle: ok ? '+$100' : 'STRIKE', fbColor: ok ? '#72C06A' : '#D8453A',
+      cashFmt: cash.toLocaleString(), focusPct: Math.max(10, 100 - strikes * 18) + '%',
+      heatEl: this.heat(strikes, phase === 'result' && !ok ? strikes - 1 : -1, 'h' + flash),
+      heatDemo: this.heat(3, 2, 'demo'),
+      districts, garage, apps, leaders, assetSections
+    };
+  }
+}
+</script>
+</body>
+</html>
