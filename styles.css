@@ -1,6 +1,7 @@
 /* Permit Run — styles follow the Asset Kit: navy/night base, magenta for
    wrong + mission chips, gold for cash + primary actions, teal for correct. */
 :root {
+  color-scheme: dark;
   --navy: #11152A; --night: #1B2140; --night2: #222A52; --track: #2B3160;
   --pink: #FF3E7F; --orange: #FF8A2A; --gold: #FFC53D; --teal: #1FC7B6;
   --cream: #F7EEDD; --asphalt: #3B4050;
