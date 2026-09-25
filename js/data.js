@@ -53,6 +53,18 @@ export const DISTRICTS = [
       { id: 'd11', type: 'pics', q: 'Which signal means a walker may start crossing?', a: [{ img: 'signals/ped-dont-walk', label: 'Hand' }, { img: 'signals/ped-countdown', label: 'Countdown' }, { img: 'signals/ped-walk', label: 'Walking person' }], c: 2, tip: 'Walking person = you may cross. A hand or countdown means do not start.', src: '7' },
       { id: 'd12', type: 'choice', img: 'signs/slow-moving-vehicle', q: 'A vehicle has this sign on its back. What does it tell you?', a: ['It goes slowly, usually 25 mph or less.', 'It carries dangerous things.', 'It is an emergency vehicle.'], c: 0, tip: 'The orange and red triangle means a slow-moving vehicle.', src: '7' },
       {
+        id: 'd14', type: 'trace', q: 'The light is red. No sign says NO TURN ON RED. You stopped. Now turn RIGHT. Draw your path.',
+        scene: { kind: 'cross', ns: { n: 1, s: 1 }, ew: { e: 1, w: 1 }, signal: 'red', actors: [{ at: 'N:1:stop', id: 'you' }] },
+        goal: { end: ['E:1:exit'], wrong: { 'W:1:exit': 'That was a left turn. You may NOT turn left on red here.', 'N:1:exit': 'You cannot go straight on a red light.' } },
+        demo: { from: 'N:1', to: 'E:1' }, tip: 'After a full stop, you may turn right on red unless a sign says NO TURN ON RED.', src: '7'
+      },
+      {
+        id: 'd15', type: 'trace', q: 'Green arrow! Make your LEFT turn. Draw your path.',
+        scene: { kind: 'cross', ns: { n: 2, s: 2 }, ew: { e: 2, w: 2 }, signal: 'arrow', actors: [{ at: 'N:1:stop', id: 'you' }] },
+        goal: { end: ['W:1:exit'], wrong: { 'W:2:exit': 'Close! Finish in the lane closest to the middle.', 'E:1:exit': 'The arrow points left. Turn left!', 'E:2:exit': 'The arrow points left. Turn left!' } },
+        demo: { from: 'N:1', to: 'W:1' }, tip: 'A green arrow is a protected turn. Oncoming cars have a red light.', src: '7'
+      },
+      {
         id: 'd13', type: 'tap', q: 'All-way STOP. You and the teal car stopped at the same time. Tap the car that goes first.',
         scene: { kind: 'cross', ns: { n: 1, s: 1 }, ew: { e: 1, w: 1 }, stopSigns: true, actors: [{ at: 'N:1:stop', id: 'you', label: 'YOU' }, { at: 'W:1:stop', color: '#1FC7B6', id: 'teal' }] },
         ok: ['teal'], tip: 'Same time? The car on your RIGHT goes first.', src: '7'
