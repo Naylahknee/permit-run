@@ -658,9 +658,20 @@ function settings() {
     toggle('big', 'Bigger text'),
     toggle('reduceMotion', 'Less motion', 'Stops moving animations.'),
     h('div', { class: 'setting' }, h('div', { class: 'col' }, h('b', {}, 'Questions per mission'), h('span', { class: 'muted small' }, 'Fewer = shorter missions.')), per),
-    btn('RESET MY PROGRESS', () => { if (confirm('Erase all cash, badges and progress?')) { reset(); home(); } }, 'btn ghost danger'),
+    resetBtn(),
     h('p', { class: 'muted small' }, 'Questions are based on the California Driver\'s Handbook (California DMV, 2025), licensed under CC BY-NC 4.0. Practice only. This app is not made by the DMV.')
   ));
+}
+
+// Two taps to erase progress, so it can't happen by accident.
+function resetBtn() {
+  let armed = false;
+  const b = btn('RESET MY PROGRESS', () => {
+    if (armed) { reset(); home(); return; }
+    armed = true; b.textContent = 'TAP AGAIN TO ERASE EVERYTHING';
+    setTimeout(() => { armed = false; b.textContent = 'RESET MY PROGRESS'; }, 4000);
+  }, 'btn ghost danger');
+  return b;
 }
 
 /* ---------- boot ---------- */
