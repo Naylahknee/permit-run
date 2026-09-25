@@ -17,7 +17,8 @@ const DEFAULTS = () => ({
   unlocked: 1,          // how many districts are open
   ach: {},              // achievement id -> timestamp
   test: { best: 0, passes: 0, speedBest: 0 },
-  settings: { music: true, musicVol: 0.5, sfx: true, autoRead: false, calm: true, big: false, reduceMotion: false, perMission: 6 }
+  road: {},             // road test drive id -> best stars
+  settings: { music: true, musicVol: 0.5, sfx: true, autoRead: false, calm: true, big: false, reduceMotion: false, perMission: 6, driveVoice: true }
 });
 
 function load() {
@@ -25,7 +26,7 @@ function load() {
     const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (!raw) return DEFAULTS();
     const d = DEFAULTS();
-    return { ...d, ...raw, settings: { ...d.settings, ...raw.settings }, test: { ...d.test, ...raw.test }, districts: d.districts.map((x, i) => ({ ...x, ...(raw.districts || [])[i] })) };
+    return { ...d, ...raw, settings: { ...d.settings, ...raw.settings }, test: { ...d.test, ...raw.test }, road: { ...(raw.road || {}) }, districts: d.districts.map((x, i) => ({ ...x, ...(raw.districts || [])[i] })) };
   } catch { return DEFAULTS(); }
 }
 

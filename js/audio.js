@@ -137,3 +137,22 @@ export function speak(text, rate = 0.95) {
   speechSynthesis.speak(u);
 }
 export function stopSpeaking() { if (canSpeak) speechSynthesis.cancel(); duck(false); }
+
+/* ---------- siren (road test) ---------- */
+
+let sirenOsc = null, sirenGain = null, sirenTimer = null;
+export function siren(on) {
+  if (!ensure()) return;
+  if (on && !sirenOsc && sfxOn) {
+    sirenOsc = ctx.createOscillator(); sirenGain = ctx.createGain();
+    sirenOsc.type = 'triangle'; sirenGain.gain.value = 0.05;
+    sirenOsc.connect(sirenGain); sirenGain.connect(sfxBus); sirenOsc.start();
+    let hi = false;
+    const flip = () => { hi = !hi; sirenOsc && sirenOsc.frequency.setTargetAtTime(hi ? 960 : 720, ctx.currentTime, 0.05); };
+    flip(); sirenTimer = setInterval(flip, 550);
+  } else if (!on && sirenOsc) {
+    clearInterval(sirenTimer); sirenGain.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
+    const o = sirenOsc; setTimeout(() => o.stop(), 400);
+    sirenOsc = null;
+  }
+}
