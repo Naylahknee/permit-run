@@ -20,6 +20,11 @@ After the first visit, it works offline.
     center turn lane, roundabout, pulling over for an ambulance). After you answer, the car drives the correct path.
   - **tap the spot**: tap the right lane, curb colour, stop position, or car
 - **Drive Practice** (home screen): only draw-your-path and tap-the-road questions, open from the start.
+- **Road Test · 3D** (home screen): 7 short behind-the-wheel drives in a 3D town: STOP sign, right turn,
+  crosswalk, school zone, school bus, lane change, and pulling over for an ambulance. Simple controls: hold GO or
+  BRAKE, tap the turn signals, and tap the one action button when a choice comes up (LOOK, CHANGE LANE, PULL RIGHT).
+  The car stays in its lane by itself. A mistake pauses the drive, explains what to do, and rewinds a little.
+  Keyboard: arrow keys or W/S to drive and brake, Q/E for signals, Enter for the action, L to look.
 - **Practice Test** (20 questions, pass at 16) and an optional **Speed Run**.
 - **Review**: questions you missed come back until you get them right.
 - Cash, 6 ranks, 6 badges, streaks.
@@ -40,6 +45,14 @@ npx http-server -p 8080 -c-1   # any static server works
 
 Open http://localhost:8080. (A service worker needs `http://localhost` or `https://`, not `file://`.)
 
+## Install on a phone
+
+The app is a PWA, so there is no app store step.
+- **iPhone / iPad (Safari):** open the site, tap **Share**, then **Add to Home Screen**.
+- **Android (Chrome):** open the site, then tap **Install app** (or menu ⋮ → **Add to Home screen**).
+
+It then opens full screen like an app and works offline.
+
 ## Deploy
 
 Upload the `app/` folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages).
@@ -49,6 +62,8 @@ It must be served over HTTPS so it can be installed as an app.
 
 - Questions and learn cards: `js/data.js`. Each question lists the handbook section it came from.
 - Road scenes for trace/tap questions are described in data and drawn by `js/scene.js`.
+- The 3D drives live in `js/roadtest.js` (each drive lists its checks at the top of the file).
+  `js/vendor/three.js` is a trimmed build of [Three.js](https://threejs.org) r186 (MIT license) containing only the parts the game uses.
 - After changing any file, run `node tools/build.mjs` from the repo root. It refreshes the
   offline file list (`precache.js`) so installed phones pick up the update. Add `--no-icons`
   to skip re-rendering the PNG icons (which needs Playwright).

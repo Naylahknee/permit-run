@@ -8,7 +8,7 @@ pictures, motion and sound and can be overwhelmed by too much at once.
 
 | Folder | What it is |
 | --- | --- |
-| [`app/`](app/) | **The game.** An installable, offline web app (PWA). Start with [`app/README.md`](app/README.md). |
+| [`app/`](app/) | **The game.** An installable, offline web app (PWA) for iPhone and Android, including the 3D Road Test. Start with [`app/README.md`](app/README.md). |
 | [`project/`](project/) | The Claude Design asset kit (v1): 135 SVG assets, the kit page, and the DMV handbook PDF the questions come from. |
 | `Permit Run Asset Kit v2.dc.html` | The v2 kit page. Its `assets-v2/` image files are not in this repository yet. |
 | [`chats/`](chats/) | The design conversation that produced the asset kit. |

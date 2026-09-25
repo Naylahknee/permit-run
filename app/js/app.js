@@ -145,6 +145,10 @@ async function home() {
       img('icons/car'),
       h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.')),
       h('span', { class: 'go' }, '▶')),
+    h('button', { class: 'drive-card road', onClick: () => { audio.sfx('tap'); roadMenu(); } },
+      img('icons/key'),
+      h('div', { class: 'col' }, h('b', {}, 'ROAD TEST · 3D'), h('span', {}, 'Drive a real street. Stop, signal, and yield like on the DMV drive test.')),
+      h('span', { class: 'go' }, '▶')),
     h('div', { class: 'tiles' },
       tile('icons/district-map', 'MAP', map),
       tile('icons/timer', 'TEST', testMenu),
@@ -548,6 +552,54 @@ function wheels(kind) {
   return svg;
 }
 
+/* ---------- 3D road test ---------- */
+
+let roadMod = null;
+async function loadRoad() { return roadMod || (roadMod = await import('./roadtest.js')); }
+
+async function roadMenu() {
+  const my = nav;
+  let mod;
+  try { mod = await loadRoad(); } catch { show(h('div', { class: 'col gap-m' }, header('ROAD TEST', home), h('p', { class: 'muted' }, 'The 3D road test could not load. Check your connection and try again.'))); return; }
+  if (nav !== my) return;
+  const done = mod.DRIVES.filter(d => state.road[d.id]).length;
+  show(h('div', { class: 'col gap-m' }, header('ROAD TEST · 3D', home),
+    h('p', { class: 'muted' }, 'Short drives that practice what the DMV examiner checks. Hold GO to drive and BRAKE to stop. The car steers itself.'),
+    h('div', { class: 'mono gold small' }, done + ' OF ' + mod.DRIVES.length + ' DRIVES PASSED'),
+    h('div', { class: 'districts' }, mod.DRIVES.map((d, i) => {
+      const st = state.road[d.id] || 0;
+      return h('button', { class: 'district' + (!st && i === mod.DRIVES.findIndex(x => !state.road[x.id]) ? ' active' : ''), onClick: () => { audio.sfx('tap'); roadDrive(i); } },
+        h('div', { class: 'row between' }, h('span', { class: 'mono gold' }, 'DRIVE ' + (i + 1)), img(st ? 'icons/check' : 'icons/car', 'ico')),
+        h('div', { class: 'district-name' }, d.name.toUpperCase()),
+        h('div', { class: 'muted' }, d.goal),
+        h('div', { class: 'row between' }, h('span', { class: 'mono small ' + (st ? 'teal' : 'gold') }, st ? 'PASSED' : 'READY'), h('span', { class: 'stars' }, '★'.repeat(st) + '☆'.repeat(3 - st))));
+    }))));
+}
+
+async function roadDrive(i) {
+  const mod = await loadRoad();
+  const drive = mod.DRIVES[i];
+  const box = h('div', { class: 'rt' });
+  show(box, 'no-pad road-screen');
+  audio.setMusic(false);
+  const destroy = mod.startDrive(box, drive, {
+    h, img, audio,
+    reduced,
+    voice: () => state.settings.driveVoice,
+    setVoice: on => { state.settings.driveVoice = on; save(); },
+    onExit: () => roadMenu(),
+    onDone: ({ stars, again }) => {
+      const first = !state.road[drive.id];
+      state.road[drive.id] = Math.max(state.road[drive.id] || 0, stars);
+      const earned = (first ? 300 : 100) + (stars === 3 ? 100 : 0);
+      state.cash += earned; save();
+      toast('icons/cash', '+' + money(earned), drive.name + ' passed');
+      if (again) roadDrive(i); else if (i + 1 < mod.DRIVES.length) roadDrive(i + 1); else roadMenu();
+    }
+  });
+  cleanup.push(() => { destroy(); audio.setMusic(state.settings.music, state.settings.musicVol); });
+}
+
 /* ---------- pause ---------- */
 
 function pause(run) {
@@ -705,4 +757,4 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // For automated checks.
-window.__permitRun = { state, DISTRICTS, go: { home, map, trophies, settings, testMenu, missionIntro, learn, startMission, play, results } };
+window.__permitRun = { state, DISTRICTS, go: { home, map, trophies, settings, testMenu, missionIntro, learn, startMission, play, results, roadMenu, roadDrive } };
