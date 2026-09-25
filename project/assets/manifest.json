@@ -1,0 +1,692 @@
+{
+ "vehicles": [
+  {
+   "file": "assets/vehicles/player-coupe-front.svg",
+   "name": "player-coupe-front",
+   "label": "player coupe · front"
+  },
+  {
+   "file": "assets/vehicles/player-coupe-rear.svg",
+   "name": "player-coupe-rear",
+   "label": "player coupe · rear"
+  },
+  {
+   "file": "assets/vehicles/sedan-teal-front.svg",
+   "name": "sedan-teal-front",
+   "label": "sedan teal · front"
+  },
+  {
+   "file": "assets/vehicles/sedan-teal-rear.svg",
+   "name": "sedan-teal-rear",
+   "label": "sedan teal · rear"
+  },
+  {
+   "file": "assets/vehicles/sedan-gold-front.svg",
+   "name": "sedan-gold-front",
+   "label": "sedan gold · front"
+  },
+  {
+   "file": "assets/vehicles/sedan-gold-rear.svg",
+   "name": "sedan-gold-rear",
+   "label": "sedan gold · rear"
+  },
+  {
+   "file": "assets/vehicles/sedan-white-front.svg",
+   "name": "sedan-white-front",
+   "label": "sedan white · front"
+  },
+  {
+   "file": "assets/vehicles/sedan-white-rear.svg",
+   "name": "sedan-white-rear",
+   "label": "sedan white · rear"
+  },
+  {
+   "file": "assets/vehicles/suv-orange-front.svg",
+   "name": "suv-orange-front",
+   "label": "suv orange · front"
+  },
+  {
+   "file": "assets/vehicles/suv-orange-rear.svg",
+   "name": "suv-orange-rear",
+   "label": "suv orange · rear"
+  },
+  {
+   "file": "assets/vehicles/police-cruiser-front.svg",
+   "name": "police-cruiser-front",
+   "label": "police cruiser · front"
+  },
+  {
+   "file": "assets/vehicles/police-cruiser-rear.svg",
+   "name": "police-cruiser-rear",
+   "label": "police cruiser · rear"
+  },
+  {
+   "file": "assets/vehicles/ambulance-front.svg",
+   "name": "ambulance-front",
+   "label": "ambulance · front"
+  },
+  {
+   "file": "assets/vehicles/ambulance-rear.svg",
+   "name": "ambulance-rear",
+   "label": "ambulance · rear"
+  },
+  {
+   "file": "assets/vehicles/fire-truck-front.svg",
+   "name": "fire-truck-front",
+   "label": "fire truck · front"
+  },
+  {
+   "file": "assets/vehicles/fire-truck-rear.svg",
+   "name": "fire-truck-rear",
+   "label": "fire truck · rear"
+  },
+  {
+   "file": "assets/vehicles/school-bus-front.svg",
+   "name": "school-bus-front",
+   "label": "school bus · front"
+  },
+  {
+   "file": "assets/vehicles/school-bus-rear.svg",
+   "name": "school-bus-rear",
+   "label": "school bus · rear"
+  }
+ ],
+ "tiles": [
+  {
+   "file": "assets/tiles/grass.svg",
+   "name": "grass",
+   "label": "grass"
+  },
+  {
+   "file": "assets/tiles/sidewalk.svg",
+   "name": "sidewalk",
+   "label": "sidewalk"
+  },
+  {
+   "file": "assets/tiles/parking.svg",
+   "name": "parking",
+   "label": "parking"
+  },
+  {
+   "file": "assets/tiles/road-x.svg",
+   "name": "road-x",
+   "label": "road · x"
+  },
+  {
+   "file": "assets/tiles/road-y.svg",
+   "name": "road-y",
+   "label": "road · y"
+  },
+  {
+   "file": "assets/tiles/road-4lane-x.svg",
+   "name": "road-4lane-x",
+   "label": "road 4lane · x"
+  },
+  {
+   "file": "assets/tiles/road-4lane-y.svg",
+   "name": "road-4lane-y",
+   "label": "road 4lane · y"
+  },
+  {
+   "file": "assets/tiles/intersection.svg",
+   "name": "intersection",
+   "label": "intersection"
+  },
+  {
+   "file": "assets/tiles/t-junction-x.svg",
+   "name": "t-junction-x",
+   "label": "t junction · x"
+  },
+  {
+   "file": "assets/tiles/t-junction-y.svg",
+   "name": "t-junction-y",
+   "label": "t junction · y"
+  },
+  {
+   "file": "assets/tiles/crosswalk-x.svg",
+   "name": "crosswalk-x",
+   "label": "crosswalk · x"
+  },
+  {
+   "file": "assets/tiles/crosswalk-y.svg",
+   "name": "crosswalk-y",
+   "label": "crosswalk · y"
+  },
+  {
+   "file": "assets/tiles/crosswalk-school-x.svg",
+   "name": "crosswalk-school-x",
+   "label": "crosswalk school · x"
+  },
+  {
+   "file": "assets/tiles/crosswalk-school-y.svg",
+   "name": "crosswalk-school-y",
+   "label": "crosswalk school · y"
+  },
+  {
+   "file": "assets/tiles/stop-line-x.svg",
+   "name": "stop-line-x",
+   "label": "stop line · x"
+  },
+  {
+   "file": "assets/tiles/stop-line-y.svg",
+   "name": "stop-line-y",
+   "label": "stop line · y"
+  },
+  {
+   "file": "assets/tiles/railroad-x.svg",
+   "name": "railroad-x",
+   "label": "railroad · x"
+  },
+  {
+   "file": "assets/tiles/railroad-y.svg",
+   "name": "railroad-y",
+   "label": "railroad · y"
+  },
+  {
+   "file": "assets/tiles/center-turn-lane-x.svg",
+   "name": "center-turn-lane-x",
+   "label": "center turn lane · x"
+  },
+  {
+   "file": "assets/tiles/center-turn-lane-y.svg",
+   "name": "center-turn-lane-y",
+   "label": "center turn lane · y"
+  },
+  {
+   "file": "assets/tiles/bike-lane-x.svg",
+   "name": "bike-lane-x",
+   "label": "bike lane · x"
+  },
+  {
+   "file": "assets/tiles/bike-lane-y.svg",
+   "name": "bike-lane-y",
+   "label": "bike lane · y"
+  },
+  {
+   "file": "assets/tiles/hov-lane-x.svg",
+   "name": "hov-lane-x",
+   "label": "hov lane · x"
+  },
+  {
+   "file": "assets/tiles/hov-lane-y.svg",
+   "name": "hov-lane-y",
+   "label": "hov lane · y"
+  },
+  {
+   "file": "assets/tiles/curb-red-x.svg",
+   "name": "curb-red-x",
+   "label": "curb red · x"
+  },
+  {
+   "file": "assets/tiles/curb-yellow-x.svg",
+   "name": "curb-yellow-x",
+   "label": "curb yellow · x"
+  },
+  {
+   "file": "assets/tiles/curb-white-x.svg",
+   "name": "curb-white-x",
+   "label": "curb white · x"
+  },
+  {
+   "file": "assets/tiles/curb-green-x.svg",
+   "name": "curb-green-x",
+   "label": "curb green · x"
+  },
+  {
+   "file": "assets/tiles/curb-blue-x.svg",
+   "name": "curb-blue-x",
+   "label": "curb blue · x"
+  }
+ ],
+ "props": [
+  {
+   "file": "assets/props/signal-pole-red.svg",
+   "name": "signal-pole-red",
+   "label": "signal pole · red"
+  },
+  {
+   "file": "assets/props/signal-pole-yellow.svg",
+   "name": "signal-pole-yellow",
+   "label": "signal pole · yellow"
+  },
+  {
+   "file": "assets/props/signal-pole-green.svg",
+   "name": "signal-pole-green",
+   "label": "signal pole · green"
+  },
+  {
+   "file": "assets/props/stop-post.svg",
+   "name": "stop-post",
+   "label": "stop post"
+  },
+  {
+   "file": "assets/props/hydrant.svg",
+   "name": "hydrant",
+   "label": "hydrant"
+  },
+  {
+   "file": "assets/props/cone.svg",
+   "name": "cone",
+   "label": "cone"
+  },
+  {
+   "file": "assets/props/palm-tree.svg",
+   "name": "palm-tree",
+   "label": "palm tree"
+  },
+  {
+   "file": "assets/props/barrier.svg",
+   "name": "barrier",
+   "label": "barrier"
+  }
+ ],
+ "signs": [
+  {
+   "file": "assets/signs/stop.svg",
+   "name": "stop",
+   "label": "stop"
+  },
+  {
+   "file": "assets/signs/yield.svg",
+   "name": "yield",
+   "label": "yield"
+  },
+  {
+   "file": "assets/signs/do-not-enter.svg",
+   "name": "do-not-enter",
+   "label": "do not enter"
+  },
+  {
+   "file": "assets/signs/wrong-way.svg",
+   "name": "wrong-way",
+   "label": "wrong way"
+  },
+  {
+   "file": "assets/signs/speed-limit-65.svg",
+   "name": "speed-limit-65",
+   "label": "speed limit 65"
+  },
+  {
+   "file": "assets/signs/speed-limit-25.svg",
+   "name": "speed-limit-25",
+   "label": "speed limit 25"
+  },
+  {
+   "file": "assets/signs/school-zone.svg",
+   "name": "school-zone",
+   "label": "school zone"
+  },
+  {
+   "file": "assets/signs/railroad-crossbuck.svg",
+   "name": "railroad-crossbuck",
+   "label": "railroad crossbuck"
+  },
+  {
+   "file": "assets/signs/railroad-advance.svg",
+   "name": "railroad-advance",
+   "label": "railroad advance"
+  },
+  {
+   "file": "assets/signs/no-u-turn.svg",
+   "name": "no-u-turn",
+   "label": "no u turn"
+  },
+  {
+   "file": "assets/signs/no-left-turn.svg",
+   "name": "no-left-turn",
+   "label": "no left turn"
+  },
+  {
+   "file": "assets/signs/no-parking.svg",
+   "name": "no-parking",
+   "label": "no parking"
+  },
+  {
+   "file": "assets/signs/one-way.svg",
+   "name": "one-way",
+   "label": "one way"
+  },
+  {
+   "file": "assets/signs/pedestrian-crossing.svg",
+   "name": "pedestrian-crossing",
+   "label": "pedestrian crossing"
+  },
+  {
+   "file": "assets/signs/merge.svg",
+   "name": "merge",
+   "label": "merge"
+  },
+  {
+   "file": "assets/signs/lane-ends.svg",
+   "name": "lane-ends",
+   "label": "lane ends"
+  },
+  {
+   "file": "assets/signs/signal-ahead.svg",
+   "name": "signal-ahead",
+   "label": "signal ahead"
+  },
+  {
+   "file": "assets/signs/stop-ahead.svg",
+   "name": "stop-ahead",
+   "label": "stop ahead"
+  },
+  {
+   "file": "assets/signs/curve-right.svg",
+   "name": "curve-right",
+   "label": "curve right"
+  },
+  {
+   "file": "assets/signs/two-way-traffic.svg",
+   "name": "two-way-traffic",
+   "label": "two way traffic"
+  },
+  {
+   "file": "assets/signs/road-work-ahead.svg",
+   "name": "road-work-ahead",
+   "label": "road work ahead"
+  },
+  {
+   "file": "assets/signs/slow-moving-vehicle.svg",
+   "name": "slow-moving-vehicle",
+   "label": "slow moving vehicle"
+  },
+  {
+   "file": "assets/signs/disabled-parking.svg",
+   "name": "disabled-parking",
+   "label": "disabled parking"
+  },
+  {
+   "file": "assets/signs/keep-right.svg",
+   "name": "keep-right",
+   "label": "keep right"
+  },
+  {
+   "file": "assets/signs/freeway-entrance.svg",
+   "name": "freeway-entrance",
+   "label": "freeway entrance"
+  }
+ ],
+ "signals": [
+  {
+   "file": "assets/signals/signal-red.svg",
+   "name": "signal-red",
+   "label": "signal red"
+  },
+  {
+   "file": "assets/signals/signal-yellow.svg",
+   "name": "signal-yellow",
+   "label": "signal yellow"
+  },
+  {
+   "file": "assets/signals/signal-green.svg",
+   "name": "signal-green",
+   "label": "signal green"
+  },
+  {
+   "file": "assets/signals/signal-flashing-red.svg",
+   "name": "signal-flashing-red",
+   "label": "signal flashing red"
+  },
+  {
+   "file": "assets/signals/signal-flashing-yellow.svg",
+   "name": "signal-flashing-yellow",
+   "label": "signal flashing yellow"
+  },
+  {
+   "file": "assets/signals/signal-green-arrow.svg",
+   "name": "signal-green-arrow",
+   "label": "signal green arrow"
+  },
+  {
+   "file": "assets/signals/signal-red-arrow.svg",
+   "name": "signal-red-arrow",
+   "label": "signal red arrow"
+  },
+  {
+   "file": "assets/signals/signal-yellow-arrow.svg",
+   "name": "signal-yellow-arrow",
+   "label": "signal yellow arrow"
+  },
+  {
+   "file": "assets/signals/ped-walk.svg",
+   "name": "ped-walk",
+   "label": "ped · walk"
+  },
+  {
+   "file": "assets/signals/ped-dont-walk.svg",
+   "name": "ped-dont-walk",
+   "label": "ped · don’t walk"
+  },
+  {
+   "file": "assets/signals/ped-countdown.svg",
+   "name": "ped-countdown",
+   "label": "ped · countdown"
+  }
+ ],
+ "icons": [
+  {
+   "file": "assets/icons/cash.svg",
+   "name": "cash",
+   "label": "cash"
+  },
+  {
+   "file": "assets/icons/coin.svg",
+   "name": "coin",
+   "label": "coin"
+  },
+  {
+   "file": "assets/icons/timer.svg",
+   "name": "timer",
+   "label": "timer"
+  },
+  {
+   "file": "assets/icons/strike-on.svg",
+   "name": "strike-on",
+   "label": "strike on"
+  },
+  {
+   "file": "assets/icons/strike-off.svg",
+   "name": "strike-off",
+   "label": "strike off"
+  },
+  {
+   "file": "assets/icons/lock.svg",
+   "name": "lock",
+   "label": "lock"
+  },
+  {
+   "file": "assets/icons/unlock.svg",
+   "name": "unlock",
+   "label": "unlock"
+  },
+  {
+   "file": "assets/icons/trophy.svg",
+   "name": "trophy",
+   "label": "trophy"
+  },
+  {
+   "file": "assets/icons/key.svg",
+   "name": "key",
+   "label": "key"
+  },
+  {
+   "file": "assets/icons/map-pin.svg",
+   "name": "map-pin",
+   "label": "map pin"
+  },
+  {
+   "file": "assets/icons/mission-flag.svg",
+   "name": "mission-flag",
+   "label": "mission flag"
+  },
+  {
+   "file": "assets/icons/handbook.svg",
+   "name": "handbook",
+   "label": "handbook"
+  },
+  {
+   "file": "assets/icons/leaderboard.svg",
+   "name": "leaderboard",
+   "label": "leaderboard"
+  },
+  {
+   "file": "assets/icons/home.svg",
+   "name": "home",
+   "label": "home"
+  },
+  {
+   "file": "assets/icons/pause.svg",
+   "name": "pause",
+   "label": "pause"
+  },
+  {
+   "file": "assets/icons/sound.svg",
+   "name": "sound",
+   "label": "sound"
+  },
+  {
+   "file": "assets/icons/settings.svg",
+   "name": "settings",
+   "label": "settings"
+  },
+  {
+   "file": "assets/icons/check.svg",
+   "name": "check",
+   "label": "check"
+  },
+  {
+   "file": "assets/icons/wrong.svg",
+   "name": "wrong",
+   "label": "wrong"
+  },
+  {
+   "file": "assets/icons/car.svg",
+   "name": "car",
+   "label": "car"
+  },
+  {
+   "file": "assets/icons/district-map.svg",
+   "name": "district-map",
+   "label": "district map"
+  }
+ ],
+ "badges": [
+  {
+   "file": "assets/badges/rank-1-learner.svg",
+   "name": "rank-1-learner",
+   "label": "rank 1 · learner"
+  },
+  {
+   "file": "assets/badges/rank-2-permit.svg",
+   "name": "rank-2-permit",
+   "label": "rank 2 · permit"
+  },
+  {
+   "file": "assets/badges/rank-3-provisional.svg",
+   "name": "rank-3-provisional",
+   "label": "rank 3 · provisional"
+  },
+  {
+   "file": "assets/badges/rank-4-licensed.svg",
+   "name": "rank-4-licensed",
+   "label": "rank 4 · licensed"
+  },
+  {
+   "file": "assets/badges/rank-5-road-pro.svg",
+   "name": "rank-5-road-pro",
+   "label": "rank 5 · road pro"
+  },
+  {
+   "file": "assets/badges/rank-6-golden-state.svg",
+   "name": "rank-6-golden-state",
+   "label": "rank 6 · golden state"
+  },
+  {
+   "file": "assets/badges/ach-perfect-score.svg",
+   "name": "ach-perfect-score",
+   "label": "perfect score"
+  },
+  {
+   "file": "assets/badges/ach-streak-5.svg",
+   "name": "ach-streak-5",
+   "label": "streak 5"
+  },
+  {
+   "file": "assets/badges/ach-speed-run.svg",
+   "name": "ach-speed-run",
+   "label": "speed run"
+  },
+  {
+   "file": "assets/badges/ach-sign-master.svg",
+   "name": "ach-sign-master",
+   "label": "sign master"
+  },
+  {
+   "file": "assets/badges/ach-clean-record.svg",
+   "name": "ach-clean-record",
+   "label": "clean record"
+  },
+  {
+   "file": "assets/badges/ach-district-cleared.svg",
+   "name": "ach-district-cleared",
+   "label": "district cleared"
+  }
+ ],
+ "avatars": [
+  {
+   "file": "assets/avatars/avatar-1.svg",
+   "name": "avatar-1",
+   "label": "avatar 1 (placeholder)"
+  },
+  {
+   "file": "assets/avatars/avatar-2.svg",
+   "name": "avatar-2",
+   "label": "avatar 2 (placeholder)"
+  },
+  {
+   "file": "assets/avatars/avatar-3.svg",
+   "name": "avatar-3",
+   "label": "avatar 3 (placeholder)"
+  },
+  {
+   "file": "assets/avatars/avatar-4.svg",
+   "name": "avatar-4",
+   "label": "avatar 4 (placeholder)"
+  },
+  {
+   "file": "assets/avatars/avatar-5.svg",
+   "name": "avatar-5",
+   "label": "avatar 5 (placeholder)"
+  },
+  {
+   "file": "assets/avatars/avatar-6.svg",
+   "name": "avatar-6",
+   "label": "avatar 6 (placeholder)"
+  }
+ ],
+ "brand": [
+  {
+   "file": "assets/brand/app-icon-1024.svg",
+   "label": "app icon · rounded"
+  },
+  {
+   "file": "assets/brand/app-icon-1024-square.svg",
+   "label": "app icon · square (store)"
+  },
+  {
+   "file": "assets/brand/splash-1080x1920.svg",
+   "label": "splash · 1080×1920"
+  },
+  {
+   "file": "assets/brand/logo-wordmark.svg",
+   "label": "wordmark"
+  }
+ ],
+ "scenes": [
+  {
+   "file": "assets/scenes/scene-school-bus-intersection.svg",
+   "label": "sample scene · school bus at intersection"
+  }
+ ]
+}
