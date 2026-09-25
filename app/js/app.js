@@ -141,6 +141,10 @@ async function home() {
       h('div', { class: 'mission-name' }, d.name.toUpperCase()),
       h('div', { class: 'muted' }, d.topic),
       h('div', { class: 'play-pill' }, '▶  PLAY')),
+    h('button', { class: 'drive-card', onClick: () => { audio.sfx('tap'); driveStart(); } },
+      img('icons/car'),
+      h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.')),
+      h('span', { class: 'go' }, '▶')),
     h('div', { class: 'tiles' },
       tile('icons/district-map', 'MAP', map),
       tile('icons/timer', 'TEST', testMenu),
@@ -288,7 +292,16 @@ function pickForMission(i) {
   const pool = DISTRICTS[i].qs;
   const n = Math.min(state.settings.perMission, pool.length);
   const score = q => { const s = state.stats[q.id]; if (!s) return 0; if (state.review.includes(q.id)) return 1; return 2 + s.r; };
-  return shuffle(pool).sort((a, b) => score(a) - score(b)).slice(0, n).map(q => ({ ...byId[q.id] }));
+  const ranked = shuffle(pool).sort((a, b) => score(a) - score(b));
+  // Every mission mixes game types: at least 2 drawing/tapping questions and 1 picture question when the district has them.
+  const want = [...ranked.filter(q => q.type === 'trace' || q.type === 'tap').slice(0, 2), ...ranked.filter(q => q.type === 'pics').slice(0, 1)];
+  const pick = [...want, ...ranked.filter(q => !want.includes(q))].slice(0, n);
+  return shuffle(pick).map(q => ({ ...byId[q.id] }));
+}
+
+function driveStart() {
+  const list = shuffle(ALL_QUESTIONS.filter(q => q.type === 'trace' || q.type === 'tap')).slice(0, 8);
+  play({ mode: 'drive', list: list.map(q => ({ ...q })) });
 }
 
 function startMission(i) {
@@ -332,6 +345,7 @@ function title(run) {
   if (run.mode === 'mission') return ['MISSION ' + (run.district + 1), DISTRICTS[run.district].name];
   if (run.mode === 'test') return ['PRACTICE TEST', 'All districts'];
   if (run.mode === 'speed') return ['SPEED RUN', 'Beat the clock'];
+  if (run.mode === 'drive') return ['DRIVE', 'Draw and tap'];
   return ['REVIEW', 'Fix your mistakes'];
 }
 
@@ -583,6 +597,9 @@ function results(run, failed, timeUp) {
     award('speed');
     headline = timeUp ? 'TIME!' : 'FINISHED';
     sub = 'Speed run score';
+  } else if (run.mode === 'drive') {
+    headline = right === total ? 'PERFECT DRIVE' : 'NICE DRIVING';
+    sub = 'Drive practice';
   } else {
     headline = 'REVIEW DONE';
     sub = state.review.length ? state.review.length + ' left to fix' : 'All mistakes fixed!';

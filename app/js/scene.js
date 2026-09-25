@@ -423,6 +423,7 @@ export function buildScene(spec) {
     out.zones.rightEdge = { x: g.xR - 10, y: 20, w: 30, h: 205 };
     out.zones.leftSide = { x: 0, y: 0, w: g.xL + 30, h: SIZE };
   }
+  if (g && spec.signal) signalHead(svg, g.xR + 22, g.yT - 58, spec.signal);
   const layer = el('g', { class: 'actors' }, svg);
   out.layer = layer;
   if (g && spec.laneTaps) spec.laneTaps.forEach(id => { out.zones[id] = zone(g, id + ':approach'); tapZone(layer, out.zones[id], id); });
@@ -491,4 +492,13 @@ export function checkTrace(sc, pts, goal) {
   if (endOk && !passOk) return { ok: false, msg: goal.wrongOrder || 'Not quite. Watch the right way.' };
   for (const [name, msg] of Object.entries(goal.wrong || {})) if (inZone(last, sc.zoneOf(name))) return { ok: false, msg };
   return { ok: false, msg: 'Not quite. Watch the right way.' };
+}
+
+// A traffic light on the far corner, facing the player. state: 'red' | 'green' | 'arrow'
+export function signalHead(p, x, y, state) {
+  const g = el('g', { transform: `translate(${x} ${y})` }, p);
+  el('rect', { x: -12, y: 0, width: 24, height: 62, rx: 7, fill: '#11152A', stroke: '#F7EEDD', 'stroke-width': 1.5 }, g);
+  const lit = { red: 0, green: 2, arrow: 2 }[state];
+  ['#FF3E3E', '#FFC53D', '#2FD27A'].forEach((c, i) => el('circle', { cx: 0, cy: 11 + i * 20, r: 7.5, fill: i === lit ? c : '#2B3160' }, g));
+  if (state === 'arrow') el('path', { d: 'M4 51 H-4 M-1 47 L-5 51 L-1 55', stroke: '#11152A', 'stroke-width': 2.5, fill: 'none', 'stroke-linecap': 'round' }, g);
 }

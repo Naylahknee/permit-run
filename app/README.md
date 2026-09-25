@@ -13,12 +13,13 @@ After the first visit, it works offline.
   right-of-way; safe driving; alcohol, drugs and phones; freeways, insurance and crashes.
   Clearing a mission unlocks the next one.
 - **Learn cards** before each mission: 4 cards, each with one picture or short animation and one sentence.
-- **72 questions** in 4 kinds:
+- **74 questions** in 4 kinds:
   - pick an answer (every question has a picture)
   - pick a picture (signs, signals, wheel direction for hill parking)
   - **trace your path**: drag from your car to show a turn (right turn, left turn, onto a one-way street,
     center turn lane, roundabout, pulling over for an ambulance). After you answer, the car drives the correct path.
   - **tap the spot**: tap the right lane, curb colour, stop position, or car
+- **Drive Practice** (home screen): only draw-your-path and tap-the-road questions, open from the start.
 - **Practice Test** (20 questions, pass at 16) and an optional **Speed Run**.
 - **Review**: questions you missed come back until you get them right.
 - Cash, 6 ranks, 6 badges, streaks.
