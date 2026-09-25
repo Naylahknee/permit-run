@@ -1,25 +1,32 @@
-# CODING AGENTS: READ THIS FIRST
+# Permit Run: California
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+A calm, game-style app that helps a learner study for the California Class C
+driver's permit (knowledge) test. It is designed for someone who learns best with
+pictures, motion and sound and can be overwhelmed by too much at once.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## What's where
 
-## What you should do — IMPORTANT
+| Folder | What it is |
+| --- | --- |
+| [`app/`](app/) | **The game.** An installable, offline web app (PWA). Start with [`app/README.md`](app/README.md). |
+| [`project/`](project/) | The Claude Design asset kit (v1): 135 SVG assets, the kit page, and the DMV handbook PDF the questions come from. |
+| `Permit Run Asset Kit v2.dc.html` | The v2 kit page. Its `assets-v2/` image files are not in this repository yet. |
+| [`chats/`](chats/) | The design conversation that produced the asset kit. |
+| [`tools/`](tools/) | Build scripts: copy assets into the app and refresh the offline file list. |
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Play it
 
-**Read `project/Permit Run Asset Kit.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+Serve the `app/` folder with any static web server and open it in a browser:
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+```sh
+cd app
+npx http-server -p 8080 -c-1
+```
 
-## About the design files
+To put it on a phone, host `app/` on any HTTPS static host (for example GitHub Pages),
+open the link on the phone, and choose **Add to Home Screen**.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Content
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
-
-## Bundle contents
-
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `California Drivers Test Game` project files (HTML prototypes, assets, components)
+Questions are written from the *California Driver's Handbook* (California DMV, 2025),
+licensed CC BY-NC 4.0. This is a practice tool and is not made by the DMV.
