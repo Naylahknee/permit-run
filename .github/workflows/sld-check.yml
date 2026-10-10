@@ -1,0 +1,119 @@
+name: SLD check
+
+# SLD checks every change before it merges: what the change does, how much it
+# removes, and whether it touches anything you marked as protected.
+#
+# Green means the change is clean. Yellow means a person should look at it
+# before merging. Red means the change was stopped and must not merge.
+#
+# This runs in human mode: the person opening the pull request is the approver,
+# so SLD checks the change itself. (The permission check is for AI agents
+# working under a task contract, which people don't need.)
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  sld:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # need history to compare the change against
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      # The engine files in .sld/vendor/ must stay exactly as installed.
+      # Any edit there fails here: fix the SLD repo and re-install instead.
+      - name: Make sure the SLD engine files are untouched
+        run: node .sld/verify-vendor.mjs
+
+      - name: Run the SLD engine's own tests
+        run: node --test .sld/vendor/src/core/__tests__/*.test.mjs
+
+      # On a pull request, compare against the base branch. On a direct push
+      # to main, compare against the commit before the push: comparing the
+      # checked-out commit to itself would produce an empty comparison and
+      # let the change skip the check entirely.
+      - name: Find what this change is compared against
+        id: baseref
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1 || true
+            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+            # Plain-words label for the report ("against main"), not the raw ref.
+            echo "label=${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+          else
+            BEFORE="${{ github.event.before }}"
+            if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+              # New branch or force-push: fall back to the first parent.
+              echo "ref=${{ github.sha }}^" >> "$GITHUB_OUTPUT"
+            else
+              echo "ref=$BEFORE" >> "$GITHUB_OUTPUT"
+            fi
+            echo "label=the previous version" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The check fails the job ONLY when SLD stops the change. "Needs your
+      # eyes" is a warning so legitimate changes are never blocked waiting
+      # on a human nudge.
+      #
+      # The check also writes the human-facing inspector report two ways:
+      # Markdown (posted on the pull request below) and a standalone HTML
+      # file (uploaded as an artifact) that anyone can open in a browser,
+      # no GitHub account needed.
+      - name: Check the change
+        run: |
+          set +e
+          node .sld/vendor/cli/sld.js check "${{ steps.baseref.outputs.ref }}" --manifest .sld/settings.mjs --human \
+            --report-md "${RUNNER_TEMP}/sld-inspector.md" \
+            --report-html "${RUNNER_TEMP}/sld-inspector.html" \
+            --report-ref-label "${{ steps.baseref.outputs.label }}" > "${RUNNER_TEMP}/sld-report.txt"
+          code=$?
+          set -e
+          cat "${RUNNER_TEMP}/sld-report.txt"
+          echo "SLD exit code: $code"
+          if [ "$code" = "2" ]; then
+            echo "::error::SLD stopped this change. See the report above."
+            exit 1
+          fi
+          if [ "$code" = "1" ]; then
+            echo "::warning::SLD says a person should look at this change before merging."
+          fi
+          exit 0
+
+      # Every pull request gets the full inspector report as its comment:
+      # the plain-language verdict first, the raw technical report tucked
+      # into a collapsed "Technical details" block for engineers.
+      - name: Post the report on the pull request
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            cat "${RUNNER_TEMP}/sld-inspector.md"
+            echo ""
+            echo "<details><summary>Technical details</summary>"
+            echo ""
+            echo '```'
+            sed -r 's/\x1b\[[0-9;]*m//g' "${RUNNER_TEMP}/sld-report.txt"
+            echo '```'
+            echo "</details>"
+          } > "${RUNNER_TEMP}/sld-comment.md"
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file "${RUNNER_TEMP}/sld-comment.md"
+
+      # The standalone HTML report: download it from the run and open it in
+      # any browser, or forward it to someone without a GitHub account.
+      - name: Upload the HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sld-inspector-report
+          path: ${{ runner.temp }}/sld-inspector.html

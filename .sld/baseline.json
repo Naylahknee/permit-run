@@ -1,0 +1,2821 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-10T00:53:38.798Z",
+  "manifestVersion": 1,
+  "application": {
+    "name": "permit-run",
+    "root": "."
+  },
+  "files": {
+    ".gitignore": {
+      "hash": "6c7d15d2ab1a0b51",
+      "size": 24,
+      "lineCount": 3,
+      "tags": []
+    },
+    ".sld/settings.mjs": {
+      "hash": "322930d74cde0a0e",
+      "size": 2610,
+      "lineCount": 73,
+      "tags": []
+    },
+    ".sld/vendor/.core-hashes.json": {
+      "hash": "663e323c690da393",
+      "size": 3746,
+      "lineCount": 38,
+      "tags": []
+    },
+    ".sld/vendor/.core-version": {
+      "hash": "dc595ad3826fc9d9",
+      "size": 41,
+      "lineCount": 2,
+      "tags": []
+    },
+    ".sld/vendor/VENDOR.md": {
+      "hash": "77ac593be7a08a95",
+      "size": 775,
+      "lineCount": 18,
+      "tags": []
+    },
+    ".sld/vendor/cli/sld.js": {
+      "hash": "193736840f086aa8",
+      "size": 17111,
+      "lineCount": 421,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/engine.test.mjs": {
+      "hash": "92a4d300951d7e63",
+      "size": 15898,
+      "lineCount": 376,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/fixture.manifest.js": {
+      "hash": "420232e1b27b8b8e",
+      "size": 3912,
+      "lineCount": 111,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/governance-paths.test.mjs": {
+      "hash": "2456195934bacfe9",
+      "size": 5788,
+      "lineCount": 137,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/impact-audit.test.mjs": {
+      "hash": "9f937cb14223f107",
+      "size": 3150,
+      "lineCount": 69,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/inspector.test.mjs": {
+      "hash": "9d4c2a13d7218eaf",
+      "size": 7564,
+      "lineCount": 242,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/jubilee.test.mjs": {
+      "hash": "097d12afb0c4854a",
+      "size": 10642,
+      "lineCount": 268,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/manifest-specimen.test.mjs": {
+      "hash": "5e3d5da042314b08",
+      "size": 3485,
+      "lineCount": 90,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/scanner.test.mjs": {
+      "hash": "762263321e2066bf",
+      "size": 1191,
+      "lineCount": 27,
+      "tags": []
+    },
+    ".sld/vendor/src/core/__tests__/scope.test.mjs": {
+      "hash": "43bb571e0b6cb29f",
+      "size": 19778,
+      "lineCount": 493,
+      "tags": []
+    },
+    ".sld/vendor/src/core/audit/audit.js": {
+      "hash": "04bddba2d0780dbb",
+      "size": 1624,
+      "lineCount": 50,
+      "tags": []
+    },
+    ".sld/vendor/src/core/engine/decision-engine.js": {
+      "hash": "713db4d7ce4468b7",
+      "size": 7554,
+      "lineCount": 200,
+      "tags": []
+    },
+    ".sld/vendor/src/core/engine/match.js": {
+      "hash": "c96ae08aeddce0c4",
+      "size": 8147,
+      "lineCount": 234,
+      "tags": []
+    },
+    ".sld/vendor/src/core/graph/impact.js": {
+      "hash": "6329154310cfe368",
+      "size": 2676,
+      "lineCount": 86,
+      "tags": []
+    },
+    ".sld/vendor/src/core/index.d.ts": {
+      "hash": "b44b7614c0245c25",
+      "size": 12345,
+      "lineCount": 396,
+      "tags": []
+    },
+    ".sld/vendor/src/core/index.js": {
+      "hash": "e88facb71893bf5e",
+      "size": 2095,
+      "lineCount": 50,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/canonical.js": {
+      "hash": "e4e0c5d0b795f55f",
+      "size": 528,
+      "lineCount": 24,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-1-identity.js": {
+      "hash": "0a91553efd0bd49d",
+      "size": 1540,
+      "lineCount": 47,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-2-architecture.js": {
+      "hash": "d2bcf21e1cbf709e",
+      "size": 3064,
+      "lineCount": 75,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-3-dependencies.js": {
+      "hash": "72218c3a0847fddb",
+      "size": 2714,
+      "lineCount": 74,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-4-behavior.js": {
+      "hash": "4f12f946c09f93cd",
+      "size": 1615,
+      "lineCount": 47,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-5-data.js": {
+      "hash": "73ef3123c7c0f8de",
+      "size": 2098,
+      "lineCount": 56,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-6-interface.js": {
+      "hash": "91eb6ae4e7fbff9b",
+      "size": 1986,
+      "lineCount": 60,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-7-execution.js": {
+      "hash": "5357f5de53e839b6",
+      "size": 6744,
+      "lineCount": 156,
+      "tags": []
+    },
+    ".sld/vendor/src/core/layers/layer-7-intent.js": {
+      "hash": "17c559a7d62fca1b",
+      "size": 2953,
+      "lineCount": 78,
+      "tags": []
+    },
+    ".sld/vendor/src/core/manifest/README.md": {
+      "hash": "969479963d48a9ff",
+      "size": 2456,
+      "lineCount": 36,
+      "tags": []
+    },
+    ".sld/vendor/src/core/manifest/example.manifest.js": {
+      "hash": "d9c2f6bbbceb8406",
+      "size": 6567,
+      "lineCount": 156,
+      "tags": []
+    },
+    ".sld/vendor/src/core/node/scan.mjs": {
+      "hash": "6383fe2d65437954",
+      "size": 11450,
+      "lineCount": 349,
+      "tags": []
+    },
+    ".sld/vendor/src/core/report/inspector.mjs": {
+      "hash": "cdae2555469b4938",
+      "size": 19475,
+      "lineCount": 518,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/scope-gate.js": {
+      "hash": "58533de5ae940534",
+      "size": 11904,
+      "lineCount": 294,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/task-compiler.js": {
+      "hash": "ce354205c5203b8a",
+      "size": 3249,
+      "lineCount": 95,
+      "tags": []
+    },
+    ".sld/vendor/src/core/scope/task-contract.js": {
+      "hash": "cbe1bf92bb58e4d7",
+      "size": 8518,
+      "lineCount": 198,
+      "tags": []
+    },
+    ".sld/verify-vendor.mjs": {
+      "hash": "a4b136b28aaf476a",
+      "size": 2980,
+      "lineCount": 90,
+      "tags": []
+    },
+    ".thumbnail": {
+      "hash": "de3d1897065c7e03",
+      "size": 28346,
+      "lineCount": 85,
+      "tags": []
+    },
+    "Permit Run Asset Kit v2.dc.html": {
+      "hash": "52c6cbd9ac187a4f",
+      "size": 59394,
+      "lineCount": 426,
+      "tags": []
+    },
+    "Permit Run Asset Kit.dc.html": {
+      "hash": "0a84a6b021dc6a3c",
+      "size": 26048,
+      "lineCount": 255,
+      "tags": []
+    },
+    "README.md": {
+      "hash": "fead5fdd2a6f9928",
+      "size": 1332,
+      "lineCount": 33,
+      "tags": []
+    },
+    "app/README.md": {
+      "hash": "62ae384054ab845c",
+      "size": 3249,
+      "lineCount": 63,
+      "tags": []
+    },
+    "app/artifact.html": {
+      "hash": "63f03005ba855dd6",
+      "size": 245,
+      "lineCount": 7,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-1.svg": {
+      "hash": "2deb0c130c15dfff",
+      "size": 532,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-2.svg": {
+      "hash": "cc3490ee53b7d160",
+      "size": 532,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-3.svg": {
+      "hash": "fdfb01397b5a9109",
+      "size": 532,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-4.svg": {
+      "hash": "6e9275662b15483b",
+      "size": 529,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-5.svg": {
+      "hash": "117c8e1349e81d43",
+      "size": 532,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/avatars/avatar-6.svg": {
+      "hash": "58028de740606bcb",
+      "size": 532,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-clean-record.svg": {
+      "hash": "7fb3445cc34d39e1",
+      "size": 572,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-district-cleared.svg": {
+      "hash": "37083e9e28a1f671",
+      "size": 936,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-perfect-score.svg": {
+      "hash": "81a5a7c52e31825f",
+      "size": 567,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-sign-master.svg": {
+      "hash": "6b3add76207f28cf",
+      "size": 733,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-speed-run.svg": {
+      "hash": "049f4c7e54d5a4c5",
+      "size": 622,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/ach-streak-5.svg": {
+      "hash": "6273b78cb197bd57",
+      "size": 564,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-1-learner.svg": {
+      "hash": "4a7805c432852778",
+      "size": 911,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-2-permit.svg": {
+      "hash": "395283579a515cb7",
+      "size": 1053,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-3-provisional.svg": {
+      "hash": "2cacc378bb71eadb",
+      "size": 1204,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-4-licensed.svg": {
+      "hash": "23437473481c8911",
+      "size": 1351,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-5-road-pro.svg": {
+      "hash": "cfb9908252374a64",
+      "size": 1497,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/badges/rank-6-golden-state.svg": {
+      "hash": "9f71720f9be7e910",
+      "size": 1501,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/brand/app-icon-1024-square.svg": {
+      "hash": "b92186a3692a9fb6",
+      "size": 1705,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/brand/app-icon-1024.svg": {
+      "hash": "2494186f80ab5f1d",
+      "size": 1822,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/brand/logo-wordmark.svg": {
+      "hash": "e0d6d6b383d68718",
+      "size": 678,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/brand/splash-1080x1920.svg": {
+      "hash": "ff39437e9dc314ee",
+      "size": 2507,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/car.svg": {
+      "hash": "f534d5b158defbe1",
+      "size": 333,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/cash.svg": {
+      "hash": "952b60c5781b2487",
+      "size": 377,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/check.svg": {
+      "hash": "e520446df5f0baf1",
+      "size": 275,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/coin.svg": {
+      "hash": "a155d0acd96a5dc0",
+      "size": 360,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/district-map.svg": {
+      "hash": "84969f4913298686",
+      "size": 298,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/handbook.svg": {
+      "hash": "77b0827e930007a4",
+      "size": 227,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/home.svg": {
+      "hash": "2b13e6b2eff8dd35",
+      "size": 165,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/key.svg": {
+      "hash": "2b876244ffa3e5de",
+      "size": 321,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/leaderboard.svg": {
+      "hash": "2361923083db628b",
+      "size": 305,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/lock.svg": {
+      "hash": "e086cfe3a884668a",
+      "size": 325,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/map-pin.svg": {
+      "hash": "979fe5c7f8432091",
+      "size": 238,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/mission-flag.svg": {
+      "hash": "82bcc61eaac4d43d",
+      "size": 220,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/pause.svg": {
+      "hash": "f496216bdd4c8981",
+      "size": 229,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/settings.svg": {
+      "hash": "6a0f738efd3aa233",
+      "size": 1012,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/sound.svg": {
+      "hash": "fce58443a31c2c74",
+      "size": 305,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/strike-off.svg": {
+      "hash": "31692540c63e32ae",
+      "size": 299,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/strike-on.svg": {
+      "hash": "3aa457a0cd84e2a1",
+      "size": 230,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/timer.svg": {
+      "hash": "4d1040523e3cf06f",
+      "size": 369,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/trophy.svg": {
+      "hash": "6bb2993623f528fb",
+      "size": 407,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/unlock.svg": {
+      "hash": "67636e0c3c15b293",
+      "size": 252,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/icons/wrong.svg": {
+      "hash": "9ba04dd6e061a251",
+      "size": 282,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/barrier.svg": {
+      "hash": "daf151fb75d972ae",
+      "size": 597,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/cone.svg": {
+      "hash": "0cb35205a762a1fd",
+      "size": 638,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/hydrant.svg": {
+      "hash": "5840f7f9f19d9838",
+      "size": 1054,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/palm-tree.svg": {
+      "hash": "be2a1a5b0c31be81",
+      "size": 2625,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/signal-pole-green.svg": {
+      "hash": "e2ff33fea061f0ed",
+      "size": 1284,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/signal-pole-red.svg": {
+      "hash": "33fa3e65ecc3fc4c",
+      "size": 1284,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/signal-pole-yellow.svg": {
+      "hash": "e5a0a95772a65bbf",
+      "size": 1284,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/props/stop-post.svg": {
+      "hash": "74bb8b379ac29cc6",
+      "size": 587,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/scenes/scene-school-bus-intersection.svg": {
+      "hash": "8b840e38e166e0e3",
+      "size": 72413,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/ped-countdown.svg": {
+      "hash": "b7ce8d5b7f0d94ef",
+      "size": 726,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/ped-dont-walk.svg": {
+      "hash": "3ba3a0f101f1f754",
+      "size": 588,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/ped-walk.svg": {
+      "hash": "eb12dd0a66f3af2a",
+      "size": 396,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-flashing-red.svg": {
+      "hash": "0738236bdc4980c3",
+      "size": 634,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-flashing-yellow.svg": {
+      "hash": "756ecfa7094c7c37",
+      "size": 634,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-green-arrow.svg": {
+      "hash": "68df6829394defe0",
+      "size": 551,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-green.svg": {
+      "hash": "be439b56c2c6b006",
+      "size": 401,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-red-arrow.svg": {
+      "hash": "b68416ce430d5ceb",
+      "size": 546,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-red.svg": {
+      "hash": "4007f29304fe9e27",
+      "size": 400,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-yellow-arrow.svg": {
+      "hash": "ab00358e448c29c6",
+      "size": 546,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signals/signal-yellow.svg": {
+      "hash": "2e38bf480466d03e",
+      "size": 400,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/curve-right.svg": {
+      "hash": "dcd2b4fa5ddeeefd",
+      "size": 447,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/disabled-parking.svg": {
+      "hash": "cabacea75179b429",
+      "size": 442,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/do-not-enter.svg": {
+      "hash": "d4209eec3245a1e0",
+      "size": 587,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/freeway-entrance.svg": {
+      "hash": "ee036fab2d160cb2",
+      "size": 594,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/keep-right.svg": {
+      "hash": "bc3153e746f45572",
+      "size": 433,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/lane-ends.svg": {
+      "hash": "5502fa38c525fe43",
+      "size": 506,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/merge.svg": {
+      "hash": "d7468fde2ed6770e",
+      "size": 562,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/no-left-turn.svg": {
+      "hash": "7cd9ab67f45bd84a",
+      "size": 539,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/no-parking.svg": {
+      "hash": "f8010629a289846c",
+      "size": 516,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/no-u-turn.svg": {
+      "hash": "cf6ad4975ecfe288",
+      "size": 557,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/one-way.svg": {
+      "hash": "49744873f6e4305d",
+      "size": 409,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/pedestrian-crossing.svg": {
+      "hash": "ef19425eb8fc0d40",
+      "size": 485,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/railroad-advance.svg": {
+      "hash": "485252d983d718b9",
+      "size": 682,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/railroad-crossbuck.svg": {
+      "hash": "7e327b0fe8f4ff66",
+      "size": 682,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/road-work-ahead.svg": {
+      "hash": "a9d5be20d93cdf01",
+      "size": 741,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/school-zone.svg": {
+      "hash": "bc137ceacdafcd89",
+      "size": 821,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/signal-ahead.svg": {
+      "hash": "8c28d58dd018dff1",
+      "size": 488,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/slow-moving-vehicle.svg": {
+      "hash": "a0d7ef8e05e23cc9",
+      "size": 219,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/speed-limit-25.svg": {
+      "hash": "731db1f6a160266d",
+      "size": 677,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/speed-limit-65.svg": {
+      "hash": "0cf0183f49ccecaf",
+      "size": 677,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/stop-ahead.svg": {
+      "hash": "0891ad6ef9fd7c74",
+      "size": 767,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/stop.svg": {
+      "hash": "d2245885624bdf9a",
+      "size": 925,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/two-way-traffic.svg": {
+      "hash": "60fbfd9a69989729",
+      "size": 611,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/wrong-way.svg": {
+      "hash": "5a807381f99ad7da",
+      "size": 587,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/signs/yield.svg": {
+      "hash": "50fbaa9b7cdad00a",
+      "size": 379,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/bike-lane-x.svg": {
+      "hash": "5649a2bed7556f51",
+      "size": 1168,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/bike-lane-y.svg": {
+      "hash": "2f36d595db106b66",
+      "size": 1172,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/center-turn-lane-x.svg": {
+      "hash": "0fe62d6e67b53866",
+      "size": 1503,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/center-turn-lane-y.svg": {
+      "hash": "5a0caba2742b8489",
+      "size": 1503,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/crosswalk-school-x.svg": {
+      "hash": "fa2c75ab9998a43f",
+      "size": 1497,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/crosswalk-school-y.svg": {
+      "hash": "ba6b911a68d74ee7",
+      "size": 1499,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/crosswalk-x.svg": {
+      "hash": "7d2584946fbf4eab",
+      "size": 1497,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/crosswalk-y.svg": {
+      "hash": "3d89a4fc4f045c32",
+      "size": 1499,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/curb-blue-x.svg": {
+      "hash": "c91a63447c691319",
+      "size": 1244,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/curb-green-x.svg": {
+      "hash": "40dd8b3ddfc12865",
+      "size": 1244,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/curb-red-x.svg": {
+      "hash": "d76b54f91bd4a4f9",
+      "size": 1244,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/curb-white-x.svg": {
+      "hash": "650ad9cfdde1e69c",
+      "size": 1244,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/curb-yellow-x.svg": {
+      "hash": "5d2057e95d4ebdc7",
+      "size": 1244,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/grass.svg": {
+      "hash": "2c824398c55eea61",
+      "size": 849,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/hov-lane-x.svg": {
+      "hash": "d6dfc03cd84ab77a",
+      "size": 1017,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/hov-lane-y.svg": {
+      "hash": "5d37bec6b10a4921",
+      "size": 1009,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/intersection.svg": {
+      "hash": "37c4f719b964a946",
+      "size": 1318,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/parking.svg": {
+      "hash": "f44ccf38e7f4d09c",
+      "size": 753,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/railroad-x.svg": {
+      "hash": "039749469d440ee6",
+      "size": 1922,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/railroad-y.svg": {
+      "hash": "dd67aa24bab476b6",
+      "size": 1928,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/road-4lane-x.svg": {
+      "hash": "0fb607f08355067a",
+      "size": 843,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/road-4lane-y.svg": {
+      "hash": "f523e6e8d6168f3f",
+      "size": 843,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/road-x.svg": {
+      "hash": "8ddae4b25b402083",
+      "size": 999,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/road-y.svg": {
+      "hash": "39d3b9b2ade71346",
+      "size": 1003,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/sidewalk.svg": {
+      "hash": "decb0173c7ae406e",
+      "size": 509,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/stop-line-x.svg": {
+      "hash": "9616f8018a41054e",
+      "size": 1082,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/stop-line-y.svg": {
+      "hash": "4a6dc51601e559cc",
+      "size": 1086,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/t-junction-x.svg": {
+      "hash": "ff906d50f85b3532",
+      "size": 1085,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/tiles/t-junction-y.svg": {
+      "hash": "4ca50a1cd3fc9052",
+      "size": 1078,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/ambulance-front.svg": {
+      "hash": "9883e6f3e572f85a",
+      "size": 2787,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/ambulance-rear.svg": {
+      "hash": "32f1292fed53dc63",
+      "size": 2777,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/fire-truck-front.svg": {
+      "hash": "617ecc2c0977b94d",
+      "size": 3415,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/fire-truck-rear.svg": {
+      "hash": "5d6f8fffa7ca10e4",
+      "size": 3454,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/player-coupe-front.svg": {
+      "hash": "be5e6896c2514997",
+      "size": 2094,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/player-coupe-rear.svg": {
+      "hash": "126cc84ccded6333",
+      "size": 2089,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/police-cruiser-front.svg": {
+      "hash": "aa480088249b0e8e",
+      "size": 2750,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/police-cruiser-rear.svg": {
+      "hash": "de5c67c628d016b6",
+      "size": 2746,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/school-bus-front.svg": {
+      "hash": "97babccfd726b687",
+      "size": 2598,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/school-bus-rear.svg": {
+      "hash": "af530d6f0121e9f0",
+      "size": 2600,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-gold-front.svg": {
+      "hash": "311e6dad0cdcce07",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-gold-rear.svg": {
+      "hash": "a1ff6c6e26367bd0",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-teal-front.svg": {
+      "hash": "acd8f750c82b1871",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-teal-rear.svg": {
+      "hash": "1985d77ad8508495",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-white-front.svg": {
+      "hash": "2f7adb2007ecb542",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/sedan-white-rear.svg": {
+      "hash": "8c76b09d6636d6af",
+      "size": 2005,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/suv-orange-front.svg": {
+      "hash": "9665976ddb3c37f3",
+      "size": 2348,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/assets/vehicles/suv-orange-rear.svg": {
+      "hash": "6e396f791646db66",
+      "size": 2347,
+      "lineCount": 1,
+      "tags": []
+    },
+    "app/fonts/barlow-400.woff2": {
+      "hash": "b0a8ad37ac45f5fb",
+      "size": 22196,
+      "lineCount": 91,
+      "tags": []
+    },
+    "app/fonts/barlow-500.woff2": {
+      "hash": "cd759df8ef9efc98",
+      "size": 22008,
+      "lineCount": 96,
+      "tags": []
+    },
+    "app/fonts/barlow-600.woff2": {
+      "hash": "4b52ddd4836b592d",
+      "size": 22772,
+      "lineCount": 83,
+      "tags": []
+    },
+    "app/fonts/barlow-700.woff2": {
+      "hash": "2d797dd8b35dcb34",
+      "size": 22788,
+      "lineCount": 88,
+      "tags": []
+    },
+    "app/fonts/big-shoulders-display.woff2": {
+      "hash": "698f9960927e7b5a",
+      "size": 35436,
+      "lineCount": 140,
+      "tags": []
+    },
+    "app/fonts/fonts.css": {
+      "hash": "44abe0dd639f4ece",
+      "size": 890,
+      "lineCount": 8,
+      "tags": []
+    },
+    "app/fonts/jetbrains-mono.woff2": {
+      "hash": "83c005d49d8a6a50",
+      "size": 31432,
+      "lineCount": 109,
+      "tags": []
+    },
+    "app/icons/apple-touch-icon.png": {
+      "hash": "1d7ffa2d9a2a33b2",
+      "size": 6020,
+      "lineCount": 19,
+      "tags": []
+    },
+    "app/icons/icon-192.png": {
+      "hash": "5943c6024012b138",
+      "size": 8464,
+      "lineCount": 49,
+      "tags": []
+    },
+    "app/icons/icon-512.png": {
+      "hash": "c707972505f32b1d",
+      "size": 24160,
+      "lineCount": 75,
+      "tags": []
+    },
+    "app/icons/maskable-512.png": {
+      "hash": "d874715d4464ef4c",
+      "size": 18446,
+      "lineCount": 89,
+      "tags": []
+    },
+    "app/index.html": {
+      "hash": "6a412ea009dfbf99",
+      "size": 1038,
+      "lineCount": 25,
+      "tags": []
+    },
+    "app/js/app.js": {
+      "hash": "6686f99010997e97",
+      "size": 36453,
+      "lineCount": 709,
+      "tags": []
+    },
+    "app/js/audio.js": {
+      "hash": "321877677387fb73",
+      "size": 6363,
+      "lineCount": 140,
+      "tags": []
+    },
+    "app/js/data.js": {
+      "hash": "c3c74b38960da9fc",
+      "size": 31236,
+      "lineCount": 264,
+      "tags": []
+    },
+    "app/js/scene.js": {
+      "hash": "fdd123f5594598ab",
+      "size": 24396,
+      "lineCount": 505,
+      "tags": []
+    },
+    "app/js/store.js": {
+      "hash": "39c9c17393c68a7b",
+      "size": 1952,
+      "lineCount": 60,
+      "tags": []
+    },
+    "app/manifest.webmanifest": {
+      "hash": "aff582803509f477",
+      "size": 779,
+      "lineCount": 19,
+      "tags": []
+    },
+    "app/precache.js": {
+      "hash": "9bf4fc25db58d19e",
+      "size": 5275,
+      "lineCount": 162,
+      "tags": []
+    },
+    "app/styles.css": {
+      "hash": "b208420e30f508df",
+      "size": 21984,
+      "lineCount": 279,
+      "tags": []
+    },
+    "app/sw.js": {
+      "hash": "63e5e9c151573ac8",
+      "size": 962,
+      "lineCount": 24,
+      "tags": []
+    },
+    "chats/chat1.md": {
+      "hash": "41541d41fcc902cd",
+      "size": 4250,
+      "lineCount": 98,
+      "tags": []
+    },
+    "project/.thumbnail": {
+      "hash": "817d86b3856f8575",
+      "size": 27496,
+      "lineCount": 100,
+      "tags": []
+    },
+    "project/HANDOFF-README.md": {
+      "hash": "d6d44e8635de7831",
+      "size": 2014,
+      "lineCount": 26,
+      "tags": []
+    },
+    "project/Permit Run Asset Kit.dc.html": {
+      "hash": "0a84a6b021dc6a3c",
+      "size": 26048,
+      "lineCount": 255,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-1.svg": {
+      "hash": "5c0e40224d49c968",
+      "size": 8306,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-2.svg": {
+      "hash": "557c05585e3760db",
+      "size": 8306,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-3.svg": {
+      "hash": "fe0d82c64cea13a1",
+      "size": 8306,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-4.svg": {
+      "hash": "f07a0549327c7229",
+      "size": 8303,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-5.svg": {
+      "hash": "be90ea2dd218ccfe",
+      "size": 8306,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/avatars/avatar-6.svg": {
+      "hash": "49a687deeec5a916",
+      "size": 8306,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-clean-record.svg": {
+      "hash": "2b757f6211204c63",
+      "size": 8346,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-district-cleared.svg": {
+      "hash": "68b46abe7571c630",
+      "size": 8710,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-perfect-score.svg": {
+      "hash": "e5cd13d85114c741",
+      "size": 8341,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-sign-master.svg": {
+      "hash": "a7723ca674ad76b5",
+      "size": 8507,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-speed-run.svg": {
+      "hash": "9097dc9058b875f8",
+      "size": 8396,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/ach-streak-5.svg": {
+      "hash": "7fdbc5acd7ce943f",
+      "size": 8338,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-1-learner.svg": {
+      "hash": "d9c37c0f3b369300",
+      "size": 8685,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-2-permit.svg": {
+      "hash": "983bcb1246ecd641",
+      "size": 8827,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-3-provisional.svg": {
+      "hash": "c8e964a2439e975a",
+      "size": 8978,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-4-licensed.svg": {
+      "hash": "7ef19476e7ffe7e8",
+      "size": 9125,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-5-road-pro.svg": {
+      "hash": "a31458c8b7388ed8",
+      "size": 9271,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/badges/rank-6-golden-state.svg": {
+      "hash": "fee329d2167c3f31",
+      "size": 9275,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/brand/app-icon-1024-square.svg": {
+      "hash": "7a240b6636a7ec9f",
+      "size": 9479,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/brand/app-icon-1024.svg": {
+      "hash": "c99f3d1e4381c326",
+      "size": 9596,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/brand/logo-wordmark.svg": {
+      "hash": "839d81d6f394ebce",
+      "size": 8452,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/brand/splash-1080x1920.svg": {
+      "hash": "58b021e2d7e45234",
+      "size": 10281,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/car.svg": {
+      "hash": "de6e688c3b831833",
+      "size": 8107,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/cash.svg": {
+      "hash": "1f4438a57a28ef01",
+      "size": 8151,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/check.svg": {
+      "hash": "3ce8528fc2bb3028",
+      "size": 8049,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/coin.svg": {
+      "hash": "2124f4cdeaee2334",
+      "size": 8134,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/district-map.svg": {
+      "hash": "40dcac67cd24a379",
+      "size": 8072,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/handbook.svg": {
+      "hash": "c879e4fca4f5ed7c",
+      "size": 8001,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/home.svg": {
+      "hash": "93823631517a9728",
+      "size": 7939,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/key.svg": {
+      "hash": "839450be8b3b64fb",
+      "size": 8095,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/leaderboard.svg": {
+      "hash": "5c1f654fa5b54fad",
+      "size": 8079,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/lock.svg": {
+      "hash": "9e70e6bc477863c7",
+      "size": 8099,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/map-pin.svg": {
+      "hash": "8cf39896e81cd8e5",
+      "size": 8012,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/mission-flag.svg": {
+      "hash": "16c01e35332529fc",
+      "size": 7994,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/pause.svg": {
+      "hash": "c4ea564ccf7ec1e0",
+      "size": 8003,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/settings.svg": {
+      "hash": "a61381d3042446b1",
+      "size": 8786,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/sound.svg": {
+      "hash": "4e823ba263a6faa2",
+      "size": 8079,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/strike-off.svg": {
+      "hash": "d32536436e207a0c",
+      "size": 8073,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/strike-on.svg": {
+      "hash": "8370fc9b22e6c86a",
+      "size": 8004,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/timer.svg": {
+      "hash": "573c7cf7d16d7fc7",
+      "size": 8143,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/trophy.svg": {
+      "hash": "15e208b7da9bad7b",
+      "size": 8181,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/unlock.svg": {
+      "hash": "b4652a08c4994edb",
+      "size": 8026,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/icons/wrong.svg": {
+      "hash": "0ee98cf6cd660c5c",
+      "size": 8056,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/manifest.json": {
+      "hash": "a3c82ea678bc0399",
+      "size": 14817,
+      "lineCount": 692,
+      "tags": []
+    },
+    "project/assets/props/barrier.svg": {
+      "hash": "88d2cfb075125469",
+      "size": 8371,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/cone.svg": {
+      "hash": "7dba5bc31c511619",
+      "size": 8412,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/hydrant.svg": {
+      "hash": "36f1aca4e195c2e0",
+      "size": 8828,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/palm-tree.svg": {
+      "hash": "5c4afa4bcbd47895",
+      "size": 10399,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/signal-pole-green.svg": {
+      "hash": "187d57fa64c2263c",
+      "size": 9058,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/signal-pole-red.svg": {
+      "hash": "c2cb1ba3b7348c6a",
+      "size": 9058,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/signal-pole-yellow.svg": {
+      "hash": "eaa791e062f8a331",
+      "size": 9058,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/props/stop-post.svg": {
+      "hash": "0ea3ce59bab7b0c9",
+      "size": 8361,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/scenes/scene-school-bus-intersection.svg": {
+      "hash": "4c1fb2baf9747f14",
+      "size": 80187,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/ped-countdown.svg": {
+      "hash": "371ab59e896a3133",
+      "size": 8500,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/ped-dont-walk.svg": {
+      "hash": "453b806f36757be6",
+      "size": 8362,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/ped-walk.svg": {
+      "hash": "7340b0ed63bcac38",
+      "size": 8170,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-flashing-red.svg": {
+      "hash": "17e349e981411dc0",
+      "size": 8408,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-flashing-yellow.svg": {
+      "hash": "c0ebfe2a8a6a3281",
+      "size": 8408,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-green-arrow.svg": {
+      "hash": "2792db319c524007",
+      "size": 8325,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-green.svg": {
+      "hash": "d84ce7f92cee273e",
+      "size": 8175,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-red-arrow.svg": {
+      "hash": "ef4320cf993204d0",
+      "size": 8320,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-red.svg": {
+      "hash": "7e34b3473032f278",
+      "size": 8174,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-yellow-arrow.svg": {
+      "hash": "bd791e43d1be8718",
+      "size": 8320,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signals/signal-yellow.svg": {
+      "hash": "6bdbda079902c6d2",
+      "size": 8174,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/curve-right.svg": {
+      "hash": "0cdc3260079ac918",
+      "size": 8221,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/disabled-parking.svg": {
+      "hash": "065d17769587909b",
+      "size": 8216,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/do-not-enter.svg": {
+      "hash": "52077b84d7524055",
+      "size": 8361,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/freeway-entrance.svg": {
+      "hash": "b0962ebaa5fa10af",
+      "size": 8368,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/keep-right.svg": {
+      "hash": "dc8da48653c12263",
+      "size": 8207,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/lane-ends.svg": {
+      "hash": "cf90de7875d5dc62",
+      "size": 8280,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/merge.svg": {
+      "hash": "bee8cc4c40895fb9",
+      "size": 8336,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/no-left-turn.svg": {
+      "hash": "5fb08a2f7399feec",
+      "size": 8313,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/no-parking.svg": {
+      "hash": "2fea42e9652ef2da",
+      "size": 8290,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/no-u-turn.svg": {
+      "hash": "522420d3dd8b0da3",
+      "size": 8331,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/one-way.svg": {
+      "hash": "c3e3cab2370d1667",
+      "size": 8183,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/pedestrian-crossing.svg": {
+      "hash": "fb3e09d2049183e0",
+      "size": 8259,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/railroad-advance.svg": {
+      "hash": "6fc99f579c666bc1",
+      "size": 8456,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/railroad-crossbuck.svg": {
+      "hash": "03b5a3f30e4a9d3e",
+      "size": 8456,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/road-work-ahead.svg": {
+      "hash": "01ad5246506bf57b",
+      "size": 8515,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/school-zone.svg": {
+      "hash": "1b6ad9e05ef75f68",
+      "size": 8595,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/signal-ahead.svg": {
+      "hash": "12ac6905d453946e",
+      "size": 8262,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/slow-moving-vehicle.svg": {
+      "hash": "0b5ca9f4e8e67df1",
+      "size": 7993,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/speed-limit-25.svg": {
+      "hash": "7243e73b30e51e8a",
+      "size": 8451,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/speed-limit-65.svg": {
+      "hash": "90da90c7bb600fc9",
+      "size": 8451,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/stop-ahead.svg": {
+      "hash": "babeb5796f51f0c5",
+      "size": 8541,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/stop.svg": {
+      "hash": "e60068bef9573785",
+      "size": 8699,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/two-way-traffic.svg": {
+      "hash": "82d0ce0e412ce1fe",
+      "size": 8385,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/wrong-way.svg": {
+      "hash": "28de69ea8bf51225",
+      "size": 8361,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/signs/yield.svg": {
+      "hash": "28e334b70f2dfa6e",
+      "size": 8153,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/bike-lane-x.svg": {
+      "hash": "603b3f60357bbef8",
+      "size": 8942,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/bike-lane-y.svg": {
+      "hash": "52ef14c7fa1285c6",
+      "size": 8946,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/center-turn-lane-x.svg": {
+      "hash": "94f49f9350829506",
+      "size": 9277,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/center-turn-lane-y.svg": {
+      "hash": "24136380a5c96b53",
+      "size": 9277,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/crosswalk-school-x.svg": {
+      "hash": "ad66a2f8707dfc90",
+      "size": 9271,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/crosswalk-school-y.svg": {
+      "hash": "dd9582ef533c2b28",
+      "size": 9273,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/crosswalk-x.svg": {
+      "hash": "85e6e642e1263266",
+      "size": 9271,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/crosswalk-y.svg": {
+      "hash": "b5224928dee48c2d",
+      "size": 9273,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/curb-blue-x.svg": {
+      "hash": "0ae62a1b29255b51",
+      "size": 9018,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/curb-green-x.svg": {
+      "hash": "e33aa312934152d4",
+      "size": 9018,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/curb-red-x.svg": {
+      "hash": "5e82b8eb9ed83882",
+      "size": 9018,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/curb-white-x.svg": {
+      "hash": "57b3c760b2a74b2d",
+      "size": 9018,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/curb-yellow-x.svg": {
+      "hash": "7acba548dbc4f116",
+      "size": 9018,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/grass.svg": {
+      "hash": "16ca13d213475da5",
+      "size": 8623,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/hov-lane-x.svg": {
+      "hash": "147b7912ad489404",
+      "size": 8791,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/hov-lane-y.svg": {
+      "hash": "1c41eaaae3e2e3c7",
+      "size": 8783,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/intersection.svg": {
+      "hash": "43f05bc51c931ec3",
+      "size": 9092,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/parking.svg": {
+      "hash": "f5c164c785496ce2",
+      "size": 8527,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/railroad-x.svg": {
+      "hash": "89560870b03b690d",
+      "size": 9696,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/railroad-y.svg": {
+      "hash": "d95aeca320f15d78",
+      "size": 9702,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/road-4lane-x.svg": {
+      "hash": "4cfe7e39d046cbe0",
+      "size": 8617,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/road-4lane-y.svg": {
+      "hash": "95ffcde4ba977d4d",
+      "size": 8617,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/road-x.svg": {
+      "hash": "62fa7375a670ef19",
+      "size": 8773,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/road-y.svg": {
+      "hash": "c4858f7fb30e5482",
+      "size": 8777,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/sidewalk.svg": {
+      "hash": "a3d74d6dc8c94c25",
+      "size": 8283,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/stop-line-x.svg": {
+      "hash": "3fba8d400eb620e5",
+      "size": 8856,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/stop-line-y.svg": {
+      "hash": "a395444eddbd18ad",
+      "size": 8860,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/t-junction-x.svg": {
+      "hash": "0f7acbe7206648bf",
+      "size": 8859,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/tiles/t-junction-y.svg": {
+      "hash": "d4fb7fda0589c34a",
+      "size": 8852,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/ambulance-front.svg": {
+      "hash": "a461920d655cb1b8",
+      "size": 10561,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/ambulance-rear.svg": {
+      "hash": "db04884e1a0aa15a",
+      "size": 10551,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/fire-truck-front.svg": {
+      "hash": "7ede4467c0ea6d20",
+      "size": 11189,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/fire-truck-rear.svg": {
+      "hash": "f079ec1906c11efb",
+      "size": 11228,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/player-coupe-front.svg": {
+      "hash": "4ffbc1f9a8bddaab",
+      "size": 9868,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/player-coupe-rear.svg": {
+      "hash": "785e5bdc4675c084",
+      "size": 9863,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/police-cruiser-front.svg": {
+      "hash": "1ccf06ce92ccd4ec",
+      "size": 10524,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/police-cruiser-rear.svg": {
+      "hash": "8241b06a8a03ff2e",
+      "size": 10520,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/school-bus-front.svg": {
+      "hash": "7d17bda36bc9a3cd",
+      "size": 10372,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/school-bus-rear.svg": {
+      "hash": "5b8280cfec79c283",
+      "size": 10374,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-gold-front.svg": {
+      "hash": "843c301bbc524e3b",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-gold-rear.svg": {
+      "hash": "1dd990e8f52cb4b7",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-teal-front.svg": {
+      "hash": "63405530aab40f7d",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-teal-rear.svg": {
+      "hash": "12cf2c8fa07b4394",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-white-front.svg": {
+      "hash": "96dbd874cb7fce2a",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/sedan-white-rear.svg": {
+      "hash": "96a0e7d7cb9d3c82",
+      "size": 9779,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/suv-orange-front.svg": {
+      "hash": "9b82c78ad6f61260",
+      "size": 10122,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/assets/vehicles/suv-orange-rear.svg": {
+      "hash": "be8008e89d213848",
+      "size": 10121,
+      "lineCount": 1,
+      "tags": []
+    },
+    "project/avatars/avatar-1.png": {
+      "hash": "3b8952c227f92852",
+      "size": 33868,
+      "lineCount": 92,
+      "tags": []
+    },
+    "project/avatars/avatar-1.svg": {
+      "hash": "1a6627517d90887b",
+      "size": 11327,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/avatars/avatar-2.png": {
+      "hash": "fefc90009de1fe93",
+      "size": 32452,
+      "lineCount": 81,
+      "tags": []
+    },
+    "project/avatars/avatar-2.svg": {
+      "hash": "c9e8b595a91ac2de",
+      "size": 11327,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/avatars/avatar-3.png": {
+      "hash": "c30885084ec75e18",
+      "size": 32000,
+      "lineCount": 98,
+      "tags": []
+    },
+    "project/avatars/avatar-3.svg": {
+      "hash": "6a8d3e7e4f042a9a",
+      "size": 11327,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/avatars/avatar-4.png": {
+      "hash": "5b9facda4390c2e4",
+      "size": 33342,
+      "lineCount": 114,
+      "tags": []
+    },
+    "project/avatars/avatar-4.svg": {
+      "hash": "18a7262723bcac91",
+      "size": 11324,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/avatars/avatar-5.png": {
+      "hash": "86c8991c49fd706e",
+      "size": 32166,
+      "lineCount": 73,
+      "tags": []
+    },
+    "project/avatars/avatar-5.svg": {
+      "hash": "7b7c53583aacafd6",
+      "size": 11327,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/avatars/avatar-6.png": {
+      "hash": "44bb06f6a6765c1a",
+      "size": 33189,
+      "lineCount": 88,
+      "tags": []
+    },
+    "project/avatars/avatar-6.svg": {
+      "hash": "b33a453ce20b47e4",
+      "size": 11327,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-clean-record.png": {
+      "hash": "211084f3c91e8beb",
+      "size": 34614,
+      "lineCount": 116,
+      "tags": []
+    },
+    "project/badges/ach-clean-record.svg": {
+      "hash": "a2d380a35c02f3dd",
+      "size": 10644,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-district-cleared.png": {
+      "hash": "a4e533d08ed87050",
+      "size": 27189,
+      "lineCount": 109,
+      "tags": []
+    },
+    "project/badges/ach-district-cleared.svg": {
+      "hash": "79323b4c4bbb2786",
+      "size": 11008,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-perfect-score.png": {
+      "hash": "4d0c13ebe91cac3a",
+      "size": 112569,
+      "lineCount": 403,
+      "tags": []
+    },
+    "project/badges/ach-perfect-score.svg": {
+      "hash": "350ad72a1dad7204",
+      "size": 12358,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-sign-master.png": {
+      "hash": "17e2c0425256f074",
+      "size": 39520,
+      "lineCount": 87,
+      "tags": []
+    },
+    "project/badges/ach-sign-master.svg": {
+      "hash": "3244bf741b98fd22",
+      "size": 10836,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-speed-run.png": {
+      "hash": "bc88934d8548fa74",
+      "size": 38660,
+      "lineCount": 84,
+      "tags": []
+    },
+    "project/badges/ach-speed-run.svg": {
+      "hash": "5e77a55bc9e84b81",
+      "size": 10694,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/ach-streak-5.png": {
+      "hash": "815ac43d128447f1",
+      "size": 34645,
+      "lineCount": 110,
+      "tags": []
+    },
+    "project/badges/ach-streak-5.svg": {
+      "hash": "290b16b4af226061",
+      "size": 10620,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-1-learner.png": {
+      "hash": "40cc3aa04878bd54",
+      "size": 152082,
+      "lineCount": 514,
+      "tags": []
+    },
+    "project/badges/rank-1-learner.svg": {
+      "hash": "953b20c914ef31f1",
+      "size": 11483,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-2-permit.png": {
+      "hash": "6b344cd01aeb1b5d",
+      "size": 156131,
+      "lineCount": 568,
+      "tags": []
+    },
+    "project/badges/rank-2-permit.svg": {
+      "hash": "ad01ac8916c28c6d",
+      "size": 11625,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-3-provisional.png": {
+      "hash": "38fd2c055dae60b8",
+      "size": 161846,
+      "lineCount": 551,
+      "tags": []
+    },
+    "project/badges/rank-3-provisional.svg": {
+      "hash": "e23acbd075daf094",
+      "size": 11776,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-4-licensed.png": {
+      "hash": "5d47b687d3e7c50e",
+      "size": 160875,
+      "lineCount": 573,
+      "tags": []
+    },
+    "project/badges/rank-4-licensed.svg": {
+      "hash": "3faa638c41db5af7",
+      "size": 11923,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-5-road-pro.png": {
+      "hash": "097d5ef406efde47",
+      "size": 162388,
+      "lineCount": 518,
+      "tags": []
+    },
+    "project/badges/rank-5-road-pro.svg": {
+      "hash": "f2dcfdb81b1bed79",
+      "size": 12069,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/badges/rank-6-golden-state.png": {
+      "hash": "1f87fd86d60ce566",
+      "size": 163367,
+      "lineCount": 535,
+      "tags": []
+    },
+    "project/badges/rank-6-golden-state.svg": {
+      "hash": "f09a395815b73866",
+      "size": 12073,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/brand/app-icon-1024-square.png": {
+      "hash": "2042130147728cf8",
+      "size": 1227704,
+      "lineCount": 3031,
+      "tags": []
+    },
+    "project/brand/app-icon-1024-square.svg": {
+      "hash": "f4f6e64841b6f20a",
+      "size": 22316,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/brand/app-icon-1024.png": {
+      "hash": "00ec46d550ed5544",
+      "size": 1200491,
+      "lineCount": 3036,
+      "tags": []
+    },
+    "project/brand/app-icon-1024.svg": {
+      "hash": "6119c1140409d628",
+      "size": 22433,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/brand/logo-wordmark.png": {
+      "hash": "f96b4d0fa3411fe9",
+      "size": 98815,
+      "lineCount": 377,
+      "tags": []
+    },
+    "project/brand/logo-wordmark.svg": {
+      "hash": "1fce7faf1ee757eb",
+      "size": 10665,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/brand/splash-1080x1920.png": {
+      "hash": "c6736a90f903ba04",
+      "size": 1835360,
+      "lineCount": 4560,
+      "tags": []
+    },
+    "project/brand/splash-1080x1920.svg": {
+      "hash": "b560455905fc9341",
+      "size": 21883,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/car.png": {
+      "hash": "61fbc52940ccaaa9",
+      "size": 9394,
+      "lineCount": 17,
+      "tags": []
+    },
+    "project/icons/car.svg": {
+      "hash": "d9a2ef6d5c7ccc71",
+      "size": 10420,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/cash.png": {
+      "hash": "0b3e7b000beb8bd6",
+      "size": 8484,
+      "lineCount": 23,
+      "tags": []
+    },
+    "project/icons/cash.svg": {
+      "hash": "14030f9a8ee85762",
+      "size": 10464,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/check.png": {
+      "hash": "8a8369fb6ffe7461",
+      "size": 11197,
+      "lineCount": 32,
+      "tags": []
+    },
+    "project/icons/check.svg": {
+      "hash": "f760757d583574ab",
+      "size": 10362,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/coin.png": {
+      "hash": "99f0e60416c129e0",
+      "size": 11686,
+      "lineCount": 25,
+      "tags": []
+    },
+    "project/icons/coin.svg": {
+      "hash": "bcb073e7506d3bcc",
+      "size": 10447,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/district-map.png": {
+      "hash": "3dd61b49152366f5",
+      "size": 8769,
+      "lineCount": 30,
+      "tags": []
+    },
+    "project/icons/district-map.svg": {
+      "hash": "c82b94c1415c610a",
+      "size": 10385,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/focus.png": {
+      "hash": "4547cb110383bbf7",
+      "size": 10988,
+      "lineCount": 28,
+      "tags": []
+    },
+    "project/icons/focus.svg": {
+      "hash": "527f9c849eed9e3a",
+      "size": 10289,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/garage.png": {
+      "hash": "058f8c3602f77a42",
+      "size": 7777,
+      "lineCount": 19,
+      "tags": []
+    },
+    "project/icons/garage.svg": {
+      "hash": "16743d9b1a6100b6",
+      "size": 10553,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/handbook.png": {
+      "hash": "e3803e039ec14410",
+      "size": 9095,
+      "lineCount": 32,
+      "tags": []
+    },
+    "project/icons/handbook.svg": {
+      "hash": "ebb022dc2b7f8f0c",
+      "size": 10314,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/heat-off.png": {
+      "hash": "852bcc7175ef4ecb",
+      "size": 14196,
+      "lineCount": 40,
+      "tags": []
+    },
+    "project/icons/heat-off.svg": {
+      "hash": "1373492d6edfc41f",
+      "size": 10405,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/heat-on.png": {
+      "hash": "11b9d694df33eb4c",
+      "size": 10810,
+      "lineCount": 44,
+      "tags": []
+    },
+    "project/icons/heat-on.svg": {
+      "hash": "81560237772abdb3",
+      "size": 10317,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/insurance.png": {
+      "hash": "4da6a2ab5cd639e9",
+      "size": 9057,
+      "lineCount": 31,
+      "tags": []
+    },
+    "project/icons/insurance.svg": {
+      "hash": "285b6afc2d0631fa",
+      "size": 10267,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/key.png": {
+      "hash": "18dbb0109fadd76a",
+      "size": 10685,
+      "lineCount": 42,
+      "tags": []
+    },
+    "project/icons/key.svg": {
+      "hash": "b71d5f3857453d4a",
+      "size": 10408,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/leaderboard.png": {
+      "hash": "6e55f2c5ae7c390c",
+      "size": 8500,
+      "lineCount": 23,
+      "tags": []
+    },
+    "project/icons/leaderboard.svg": {
+      "hash": "61f2d8e7a8552c66",
+      "size": 10392,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/lock.png": {
+      "hash": "3011f2fe56fc071e",
+      "size": 9623,
+      "lineCount": 28,
+      "tags": []
+    },
+    "project/icons/lock.svg": {
+      "hash": "7a419f78bfca8c4d",
+      "size": 10412,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/map-pin.png": {
+      "hash": "f9327798e411e0a1",
+      "size": 10671,
+      "lineCount": 25,
+      "tags": []
+    },
+    "project/icons/map-pin.svg": {
+      "hash": "e3b7015851d456fa",
+      "size": 10325,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/mission-marker.png": {
+      "hash": "e854e2f439af2b85",
+      "size": 10660,
+      "lineCount": 35,
+      "tags": []
+    },
+    "project/icons/mission-marker.svg": {
+      "hash": "39398fd1e0e52195",
+      "size": 10392,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/pause.png": {
+      "hash": "8ad6fabacb2d9739",
+      "size": 7734,
+      "lineCount": 17,
+      "tags": []
+    },
+    "project/icons/pause.svg": {
+      "hash": "62334e355c353e70",
+      "size": 10316,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/phone.png": {
+      "hash": "de32fdc06f527360",
+      "size": 8004,
+      "lineCount": 24,
+      "tags": []
+    },
+    "project/icons/phone.svg": {
+      "hash": "bdfbcee04f07532e",
+      "size": 10376,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/settings.png": {
+      "hash": "3969fde294334f1b",
+      "size": 11903,
+      "lineCount": 37,
+      "tags": []
+    },
+    "project/icons/settings.svg": {
+      "hash": "d4a7e2365515ba2b",
+      "size": 11099,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/timer.png": {
+      "hash": "6a5e90b120d2ea18",
+      "size": 12872,
+      "lineCount": 43,
+      "tags": []
+    },
+    "project/icons/timer.svg": {
+      "hash": "78d90be332ef92cc",
+      "size": 10456,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/icons/trophy.png": {
+      "hash": "01a445b0679ce57b",
+      "size": 10655,
+      "lineCount": 27,
+      "tags": []
+    },
+    "project/props/barrier.png": {
+      "hash": "10474fc4097c9a63",
+      "size": 14609,
+      "lineCount": 56,
+      "tags": []
+    },
+    "project/props/barrier.svg": {
+      "hash": "6441e9d2032727f1",
+      "size": 11493,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/bus-bench.png": {
+      "hash": "64d4852137d0f849",
+      "size": 15778,
+      "lineCount": 44,
+      "tags": []
+    },
+    "project/props/bus-bench.svg": {
+      "hash": "742d40a6227f4291",
+      "size": 12590,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/cone.png": {
+      "hash": "e8b887d489e36ef4",
+      "size": 13377,
+      "lineCount": 32,
+      "tags": []
+    },
+    "project/props/cone.svg": {
+      "hash": "62bf29bd1444aec1",
+      "size": 11704,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/hydrant.png": {
+      "hash": "44cd95498edd71ad",
+      "size": 11750,
+      "lineCount": 27,
+      "tags": []
+    },
+    "project/props/hydrant.svg": {
+      "hash": "76fe287382f2b15a",
+      "size": 12527,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/palm-tree.png": {
+      "hash": "1df999a91df3ad57",
+      "size": 26887,
+      "lineCount": 61,
+      "tags": []
+    },
+    "project/props/palm-tree.svg": {
+      "hash": "c7dfaa8776eefbe4",
+      "size": 14384,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/signal-pole-green.png": {
+      "hash": "888e04cfcd4ce154",
+      "size": 16692,
+      "lineCount": 52,
+      "tags": []
+    },
+    "project/props/signal-pole-green.svg": {
+      "hash": "bee56ea2a0a8f43a",
+      "size": 12968,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/signal-pole-red.png": {
+      "hash": "9ef1a83bf8cd6513",
+      "size": 16159,
+      "lineCount": 43,
+      "tags": []
+    },
+    "project/props/signal-pole-red.svg": {
+      "hash": "95a647157219ac6a",
+      "size": 12976,
+      "lineCount": 5,
+      "tags": []
+    },
+    "project/props/signal-pole-yellow.png": {
+      "hash": "1670c88a5733b418",
+      "size": 16148,
+      "lineCount": 38,
+      "tags": []
+    },
+    "project/support.js": {
+      "hash": "8fe7df74405f3c55",
+      "size": 69150,
+      "lineCount": 1912,
+      "tags": []
+    },
+    "project/uploads/8-11-25-DL-600-R6-2025-WWW.pdf": {
+      "hash": "b29cbf3566b0886e",
+      "size": 10651872,
+      "lineCount": 51717,
+      "tags": []
+    },
+    "support.js": {
+      "hash": "8fe7df74405f3c55",
+      "size": 69150,
+      "lineCount": 1912,
+      "tags": []
+    },
+    "tools/build.mjs": {
+      "hash": "d37ecb77a7c1a830",
+      "size": 2310,
+      "lineCount": 48,
+      "tags": []
+    },
+    "tools/copy-assets.mjs": {
+      "hash": "6759833700a29433",
+      "size": 1058,
+      "lineCount": 23,
+      "tags": []
+    }
+  },
+  "appRoots": [],
+  "edges": {
+    ".sld/vendor/cli/sld.js": [
+      "../src/core/index.js",
+      "../src/core/node/scan.mjs",
+      "../src/core/engine/match.js",
+      "../src/core/report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/engine.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js",
+      "@/lib/db",
+      "@/lib/command-center"
+    ],
+    ".sld/vendor/src/core/__tests__/fixture.manifest.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/__tests__/governance-paths.test.mjs": [
+      "../index.js",
+      "../scope/task-contract.js",
+      "../engine/match.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/__tests__/impact-audit.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/__tests__/inspector.test.mjs": [
+      "../report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/jubilee.test.mjs": [
+      "../index.js",
+      "../manifest/example.manifest.js",
+      "@/lib/db"
+    ],
+    ".sld/vendor/src/core/__tests__/manifest-specimen.test.mjs": [
+      "../engine/match.js",
+      "../layers/layer-5-data.js"
+    ],
+    ".sld/vendor/src/core/__tests__/scanner.test.mjs": [
+      "../node/scan.mjs"
+    ],
+    ".sld/vendor/src/core/__tests__/scope.test.mjs": [
+      "../index.js",
+      "./fixture.manifest.js"
+    ],
+    ".sld/vendor/src/core/audit/audit.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/engine/decision-engine.js": [
+      "../layers/layer-1-identity.js",
+      "../layers/layer-2-architecture.js",
+      "../layers/layer-3-dependencies.js",
+      "../layers/layer-4-behavior.js",
+      "../layers/layer-5-data.js",
+      "../layers/layer-6-interface.js",
+      "../layers/layer-7-intent.js",
+      "../layers/layer-7-execution.js",
+      "../scope/scope-gate.js",
+      "../layers/canonical.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/graph/impact.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/index.js": [
+      "./engine/decision-engine.js",
+      "./graph/impact.js",
+      "./audit/audit.js",
+      "./scope/scope-gate.js",
+      "./scope/task-contract.js",
+      "./scope/task-compiler.js",
+      "./layers/canonical.js",
+      "./report/inspector.mjs"
+    ],
+    ".sld/vendor/src/core/layers/layer-1-identity.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-2-architecture.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-3-dependencies.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-4-behavior.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-5-data.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-6-interface.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-7-execution.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/layers/layer-7-intent.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/manifest/example.manifest.js": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/node/scan.mjs": [
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/scope-gate.js": [
+      "./task-compiler.js",
+      "./task-contract.js",
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/task-compiler.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    ".sld/vendor/src/core/scope/task-contract.js": [
+      "../engine/match.js",
+      "../index.js"
+    ],
+    "app/js/app.js": [
+      "./data.js",
+      "./store.js",
+      "./audio.js",
+      "./scene.js"
+    ],
+    "app/js/store.js": [
+      "./data.js"
+    ]
+  },
+  "envNames": [
+    "SLD_MANIFEST",
+    "X"
+  ]
+}
