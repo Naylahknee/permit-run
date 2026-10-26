@@ -56,7 +56,16 @@ export default {
       '// unchanged',
       '[... existing code ...]',
     ],
-    excludedGlobs: ['**/*.md', '**/*.test.*', '**/*.spec.*', 'package-lock.json', '.sld/**'],
+    // SVG sign and signal files are often authored as a single line. Redrawing
+    // one removes 100% of that line, which looks like a deleted artifact to SLD.
+    // Only these two SVG directories opt out of its line-count heuristic.
+    // .sld/validate-road-assets.mjs replaces that heuristic with an explicit
+    // no-deletions and SVG-content check, run on every pull request by CI.
+    // Code, scenes, non-SVG files, and unrelated directories remain protected.
+    excludedGlobs: [
+      '**/*.md', '**/*.test.*', '**/*.spec.*', 'package-lock.json', '.sld/**',
+      'app/assets/signs/*.svg', 'app/assets/signals/*.svg',
+    ],
   },
   entities: {
     'SLD Engine': ['.sld/**'],
