@@ -925,12 +925,15 @@ function settings() {
   vol.addEventListener('input', () => { s.musicVol = +vol.value; audio.setMusic(s.music, s.musicVol); save(); });
   const per = h('div', { class: 'seg' }, [4, 6, 8].map(n => h('button', { class: s.perMission === n ? 'on' : '', onClick: () => { s.perMission = n; save(); settings(); } }, String(n))));
 
-  const design = h('div', { class: 'seg design-seg' },
-    h('button', { class: 'on' }, 'New'),
-    h('button', { onClick: () => useDesign('classic') }, 'Classic'));
+  // Flipping this on switches the whole app to the original dark look.
+  const designInput = h('input', { type: 'checkbox', 'aria-label': 'Classic look' });
+  designInput.addEventListener('change', () => { if (designInput.checked) useDesign('classic'); });
+  const design = h('label', { class: 'setting' },
+    h('div', { class: 'col' }, h('b', {}, 'Classic look'), h('span', { class: 'muted small' }, 'The original dark game look. Your progress stays the same.')),
+    h('span', { class: 'switch' }, designInput, h('i')));
 
   show(h('div', { class: 'col gap-m' }, header('Settings', trophies),
-    h('div', { class: 'setting' }, h('div', { class: 'col' }, h('b', {}, 'Design'), h('span', { class: 'muted small' }, 'Classic is the original dark game look. Your progress stays the same.')), design),
+    design,
     toggle('music', 'Music', 'Calm background beats.', () => audio.setMusic(s.music, s.musicVol)),
     h('div', { class: 'setting' }, h('b', {}, 'Music volume'), vol),
     toggle('sfx', 'Sound effects', 'Dings for right answers.'),

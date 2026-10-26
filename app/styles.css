@@ -428,7 +428,6 @@ p { margin: 0; }
 .range { width: 50%; accent-color: var(--blue); }
 .seg { display: flex; background: var(--bg); border-radius: 12px; padding: 3px; }
 .seg button { width: 44px; height: 36px; border-radius: 9px; font: 700 16px var(--font); }
-.design-seg button { width: auto; padding: 0 12px; }
 .seg button.on { background: var(--card); box-shadow: var(--shadow); color: var(--blue); }
 
 /* short phones: keep the question readable */
