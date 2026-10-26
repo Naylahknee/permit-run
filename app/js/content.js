@@ -5,6 +5,9 @@
 // and records which District that material came from so the existing scene and
 // question engine can be reused. Lesson progress lives in store.js.
 //
+// `scene` is the optional road illustration (assets/scenes) shown on the lesson
+// card and at the top of its reader.
+//
 // `read` is the lesson itself: one short handbook page shown before practice.
 // kicker is the handbook topic label, points are [dot colour, line] rows.
 
@@ -22,7 +25,7 @@ export const TOPICS = [
 export const LESSONS = [
   {
     id: 'signs-1', topic: 'signs', title: 'What a sign is telling you',
-    section: 7, minutes: 4, district: 0,
+    section: 7, minutes: 4, district: 0, scene: 'scenes/railroad',
     questions: ['d1', 'd7', 'd8', 'd9', 'd12'],
     read: {
       kicker: 'Signs and signals',
@@ -67,7 +70,7 @@ export const LESSONS = [
   },
   {
     id: 'rights-1', topic: 'rights', title: 'Who goes first',
-    section: 7, minutes: 5, district: 2,
+    section: 7, minutes: 5, district: 2, scene: 'scenes/four-way-stop',
     questions: ['v5', 'v7', 'v11', 'v12'],
     read: {
       kicker: 'Four-way stop',
@@ -82,7 +85,7 @@ export const LESSONS = [
   },
   {
     id: 'rights-2', topic: 'rights', title: 'School buses and emergency vehicles',
-    section: 7, minutes: 5, district: 2,
+    section: 7, minutes: 5, district: 2, scene: 'scenes/school-bus',
     questions: ['v1', 'v2', 'v4', 'v9', 'v10'],
     read: {
       kicker: 'Sharing the road',
@@ -97,7 +100,7 @@ export const LESSONS = [
   },
   {
     id: 'rights-3', topic: 'rights', title: 'Sharing the road',
-    section: 6, minutes: 5, district: 2,
+    section: 6, minutes: 5, district: 2, scene: 'scenes/t-intersection',
     questions: ['v3', 'v8', 'v13', 'h12'],
     read: {
       kicker: 'People, bikes and trucks',
@@ -157,7 +160,7 @@ export const LESSONS = [
   },
   {
     id: 'parking-1', topic: 'parking', title: 'Where you may park',
-    section: 6, minutes: 4, district: 1,
+    section: 6, minutes: 4, district: 1, scene: 'scenes/blue-curb',
     questions: ['h6', 'h7', 'h8'],
     read: {
       kicker: 'Curb colours',

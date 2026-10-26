@@ -15,15 +15,17 @@ const go = { learn: () => home(), practice: () => testMenu(), handbook: () => ha
 
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
-// The illustration a topic shows on its lesson card, its reader and its results.
+// The illustration a lesson shows on its card and in its reader: the lesson's
+// own road scene when it has one, otherwise the picture for its topic.
 const TOPIC_HERO = {
-  signs: 'scenes/scene-school-bus-intersection',
-  rights: 'signs/yield',
+  signs: 'scenes/railroad',
+  rights: 'scenes/t-intersection',
   speed: 'signs/speed-limit-25',
-  parking: 'signs/no-parking',
+  parking: 'scenes/blue-curb',
   alcohol: 'signs/school-zone'
 };
-const heroFor = topicId => TOPIC_HERO[topicId] || 'signs/stop';
+const heroFor = lesson => lesson.scene || TOPIC_HERO[lesson.topic] || 'signs/stop';
+const isScene = src => src.startsWith('scenes/');
 const mmss = s => { const m = Math.floor(s / 60); return m + ':' + String(Math.round(s % 60)).padStart(2, '0'); };
 
 let cleanup = [], nav = 0;
@@ -114,9 +116,8 @@ function home() {
   const topic = topicById(cur.topic);
   const rd = readiness();
 
-  // The hero of the Continue card: the road scene for signs, a sign elsewhere.
-  const hero = heroFor(topic.id);
-  const isScene = hero.startsWith('scenes/');
+  // The hero of the Continue card: the lesson's road scene, or its topic's sign.
+  const hero = heroFor(cur);
 
   const row = l => {
     const s = statusFor(l.id);
@@ -146,7 +147,7 @@ function home() {
         pill('ui/flame', num(state.streak)),
         pill('ui/star', num(state.cash)))),
     h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); lessonReader(cur.id); } },
-      h('div', { class: 'continue-hero' + (isScene ? '' : ' plain') }, img(hero)),
+      h('div', { class: 'continue-hero' + (isScene(hero) ? '' : ' plain') }, img(hero)),
       h('div', { class: 'continue-body' },
         h('div', { class: 'col gap-xs grow' },
           h('span', { class: 'eyebrow' }, topic.name.toUpperCase() + ' · LESSON ' + lessonNumber(cur.id)),
@@ -220,7 +221,7 @@ function lessonReader(id, back = home) {
       h('span', { class: 'icon-btn', 'aria-hidden': 'true' }, ico.flag(20))),
     h('div', { class: 'reader-bar' }, h('i', { style: `width:${Math.round(step / inTopic * 100)}%` })),
     h('div', { class: 'reader-body' },
-      h('div', { class: 'hero plain' }, img(heroFor(l.topic))),
+      h('div', { class: 'hero' + (isScene(heroFor(l)) ? '' : ' plain') }, img(heroFor(l))),
       h('div', { class: 'read-copy' },
         h('span', { class: 'read-kicker' }, read.kicker),
         h('h1', { class: 'read-head' }, read.headline),
