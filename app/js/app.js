@@ -1,39 +1,19 @@
 import { DISTRICTS, ALL_QUESTIONS, ACHIEVEMENTS, RANKS, byId, SIGN_Q } from './data.js';
-import { state, save, reset, rankFor, record } from './store.js';
+import { TOPICS, LESSONS, topicById, lessonById, lessonsOf, lessonNumber } from './content.js';
+import { state, save, reset, rankFor, record, statusFor, bestFor, readiness, currentLesson, recordAttempt, PASS_MARK } from './store.js';
+import { A, h, img, num, money, btn, speakBtn, header, dots, ring, pill, tabBar } from './ui.js';
 import * as audio from './audio.js';
 import * as S from './scene.js';
 
 const app = document.getElementById('app');
-const A = p => `assets/${p}.svg`;
 const reduced = () => state.settings.reduceMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- tiny DOM helper ---------- */
+// Where the four tabs lead.
+const go = { learn: () => home(), practice: () => testMenu(), handbook: () => handbook(), profile: () => trophies() };
 
-function h(tag, props, ...kids) {
-  const n = document.createElement(tag);
-  for (const k in props || {}) {
-    const v = props[k];
-    if (v == null || v === false) continue;
-    if (k === 'class') n.className = v;
-    else if (k === 'style') n.style.cssText = v;
-    else if (k.startsWith('on')) n.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (k === 'html') n.innerHTML = v;
-    else n.setAttribute(k, v === true ? '' : v);
-  }
-  for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(c));
-  return n;
-}
-const img = (p, cls = '', alt = '') => h('img', { src: A(p), class: cls, alt, draggable: 'false' });
-const money = n => '$' + n.toLocaleString('en-US');
+/* ---------- shared helpers ---------- */
+
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-
-function btn(label, onClick, cls = 'btn') {
-  return h('button', { class: cls, onClick: e => { audio.sfx('tap'); onClick(e); } }, label);
-}
-function speakBtn(getText) {
-  if (!audio.canSpeak) return null;
-  return h('button', { class: 'speak', 'aria-label': 'Read out loud', onClick: () => audio.speak(getText()) }, img('icons/sound'));
-}
 
 let cleanup = [], nav = 0;
 function show(node, cls = '') {
@@ -112,45 +92,93 @@ function nextDistrict() {
   return Math.min(state.unlocked, DISTRICTS.length) - 1;
 }
 
-function topBar() {
-  const r = rankFor(state.cash);
-  return h('div', { class: 'topbar' },
-    h('button', { class: 'me', onClick: trophies, 'aria-label': 'My trophies' },
-      img('avatars/avatar-' + state.avatar, 'me-av'),
-      h('div', { class: 'col' }, h('b', {}, state.name || 'Driver'), h('span', { class: 'mono gold' }, r.name.toUpperCase()))),
-    h('div', { class: 'row gap-s' },
-      h('div', { class: 'cash' }, money(state.cash)),
-      h('button', { class: 'icon-btn', 'aria-label': 'Settings', onClick: settings }, img('icons/settings')))
-  );
+// Learn — the home screen. Streak and points, the lesson to continue, test
+// readiness, then every lesson in order.
+function home() {
+  applySettings();
+  const cur = currentLesson();
+  const topic = topicById(cur.topic);
+  const rd = readiness();
+
+  const row = l => {
+    const s = statusFor(l.id);
+    const score = bestFor(l.id);
+    return h('button', {
+      class: 'path-row ' + s,
+      disabled: s === 'locked',
+      'aria-label': l.title + ' — ' + (s === 'done' ? 'done, ' + score + '%' : s === 'in_progress' ? 'up next' : 'locked'),
+      onClick: () => { audio.sfx('tap'); startLesson(l.id); }
+    },
+      h('span', { class: 'path-state' },
+        s === 'done' ? img('icons/check', 'path-ico')
+          : s === 'in_progress' ? ring(score || 0, 30, 3)
+            : img('icons/lock', 'path-ico')),
+      h('span', { class: 'path-body' },
+        h('span', { class: 'path-topic' }, topicById(l.topic).name),
+        h('span', { class: 'path-title' }, l.title)),
+      h('span', { class: 'path-meta' }, s === 'done' ? score + '%' : s === 'in_progress' ? 'Start' : l.minutes + ' min'));
+  };
+
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'learn-head' },
+      h('div', { class: 'col' },
+        h('div', { class: 'kicker' }, 'Permit Run'),
+        h('h1', { class: 'learn-title' }, state.name ? 'Hi, ' + state.name : 'Learn')),
+      h('div', { class: 'row gap-s' },
+        pill('icons/flame', num(state.streak), 'streak'),
+        pill('icons/star', num(state.cash), 'points'))),
+    h('div', { class: 'card continue' },
+      h('div', { class: 'continue-top' },
+        img(topic.icon, 'continue-ico'),
+        h('span', { class: 'kicker' }, topic.name + ' · lesson ' + lessonNumber(cur.id))),
+      h('div', { class: 'continue-title' }, cur.title),
+      btn('Start', () => startLesson(cur.id), 'btn primary big')),
+    h('div', { class: 'card ready' },
+      h('div', { class: 'ready-ring' }, ring(rd.percent, 76, 7), h('span', { class: 'ready-pct' }, rd.percent + '%')),
+      h('div', { class: 'col' },
+        h('b', { class: 'ready-title' }, 'Test ready'),
+        h('span', { class: 'muted' }, rd.toGo + (rd.toGo === 1 ? ' lesson' : ' lessons') + ' to 80%'),
+        h('span', { class: 'muted small' }, rd.passed + ' of ' + rd.total + ' lessons passed'))),
+    h('div', { class: 'section-row' },
+      h('h2', { class: 'section-title' }, 'Your path'),
+      h('span', { class: 'muted small' }, rd.passed + ' of ' + rd.total)),
+    h('div', { class: 'path' }, LESSONS.map(row)),
+    tabBar('learn', go)
+  ), 'has-tabs');
 }
 
-async function home() {
+/* ---------- handbook ---------- */
+
+function handbook() {
   applySettings();
-  const di = nextDistrict(), d = DISTRICTS[di], my = nav;
-  const logo = await inlineSvg('brand/logo-wordmark', 'wordmark');
-  if (nav !== my) return; // the player already moved on
-  const tile = (icon, label, fn, badge) => h('button', { class: 'tile', onClick: () => { audio.sfx('tap'); fn(); } },
-    img(icon), h('span', {}, label), badge ? h('i', { class: 'count' }, badge) : null);
-  show(h('div', { class: 'col gap-l home' },
-    topBar(),
-    logo,
-    h('button', { class: 'mission-card', onClick: () => { audio.sfx('tap'); missionIntro(di); } },
-      h('div', { class: 'row between' },
-        h('span', { class: 'chip pink' }, img('icons/mission-flag'), 'MISSION ' + (di + 1)),
-        h('span', { class: 'mono gold' }, state.districts[di].stars ? 'PLAY AGAIN' : 'UP NEXT')),
-      h('div', { class: 'mission-name' }, d.name.toUpperCase()),
-      h('div', { class: 'muted' }, d.topic),
-      h('div', { class: 'play-pill' }, '▶  PLAY')),
-    h('button', { class: 'drive-card', onClick: () => { audio.sfx('tap'); driveStart(); } },
-      img('icons/car'),
-      h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.')),
-      h('span', { class: 'go' }, '▶')),
-    h('div', { class: 'tiles' },
-      tile('icons/district-map', 'MAP', map),
-      tile('icons/timer', 'TEST', testMenu),
-      tile('icons/handbook', 'REVIEW', reviewStart, state.review.length || null),
-      tile('icons/trophy', 'TROPHIES', trophies))
-  ), 'home-screen');
+  const group = t => h('div', { class: 'col gap-s' },
+    h('h3', { class: 'topic-head' }, img(t.icon, 'topic-ico'), t.name),
+    lessonsOf(t.id).map(l => h('div', { class: 'card hand-row' },
+      h('div', { class: 'col grow' },
+        h('b', {}, l.title),
+        h('span', { class: 'muted small' }, 'Handbook §' + l.section + ' · ' + l.minutes + ' min')),
+      h('button', {
+        class: 'btn primary small',
+        disabled: statusFor(l.id) === 'locked',
+        onClick: () => { audio.sfx('tap'); startLesson(l.id); }
+      }, 'Practice'))));
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'col' },
+      h('div', { class: 'kicker' }, 'Lessons by topic'),
+      h('h1', { class: 'learn-title' }, 'Handbook')),
+    TOPICS.map(group),
+    tabBar('handbook', go)
+  ), 'has-tabs');
+}
+
+// A lesson runs on the existing question engine with that lesson's questions;
+// results() saves the attempt so the Learn path updates.
+function startLesson(id) {
+  const l = lessonById(id);
+  if (!l || statusFor(id) === 'locked') return;
+  const list = l.questions.map(q => byId[q]).filter(Boolean).map(q => ({ ...q }));
+  if (!list.length) return;
+  play({ mode: 'mission', lesson: id, district: l.district, list });
 }
 
 /* ---------- map ---------- */
@@ -167,11 +195,7 @@ function map() {
         h('span', { class: 'mono small ' + (locked ? 'dim' : st.stars ? 'teal' : 'gold') }, status),
         h('span', { class: 'stars' }, '★'.repeat(st.stars) + '☆'.repeat(3 - st.stars))));
   });
-  show(h('div', { class: 'col gap-m' }, header('CITY MAP', home), h('div', { class: 'districts' }, cards)));
-}
-
-function header(title, back) {
-  return h('div', { class: 'screen-head' }, h('button', { class: 'icon-btn back', 'aria-label': 'Back', onClick: () => { audio.sfx('tap'); back(); } }, '‹'), h('h2', {}, title));
+  show(h('div', { class: 'col gap-m' }, header('City map', home), h('div', { class: 'districts' }, cards)));
 }
 
 /* ---------- mission intro + learn cards ---------- */
@@ -201,7 +225,7 @@ function learn(i, k) {
   if (card.anim) visual.append(animCard(card.anim));
   const text = card.say + ' ' + card.more;
   const node = h('div', { class: 'col gap-m learn' },
-    header('LEARN · ' + d.name.toUpperCase(), () => missionIntro(i)),
+    header('Learn · ' + d.name, () => missionIntro(i)),
     dots(d.learn.length, k),
     visual,
     h('div', { class: 'learn-text' }, h('div', { class: 'row gap-s' }, h('b', {}, card.say), speakBtn(() => text)), h('p', {}, card.more)),
@@ -215,10 +239,6 @@ function learn(i, k) {
   if (state.settings.autoRead) audio.speak(text);
 }
 
-function dots(n, k, results) {
-  return h('div', { class: 'dots' }, Array.from({ length: n }, (_, j) =>
-    h('i', { class: results && results[j] != null ? (results[j] ? 'ok' : 'bad') : j === k ? 'on' : j < k ? 'done' : '' })));
-}
 
 function bigCard(b) {
   return h('div', { class: 'big-card' }, h('div', { class: 'big-word' }, b.text), b.sub ? h('div', { class: 'big-sub' }, b.sub) : null);
@@ -311,7 +331,7 @@ function startMission(i) {
 
 function reviewStart() {
   if (!state.review.length) {
-    show(h('div', { class: 'col center gap-l' }, header('REVIEW', home), img('icons/check', 'intro-icon'),
+    show(h('div', { class: 'col center gap-l' }, header('Review', home), img('icons/check', 'intro-icon'),
       h('div', { class: 'big-title' }, 'ALL CLEAR'), h('p', { class: 'muted center-text' }, 'No mistakes to review right now. Nice driving!'), btn('HOME', home, 'btn primary big')));
     return;
   }
@@ -319,17 +339,21 @@ function reviewStart() {
 }
 
 function testMenu() {
-  show(h('div', { class: 'col gap-m' }, header('PRACTICE', home),
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'learn-head' }, h('h1', { class: 'learn-title' }, 'Practice')),
     h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) }); } },
       img('icons/handbook'), h('div', { class: 'col' }, h('b', {}, 'PRACTICE TEST'), h('span', {}, '20 questions from every district. Get 16 right to pass.'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.best + ' / 20'))),
     h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 }); } },
       img('icons/timer'), h('div', { class: 'col' }, h('b', {}, 'SPEED RUN'), h('span', {}, '10 quick questions. 90 seconds. Optional!'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.speedBest + ' / 10'))),
-    h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.')
-  ));
+    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); driveStart(); } },
+      img('icons/car'), h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.'))),
+    h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.'),
+    tabBar('practice', go)
+  ), 'has-tabs');
 }
 
 function play(run) {
-  run.i = 0; run.results = []; run.earned = 0; run.strikes = 0;
+  run.i = 0; run.results = []; run.earned = 0; run.strikes = 0; run.started = Date.now();
   run.challenge = !state.settings.calm;
   run.list.forEach(q => {
     if (q.type === 'choice' || q.type === 'pics') {
@@ -342,6 +366,7 @@ function play(run) {
 }
 
 function title(run) {
+  if (run.lesson) { const l = lessonById(run.lesson); return [topicById(l.topic).name.toUpperCase(), l.title]; }
   if (run.mode === 'mission') return ['MISSION ' + (run.district + 1), DISTRICTS[run.district].name];
   if (run.mode === 'test') return ['PRACTICE TEST', 'All districts'];
   if (run.mode === 'speed') return ['SPEED RUN', 'Beat the clock'];
@@ -503,7 +528,7 @@ function question(run) {
   if (run.time) {
     const tick = () => {
       const m = Math.floor(run.left / 60), s = run.left % 60, pct = run.left / run.time * 100;
-      timerEl.replaceChildren(h('div', { class: 'ring', style: `background:conic-gradient(#FFC53D 0 ${pct}%,#2B3160 ${pct}% 100%)` }, h('span', {}, m + ':' + String(s).padStart(2, '0'))));
+      timerEl.replaceChildren(h('div', { class: 'ring', style: `background:conic-gradient(#1458E0 0 ${pct}%,#F0EEEA ${pct}% 100%)` }, h('span', {}, m + ':' + String(s).padStart(2, '0'))));
     };
     tick();
     const iv = setInterval(() => {
@@ -569,6 +594,7 @@ function pause(run) {
 
 function results(run, failed, timeUp) {
   const right = run.results.filter(Boolean).length, total = run.list.length;
+  if (run.lesson) return lessonResults(run, right, total);
   const before = rankFor(state.cash - run.earned);
   let bonus = 0, headline, sub, stars = 0;
   const pct = Math.round(right / total * 100);
@@ -630,11 +656,45 @@ function results(run, failed, timeUp) {
   ));
 }
 
+/* ---------- lesson results ---------- */
+
+// Lesson runs close the loop here: the attempt is saved, which is what the
+// Learn path and the readiness ring read. The full Results screen (score ring,
+// missed-question review) replaces this.
+function lessonResults(run, right, total) {
+  const pct = Math.round(right / total * 100);
+  const ok = pct >= PASS_MARK;
+  const missed = run.list.filter((q, i) => run.results[i] === false).map(q => q.id);
+  const attempt = recordAttempt({
+    lessonId: run.lesson,
+    scorePercent: pct,
+    points: run.earned,
+    seconds: (Date.now() - (run.started || Date.now())) / 1000,
+    missedIds: missed
+  });
+  const lesson = lessonById(run.lesson);
+  audio.sfx(ok ? 'win' : 'cash');
+  show(h('div', { class: 'col center gap-m results' },
+    h('div', { class: 'banner' },
+      h('div', { class: 'banner-title' + (ok ? ' gold' : '') }, ok ? 'LESSON PASSED' : 'KEEP PRACTICING'),
+      h('div', { class: 'banner-sub' }, lesson.title + ' · Handbook §' + lesson.section)),
+    h('div', { class: 'score' }, right + ' of ' + total),
+    h('div', { class: 'muted center-text' }, pct + '% · ' + (ok ? 'saved to your path' : 'you need ' + PASS_MARK + '% to pass')),
+    h('div', { class: 'gold big-line' }, '+' + money(attempt.points_earned)),
+    h('div', { class: 'row gap-s wide' },
+      btn('TRY AGAIN', () => startLesson(run.lesson), 'btn ghost grow'),
+      btn('CONTINUE', () => home(), 'btn primary grow'))
+  ));
+}
+
 /* ---------- trophies ---------- */
 
 function trophies() {
   const r = rankFor(state.cash);
-  show(h('div', { class: 'col gap-m' }, header('TROPHIES', home),
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'learn-head' },
+      h('h1', { class: 'learn-title' }, 'Profile'),
+      h('button', { class: 'icon-btn', 'aria-label': 'Settings', onClick: settings }, img('icons/settings'))),
     h('div', { class: 'panel col center gap-s' },
       img(r.badge, 'rank-badge'),
       h('div', { class: 'big-title' }, r.name.toUpperCase()),
@@ -648,8 +708,10 @@ function trophies() {
     h('h3', { class: 'section' }, 'MY BEST'),
     h('div', { class: 'panel stats' },
       stat('Best streak', state.bestStreak), stat('Practice test', state.test.best + ' / 20'), stat('Speed run', state.test.speedBest + ' / 10'),
-      stat('Districts cleared', state.districts.filter(d => d.stars).length + ' / ' + DISTRICTS.length))
-  ));
+      stat('Districts cleared', state.districts.filter(d => d.stars).length + ' / ' + DISTRICTS.length),
+      stat('Lessons passed', readiness().passed + ' / ' + LESSONS.length)),
+    tabBar('profile', go)
+  ), 'has-tabs');
 }
 const stat = (k, v) => h('div', { class: 'row between' }, h('span', { class: 'muted' }, k), h('b', {}, String(v)));
 
@@ -666,7 +728,7 @@ function settings() {
   vol.addEventListener('input', () => { s.musicVol = +vol.value; audio.setMusic(s.music, s.musicVol); save(); });
   const per = h('div', { class: 'seg' }, [4, 6, 8].map(n => h('button', { class: s.perMission === n ? 'on' : '', onClick: () => { s.perMission = n; save(); settings(); } }, String(n))));
 
-  show(h('div', { class: 'col gap-m' }, header('SETTINGS', home),
+  show(h('div', { class: 'col gap-m' }, header('Settings', trophies),
     toggle('music', 'Music', 'Calm background beats.', () => audio.setMusic(s.music, s.musicVol)),
     h('div', { class: 'setting' }, h('b', {}, 'Music volume'), vol),
     toggle('sfx', 'Sound effects', 'Dings for right answers.'),
@@ -705,4 +767,4 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // For automated checks.
-window.__permitRun = { state, DISTRICTS, go: { home, map, trophies, settings, testMenu, missionIntro, learn, startMission, play, results } };
+window.__permitRun = { state, DISTRICTS, TOPICS, LESSONS, go: { home, handbook, map, trophies, settings, testMenu, missionIntro, learn, startMission, startLesson, play, results } };
