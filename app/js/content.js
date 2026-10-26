@@ -25,7 +25,7 @@ export const TOPICS = [
 export const LESSONS = [
   {
     id: 'signs-1', topic: 'signs', title: 'What a sign is telling you',
-    section: 7, minutes: 4, district: 0, scene: 'scenes/railroad',
+    section: 7, minutes: 4, district: 0, scene: 'scenes/real-signs-street',
     questions: ['d1', 'd7', 'd8', 'd9', 'd12'],
     read: {
       kicker: 'Signs and signals',
@@ -40,7 +40,7 @@ export const LESSONS = [
   },
   {
     id: 'signs-2', topic: 'signs', title: 'Lights, arrows and walk signals',
-    section: 7, minutes: 4, district: 0,
+    section: 7, minutes: 4, district: 0, scene: 'scenes/real-signal-intersection',
     questions: ['d2', 'd3', 'd4', 'd5', 'd6', 'd10', 'd11'],
     read: {
       kicker: 'Traffic lights',
@@ -55,7 +55,7 @@ export const LESSONS = [
   },
   {
     id: 'signs-3', topic: 'signs', title: 'Stopping and turning at a signal',
-    section: 7, minutes: 4, district: 0,
+    section: 7, minutes: 4, district: 0, scene: 'scenes/real-protected-left-turn',
     questions: ['d13', 'd14', 'd15'],
     read: {
       kicker: 'Turns at a light',
@@ -70,7 +70,7 @@ export const LESSONS = [
   },
   {
     id: 'signs-4', topic: 'signs', title: 'Warning signs',
-    section: 7, minutes: 4, district: 0, scene: 'scenes/train-crossing',
+    section: 7, minutes: 4, district: 0, scene: 'scenes/real-railroad-crossing',
     questions: ['s1','s2','s3','s4','s5','s6'],
     read: {
       kicker: 'Yellow signs',
@@ -85,7 +85,7 @@ export const LESSONS = [
   },
   {
     id: 'signs-5', topic: 'signs', title: 'Rule signs and lane signs',
-    section: 5, minutes: 4, district: 0, scene: 'scenes/stop-sign',
+    section: 5, minutes: 4, district: 0, scene: 'scenes/real-signs-street',
     questions: ['s7','s8','s9','s10','s11','s24'],
     read: {
       kicker: 'White signs',
@@ -175,7 +175,7 @@ export const LESSONS = [
   },
   {
     id: 'rights-4', topic: 'rights', title: 'Crosswalks, rails and bikes',
-    section: 7, minutes: 6, district: 0, scene: 'scenes/crosswalk',
+    section: 7, minutes: 6, district: 0, scene: 'scenes/real-school-crosswalk',
     questions: ['b7','b8','b9','b15','b16','b19','b20'],
     read: {
       kicker: 'Crossing paths',
@@ -235,7 +235,7 @@ export const LESSONS = [
   },
   {
     id: 'speed-4', topic: 'speed', title: 'School zones, lights and limits',
-    section: 8, minutes: 5, district: 0, scene: 'scenes/school-bus',
+    section: 8, minutes: 5, district: 0, scene: 'scenes/real-school-crosswalk',
     questions: ['b1','b2','b5','b14'],
     read: {
       kicker: 'Speed and lights',
