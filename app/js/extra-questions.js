@@ -1,0 +1,71 @@
+// Extra questions: sign questions based on the California MUTCD sign charts,
+// and handbook questions from the California Driver's Handbook (DMV).
+// Same shape as the questions in data.js (see the notes at its top).
+// `src` is the handbook section the fact comes from.
+
+// ---- Signs (CA MUTCD 2014 Rev. 3 charts) ----
+export const SIGN_QUESTIONS = [
+  { id: 's1', type: 'choice', img: 'signs/bump', q: 'This yellow diamond sign says BUMP. What should you do?', a: ['Slow down. The road surface is uneven ahead.', 'Stop and wait.', 'Speed up to cross it quickly.'], c: 0, tip: 'Yellow diamond signs warn you. BUMP means slow down before the rough spot.', src: '7' },
+  { id: 's2', type: 'choice', img: 'signs/dip', q: 'You see a DIP sign. What does it mean?', a: ['A low place in the road. Slow down.', 'A steep hill is ahead.', 'The road is closed.'], c: 0, tip: 'DIP warns of a low spot where water can collect.', src: '7' },
+  { id: 's3', type: 'choice', img: 'signs/road-narrows', q: 'What does this warning sign tell you?', a: ['The road gets narrower ahead.', 'A second lane is added.', 'A bridge is closed.'], c: 0, tip: 'ROAD NARROWS: keep to your lane and watch for oncoming cars.', src: '7' },
+  { id: 's4', type: 'choice', img: 'signs/hill-blocks-view', q: 'HILL BLOCKS VIEW. What should you do?', a: ['Slow down and stay in your lane. Do not pass.', 'Pass quickly before the hill.', 'Honk and keep your speed.'], c: 0, tip: 'You cannot see what is over the hill. Never pass here.', src: '7' },
+  { id: 's5', type: 'choice', img: 'signs/dead-end', q: 'You see a DEAD END sign. What does it mean?', a: ['The road does not go through.', 'The road ends in a cliff.', 'Road work is ahead.'], c: 0, tip: 'DEAD END: the road ends and there is no other way out.', src: '7' },
+  { id: 's6', type: 'choice', img: 'signs/slippery-when-wet', q: 'SLIPPERY WHEN WET. When does this matter most?', a: ['When it rains or the road is wet.', 'Only at night.', 'Only on hot days.'], c: 0, tip: 'Slow down on wet roads. The first rain after a dry spell is the slickest.', src: '8' },
+  { id: 's7', type: 'choice', img: 'signs/no-passing-zone', q: 'This yellow flag-shaped sign means...', a: ['Passing is not allowed here.', 'You must pass the slow car.', 'A passing lane starts.'], c: 0, tip: 'The sideways triangle marks the start of a NO PASSING ZONE.', src: '5' },
+  { id: 's8', type: 'choice', img: 'signs/do-not-pass', q: 'You see DO NOT PASS. What should you do?', a: ['Stay behind the car ahead.', 'Pass only if the road looks clear.', 'Pass on the right.'], c: 0, tip: 'White rectangle signs are rules. DO NOT PASS is a rule you must obey.', src: '5' },
+  { id: 's9', type: 'choice', img: 'signs/keep-left', q: 'KEEP LEFT. What should you do?', a: ['Pass the island or divider on its left side.', 'Turn left at the next light.', 'Drive on the left side of the road.'], c: 0, tip: 'KEEP LEFT points you around an island or divider.', src: '7' },
+  { id: 's10', type: 'choice', img: 'signs/no-right-turn', q: 'A sign shows a right arrow with a red slash. What does it mean?', a: ['No right turn.', 'Right turn only.', 'Right lane ends.'], c: 0, tip: 'A red circle and slash means NO. The arrow shows what is not allowed.', src: '7' },
+  { id: 's11', type: 'choice', img: 'signs/right-turn-only', q: 'RIGHT LANE MUST TURN RIGHT. If you are in that lane you...', a: ['must turn right.', 'may go straight.', 'may turn left.'], c: 0, tip: 'Lane signs are rules. Choose the right lane early if you want to go straight.', src: '5' },
+  { id: 's12', type: 'choice', img: 'signs/no-parking-any-time', q: 'NO PARKING ANY TIME. May you stop here to drop off a friend?', a: ['Yes, briefly, unless it also says NO STOPPING.', 'No, never.', 'Yes, for up to an hour.'], c: 0, tip: 'No parking is not the same as no stopping. A quick drop-off is OK.', src: '6' },
+  { id: 's13', type: 'choice', img: 'signs/no-stopping-any-time', q: 'NO STOPPING ANY TIME. What can you do here?', a: ['Keep moving. Do not stop at all.', 'Stop for one minute.', 'Stop if you stay in the car.'], c: 0, tip: 'No stopping means you cannot stop, even with the engine running.', src: '6' },
+  { id: 's14', type: 'choice', img: 'signs/bike-lane-no-parking', q: 'NO PARKING BIKE LANE. Why is this sign used?', a: ['Parked cars would block people on bikes.', 'Bikes are not allowed here.', 'It is a loading zone.'], c: 0, tip: 'Never park in a bike lane. It forces riders into traffic.', src: '6' },
+  { id: 's15', type: 'choice', img: 'signs/two-hour-parking', q: 'This green sign says 2 HOUR PARKING 8AM–6PM. What does it mean?', a: ['You may park up to 2 hours during those times.', 'You must park for 2 hours.', 'No parking at all.'], c: 0, tip: 'Green signs limit how long you may park.', src: '6' },
+  { id: 's16', type: 'choice', img: 'signs/do-not-block', q: 'The light turns green but traffic is stopped ahead. DO NOT BLOCK INTERSECTION means...', a: ['Wait until you can clear the intersection.', 'Go anyway.', 'Honk and move up.'], c: 0, tip: 'Never enter an intersection unless you can get all the way through.', src: '7' },
+  { id: 's17', type: 'choice', img: 'signs/left-turn-yield', q: 'LEFT TURN YIELD ON GREEN. When the light is green you...', a: ['may turn left after oncoming traffic passes.', 'must wait for a green arrow.', 'must stop and wait.'], c: 0, tip: 'On a plain green, turn left only when the way is clear.', src: '7' },
+  { id: 's18', type: 'choice', img: 'signs/end-school-speed', q: 'You pass an END SCHOOL SPEED LIMIT sign. What now?', a: ['Follow the normal posted speed limit.', 'Keep driving 25 mph.', 'Stop and wait.'], c: 0, tip: 'The lower school speed limit ends at this sign.', src: '8' },
+  { id: 's19', type: 'choice', img: 'signs/move-over', q: 'MOVE OVER OR SLOW. When does this apply?', a: ['A stopped emergency or tow vehicle with flashing lights.', 'Any parked car.', 'Only in a school zone.'], c: 0, tip: 'Change lanes if safe. If you cannot, slow down.', src: '7' },
+  { id: 's20', type: 'choice', img: 'signs/trucks-right-lane', q: 'TRUCKS USE RIGHT LANE. If you drive a car, you...', a: ['may use any lane that is open to you.', 'must use only the left lane.', 'must stop.'], c: 0, tip: 'The sign tells trucks which lane to use. Cars may use others.', src: '7' },
+  { id: 's21', type: 'choice', img: 'signs/emergency-parking', q: 'EMERGENCY PARKING ONLY. When may you stop here?', a: ['In an emergency, like a flat tire.', 'To check your phone.', 'To rest for the night.'], c: 0, tip: 'Use it only if your car breaks down. Then call for help.', src: '6' },
+  {
+    id: 's22', type: 'pics', q: 'Which sign tells you the road may be slippery?',
+    a: [{ img: 'signs/bump', label: 'BUMP' }, { img: 'signs/slippery-when-wet', label: 'Slippery' }, { img: 'signs/dead-end', label: 'Dead end' }], c: 1,
+    tip: 'SLIPPERY WHEN WET: slow down in rain.', src: '8'
+  },
+  {
+    id: 's23', type: 'pics', q: 'Which sign means you may NOT stop at all?',
+    a: [{ img: 'signs/no-stopping-any-time', label: 'No stopping' }, { img: 'signs/no-parking-any-time', label: 'No parking' }, { img: 'signs/two-hour-parking', label: '2 hour' }], c: 0,
+    tip: 'No stopping is stricter than no parking.', src: '6'
+  },
+  {
+    id: 's24', type: 'pics', q: 'Which sign is a yellow warning sign?',
+    a: [{ img: 'signs/do-not-pass', label: 'Rule' }, { img: 'signs/road-narrows', label: 'Warning' }, { img: 'signs/keep-left', label: 'Rule' }], c: 1,
+    tip: 'Yellow means warning. White means a rule.', src: '7'
+  }
+];
+
+// ---- Handbook (California Driver\'s Handbook) ----
+export const HANDBOOK_QUESTIONS = [
+  { id: 'b1', type: 'choice', big: { text: '25 MPH', sub: 'near schools' }, q: 'Children are outside a school. What is the speed limit within 500 feet, unless a sign says otherwise?', a: ['25 mph', '35 mph', '15 mph'], c: 0, tip: 'Stay at 25 mph near schools when children are outside or crossing.', src: '8' },
+  { id: 'b2', type: 'choice', big: { text: '15 MPH', sub: 'alley' }, q: 'You drive in an alley. What is the speed limit?', a: ['15 mph', '25 mph', '10 mph'], c: 0, tip: 'Alleys and blind intersections: 15 mph.', src: '8' },
+  { id: 'b3', type: 'choice', big: { text: '18 IN', sub: 'from curb' }, q: 'When you park next to a curb, how close should your wheels be?', a: ['Within 18 inches', 'Within 5 feet', 'Within 3 feet'], c: 0, tip: 'Park within 18 inches of the curb.', src: '6' },
+  { id: 'b4', type: 'choice', big: { text: '15 FT', sub: 'hydrant' }, q: 'How close to a fire hydrant may you park?', a: ['Not within 15 feet', 'Not within 3 feet', 'Anywhere if it is a short stop'], c: 0, tip: 'Keep 15 feet clear of a fire hydrant.', src: '6' },
+  { id: 'b5', type: 'choice', big: { text: '30 MIN', sub: 'after sunset' }, q: 'When must you turn on your headlights?', a: ['30 minutes after sunset to 30 minutes before sunrise', 'Only when it is dark', 'Only in the rain'], c: 0, tip: 'Also turn them on in rain, fog, or when you cannot see 1,000 feet.', src: '8' },
+  { id: 'b6', type: 'choice', big: { text: '100 FT', sub: 'signal early' }, q: 'How soon before you turn must you signal?', a: ['At least 100 feet before', 'Just as you turn', '10 feet before'], c: 0, tip: 'Signal at least 100 feet before a turn.', src: '5' },
+  { id: 'b7', type: 'choice', big: { text: '15 FT', sub: 'to 50 ft' }, q: 'You stop for a railroad crossing signal. How far from the nearest track should you stop?', a: ['At least 15 feet, and no more than 50 feet', 'Right at the tracks', 'At least 100 feet'], c: 0, tip: 'Stop 15 to 50 feet from the nearest rail.', src: '7' },
+  { id: 'b8', type: 'choice', big: { text: '3 FT', sub: 'for bikes' }, q: 'The Three Feet for Safety Act says you must pass a person on a bike with...', a: ['at least 3 feet of space', 'at least 1 foot of space', 'honking first'], c: 0, tip: 'If you cannot give 3 feet, slow down until you can pass safely.', src: '6' },
+  { id: 'b9', type: 'choice', big: { text: '200 FT', sub: 'bike lane' }, q: 'You will turn right across a bike lane. When should you merge into the bike lane?', a: ['Within 200 feet of the turn', 'At the corner only', 'Never. Stay out of it.'], c: 0, tip: 'Merge in the bike lane no more than 200 feet before the turn, and watch for riders.', src: '6' },
+  { id: 'b10', type: 'choice', big: { text: '2 LINES', sub: 'solid yellow' }, q: 'A double solid yellow line is in the middle of the road. What does it mean?', a: ['Do not pass or cross, except to turn left into a driveway or at an intersection.', 'You may pass if clear.', 'Only buses may cross.'], c: 0, tip: 'Double solid yellow lines separate traffic going opposite ways.', src: '5' },
+  { id: 'b11', type: 'choice', big: { text: 'LEFT ARM', sub: 'straight out' }, q: 'Your signal light is broken. What hand signal means a left turn?', a: ['Left arm straight out', 'Left arm bent up', 'Left arm pointing down'], c: 0, tip: 'Left arm bent up = right turn. Left arm down = stop or slow.', src: '5' },
+  { id: 'b12', type: 'choice', big: { text: 'BOOSTER', sub: 'under 8' }, q: 'Where should a child under 8 ride?', a: ['In the back seat in a car seat or booster', 'In the front with a seat belt', 'On an adult\'s lap'], c: 0, tip: 'Children under 8 must be in the back seat in a car or booster seat.', src: '9' },
+  { id: 'b13', type: 'choice', big: { text: 'HANDS-FREE', sub: '18 and over' }, q: 'You are 18 or older. How may you talk on a phone while driving?', a: ['Hands-free only', 'Holding it to your ear', 'Texting at red lights'], c: 0, tip: 'Hold nothing. Use voice commands and a mount.', src: '9' },
+  { id: 'b14', type: 'choice', big: { text: '500 FT', sub: 'dim lights' }, q: 'At night you come within 500 feet of an oncoming car. What do you do?', a: ['Switch to low beams', 'Flash your high beams', 'Turn off your lights'], c: 0, tip: 'Low beams for oncoming cars within 500 feet and when following within 300 feet.', src: '8' },
+  { id: 'b15', type: 'choice', big: { text: 'NEVER', sub: 'on the tracks' }, q: 'Traffic is backed up past a railroad crossing. What should you do?', a: ['Wait until you can fully clear the tracks', 'Stop on the tracks for a moment', 'Cross and stop after'], c: 0, tip: 'Never stop on railroad tracks.', src: '7' },
+  { id: 'b16', type: 'choice', big: { text: 'WALKERS', sub: 'crosswalk' }, q: 'Someone is in a crosswalk and the light is green. Who goes first?', a: ['The walker', 'The car', 'The faster one'], c: 0, tip: 'Walkers in a crosswalk always have the right-of-way. Yield and wait.', src: '7' },
+  { id: 'b17', type: 'choice', big: { text: 'BLUE', sub: 'curb' }, q: 'A curb is painted blue. Who may park there?', a: ['Drivers with a disabled placard or plates', 'Anyone for 5 minutes', 'Delivery vehicles only'], c: 0, tip: 'Blue is for disabled parking only.', src: '6' },
+  { id: 'b18', type: 'choice', big: { text: 'GREEN', sub: 'curb' }, q: 'A curb is painted green. What does it mean?', a: ['Short-time parking. Check the time on the sign.', 'No stopping', 'Passenger pick-up only'], c: 0, tip: 'Green is for a limited time. Yellow is for loading. Red means no stopping.', src: '6' },
+  { id: 'b19', type: 'choice', big: { text: 'YIELD', sub: 'T-intersection' }, q: 'You are at a T-intersection with no signs. Who goes first?', a: ['The driver on the through road', 'The driver on the end of the T', 'The faster driver'], c: 0, tip: 'The road that ends yields to traffic on the through road.', src: '7' },
+  { id: 'b20', type: 'choice', big: { text: 'PULL RIGHT', sub: 'and stop' }, q: 'An ambulance with a siren is behind you. What do you do?', a: ['Pull to the right edge and stop', 'Speed up', 'Stop where you are in your lane'], c: 0, tip: 'Pull to the right and stop. Do not stop in an intersection.', src: '7' }
+];
+
+// Questions that live in a lesson but not in a district.
+export const EXTRA_QUESTIONS = [...SIGN_QUESTIONS, ...HANDBOOK_QUESTIONS];

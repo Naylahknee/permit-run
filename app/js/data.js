@@ -1,3 +1,5 @@
+import { EXTRA_QUESTIONS } from './extra-questions.js';
+
 // Game content. Every fact comes from the California Driver's Handbook
 // (DMV, 2025 edition, CC BY-NC 4.0). Section numbers are in `src`.
 //
@@ -258,6 +260,10 @@ export const DISTRICTS = [
   }
 ];
 
-export const ALL_QUESTIONS = DISTRICTS.flatMap((d, di) => d.qs.map(q => ({ ...q, district: di })));
+// Sign and handbook questions (extra-questions.js) join the pool for lessons and tests.
+export const ALL_QUESTIONS = [
+  ...DISTRICTS.flatMap((d, di) => d.qs.map(q => ({ ...q, district: di }))),
+  ...EXTRA_QUESTIONS.map(q => ({ ...q, district: 0 }))
+];
 export const byId = Object.fromEntries(ALL_QUESTIONS.map(q => [q.id, q]));
 export const SIGN_Q = new Set(ALL_QUESTIONS.filter(q => (q.img || '').match(/^(signs|signals)\//) || q.type === 'pics' && q.a.some(a => a.img)).map(q => q.id));

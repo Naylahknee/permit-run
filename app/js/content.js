@@ -69,6 +69,66 @@ export const LESSONS = [
     }
   },
   {
+    id: 'signs-4', topic: 'signs', title: 'Warning signs',
+    section: 7, minutes: 4, district: 0, scene: 'scenes/train-crossing',
+    questions: ['s1','s2','s3','s4','s5','s6'],
+    read: {
+      kicker: 'Yellow signs',
+      headline: 'Yellow diamonds warn you',
+      body: 'A yellow diamond tells you something is coming up: a bump, a dip, a narrow road or a hill. Slow down before you get there.',
+      points: [
+        ['yellow', 'Yellow diamond: warning, slow down'],
+        ['gray', 'The words or picture say what is ahead'],
+        ['red', 'Railroad crossings: stop 15 to 50 feet from the track']
+      ]
+    }
+  },
+  {
+    id: 'signs-5', topic: 'signs', title: 'Rule signs and lane signs',
+    section: 5, minutes: 4, district: 0, scene: 'scenes/stop-sign',
+    questions: ['s7','s8','s9','s10','s11','s24'],
+    read: {
+      kicker: 'White signs',
+      headline: 'White signs are rules',
+      body: 'White rectangle signs tell you what you must or must not do. Passing, turning and lane rules all use them.',
+      points: [
+        ['gray', 'White rectangle: a rule you must obey'],
+        ['red', 'Red circle and slash: this is not allowed'],
+        ['yellow', 'Yellow: only a warning, not a rule']
+      ]
+    }
+  },
+  {
+    id: 'signs-6', topic: 'signs', title: 'Parking and stopping signs',
+    section: 6, minutes: 4, district: 0, scene: 'scenes/bike-pass',
+    questions: ['s12','s13','s14','s15','s23'],
+    read: {
+      kicker: 'Curb signs',
+      headline: 'No parking is not no stopping',
+      body: 'Red signs say what you may not do at the curb. Green signs allow parking for a limited time. Never park in a bike lane.',
+      points: [
+        ['red', 'No parking: you may stop briefly to load or unload'],
+        ['red', 'No stopping: do not stop at all'],
+        ['green', 'Green: park only for the time shown']
+      ]
+    }
+  },
+  {
+    id: 'signs-7', topic: 'signs', title: 'Intersection and emergency signs',
+    section: 7, minutes: 4, district: 0, scene: 'scenes/emergency-vehicle',
+    questions: ['s16','s17','s18','s19','s20','s21'],
+    read: {
+      kicker: 'Special signs',
+      headline: 'Read the sign before you act',
+      body: 'Some signs ask you to wait, yield or move over. Read each one, then check the road before you move.',
+      points: [
+        ['blue', 'Do not block the intersection'],
+        ['gray', 'Move over or slow for stopped emergency vehicles'],
+        ['yellow', 'Emergency parking is only for emergencies']
+      ]
+    }
+  },
+  {
     id: 'rights-1', topic: 'rights', title: 'Who goes first',
     section: 7, minutes: 5, district: 2, scene: 'scenes/four-way-stop',
     questions: ['v5', 'v7', 'v11', 'v12'],
@@ -110,6 +170,21 @@ export const LESSONS = [
         ['blue', 'People in a crosswalk always go first'],
         ['gray', 'White cane or guide dog: yield anytime, never honk'],
         ['green', 'Passing a bike: give three feet of space']
+      ]
+    }
+  },
+  {
+    id: 'rights-4', topic: 'rights', title: 'Crosswalks, rails and bikes',
+    section: 7, minutes: 6, district: 0, scene: 'scenes/crosswalk',
+    questions: ['b7','b8','b9','b15','b16','b19','b20'],
+    read: {
+      kicker: 'Crossing paths',
+      headline: 'Slow down and share the road',
+      body: 'Walkers in a crosswalk go first. Stay 15 feet or more from rail tracks. Give people on bikes at least three feet.',
+      points: [
+        ['blue', 'Walker in a crosswalk: you wait'],
+        ['red', 'Never stop on railroad tracks'],
+        ['green', 'Pass bikes with 3 feet of space']
       ]
     }
   },
@@ -159,6 +234,21 @@ export const LESSONS = [
     }
   },
   {
+    id: 'speed-4', topic: 'speed', title: 'School zones, lights and limits',
+    section: 8, minutes: 5, district: 0, scene: 'scenes/school-bus',
+    questions: ['b1','b2','b5','b14'],
+    read: {
+      kicker: 'Speed and lights',
+      headline: '25 near schools, 15 in alleys',
+      body: 'Slow down near schools and in alleys. Turn on your headlights at dusk, and use low beams near other cars.',
+      points: [
+        ['gray', '25 mph near schools when children are out'],
+        ['red', '15 mph in alleys and blind intersections'],
+        ['blue', 'Low beams within 500 feet of oncoming cars']
+      ]
+    }
+  },
+  {
     id: 'parking-1', topic: 'parking', title: 'Where you may park',
     section: 6, minutes: 4, district: 1, scene: 'scenes/blue-curb',
     questions: ['h6', 'h7', 'h8'],
@@ -204,6 +294,21 @@ export const LESSONS = [
     }
   },
   {
+    id: 'parking-4', topic: 'parking', title: 'Curb colours and hydrants',
+    section: 6, minutes: 4, district: 0, scene: 'scenes/blue-curb',
+    questions: ['b3','b4','b17','b18'],
+    read: {
+      kicker: 'At the curb',
+      headline: 'Park close, park clear',
+      body: 'Park within 18 inches of the curb and 15 feet from a hydrant. Colours tell you the rule: blue for disabled, green for short time.',
+      points: [
+        ['blue', 'Blue: disabled placard only'],
+        ['green', 'Green: short-time parking'],
+        ['red', 'Hydrant: keep 15 feet clear']
+      ]
+    }
+  },
+  {
     id: 'alcohol-1', topic: 'alcohol', title: 'Alcohol and drugs',
     section: 9, minutes: 5, district: 4,
     questions: ['a1', 'a2', 'a3', 'a4', 'a5'],
@@ -245,6 +350,21 @@ export const LESSONS = [
         ['red', 'Never leave the scene of a crash'],
         ['gray', 'Report on form SR 1 within 10 days'],
         ['blue', 'Freeway: enter at the speed of traffic, signal early']
+      ]
+    }
+  },
+  {
+    id: 'alcohol-4', topic: 'alcohol', title: 'Signals, lines and kids',
+    section: 5, minutes: 5, district: 0,
+    questions: ['b6','b10','b11','b12','b13'],
+    read: {
+      kicker: 'More rules',
+      headline: 'Signal, stay in lane, buckle up',
+      body: 'Signal 100 feet before a turn, obey double yellow lines, and use hand signals if your lights fail. Kids under 8 ride in the back.',
+      points: [
+        ['blue', 'Signal 100 feet before you turn'],
+        ['yellow', 'Double yellow: do not pass or cross'],
+        ['gray', 'Under 8: back seat in a car or booster seat']
       ]
     }
   }
