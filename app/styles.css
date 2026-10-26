@@ -4,12 +4,12 @@
 :root {
   color-scheme: light;
   --bg: #F5F3EF; --card: #FFFFFF;
-  --ink: #1C1C1E; --ink2: #6E6E73; --ink3: #8E8E93;
+  --ink: #1C1C1E; --ink2: #5E5E63; --ink3: #6E6E73;
   --line: #F0EEEA; --track: #E3E0DA; --off: #E3E0DA; --chip: #F1EFEA; --hairline: #EAE7E1;
   --blue: #1458E0; --blue-soft: #EEF3FD;
   --orange: #FF7A1A;
-  --green: #1E9E61; --green-ink: #178A53; --green-soft: #EAF6EF;
-  --red: #E5484D; --red-ink: #D23A3F; --red-soft: #FDEEEE;
+  --green: #1E9E61; --green-ink: #12804A; --green-soft: #EAF6EF;
+  --red: #E5484D; --red-ink: #C0343A; --red-soft: #FDEEEE;
 
   --shadow: 0 1px 2px rgba(0, 0, 0, .04);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, .04), 0 10px 30px rgba(0, 0, 0, .06);
@@ -81,7 +81,7 @@ p { margin: 0; }
 .btn.ghost { background: var(--card); color: var(--ink); border: 1.5px solid var(--hairline); box-shadow: none; }
 .btn.small { min-height: 44px; padding: 0 16px; font-size: 15px; flex: none; }
 .btn.gold { background: var(--blue); color: #fff; flex: none; }
-.btn:disabled { background: var(--off); color: #A3A09A; box-shadow: none; }
+.btn:disabled { background: var(--off); color: var(--ink3); box-shadow: none; }
 .btn.danger { color: var(--red-ink); border: 1.5px solid rgba(229, 72, 77, .35); background: transparent; box-shadow: none; }
 
 /* the single main button on the question sheet */
@@ -89,7 +89,7 @@ p { margin: 0; }
   font: 600 17px var(--font); display: grid; place-items: center; transition: background .15s, transform .1s; }
 .cta:active { transform: scale(.99); }
 .cta.blue { background: var(--blue); }
-.cta:disabled { background: var(--off); color: #A3A09A; }
+.cta:disabled { background: var(--off); color: var(--ink3); }
 .cta[hidden] { display: none; }
 
 /* bare icon button (close, back) — no bubble behind it, as in the design */
@@ -267,6 +267,14 @@ p { margin: 0; }
 .q-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
   padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px; }
 .q-body > .hero, .q-body > .pics { animation: enter .24s ease-out both; }
+/* scene illustrations ease in — the same gesture in Learn, Reader and Quiz */
+.hero > img, .continue-hero img, .learn-img { opacity: 0; transform: scale(1.02); transition: opacity .45s ease, transform .7s cubic-bezier(.2, .7, .3, 1); }
+.hero > img.eased, .continue-hero img.eased, .learn-img.eased { opacity: 1; transform: none; }
+/* the Learn hero and quiz scenes settle in with a soft zoom */
+.continue-hero:not(.plain) img.eased { animation: drift 18s ease-in-out infinite alternate; }
+.q-body > .hero { animation: scene-in .34s cubic-bezier(.2, .7, .3, 1) both; }
+@keyframes scene-in { from { opacity: 0; transform: scale(.985); } }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.05) translateY(-1.5%); } }
 .hero { display: block; width: 100%; aspect-ratio: 8 / 5; border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow-hero); background: var(--card); }
 .hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero.plain { background: #EFEDE7; display: grid; place-items: center; }

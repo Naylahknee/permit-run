@@ -67,5 +67,19 @@ export const HANDBOOK_QUESTIONS = [
   { id: 'b20', type: 'choice', big: { text: 'PULL RIGHT', sub: 'and stop' }, q: 'An ambulance with a siren is behind you. What do you do?', a: ['Pull to the right edge and stop', 'Speed up', 'Stop where you are in your lane'], c: 0, tip: 'Pull to the right and stop. Do not stop in an intersection.', src: '7' }
 ];
 
+// ---- Scene questions: one for each animated road scene ----
+export const SCENE_QUESTIONS = [
+  { id: 'n1', type: 'choice', img: 'scenes/stop-sign', wide: true, q: 'You reach this STOP sign. Where must you stop?', a: ['At the stop line or crosswalk, before the sign', 'Level with the sign post', 'Past the sign so you can see'], c: 0, tip: 'Stop at the line. If there is none, stop before the crosswalk.', src: '7' },
+  { id: 'n2', type: 'choice', img: 'scenes/crosswalk', wide: true, q: 'Someone is crossing at the crosswalk. What do you do?', a: ['Stop and let them cross', 'Drive behind them', 'Honk so they hurry'], c: 0, tip: 'People in a crosswalk always have the right-of-way.', src: '7' },
+  { id: 'n3', type: 'choice', img: 'scenes/emergency-vehicle', wide: true, q: 'An ambulance with lights and siren is behind you. What now?', a: ['Pull to the right edge and stop', 'Speed up to stay ahead', 'Stop in your lane'], c: 0, tip: 'Pull right and stop. Do not stop in an intersection.', src: '7' },
+  { id: 'n4', type: 'choice', img: 'scenes/train-crossing', wide: true, q: 'A train is coming. How close to the tracks may you stop?', a: ['At least 15 feet from the nearest rail', 'Right on the tracks', '5 feet away'], c: 0, tip: 'Stop 15 to 50 feet back and stay off the tracks.', src: '7' },
+  { id: 'n5', type: 'choice', img: 'scenes/bike-pass', wide: true, q: 'You pass the person on the bike. How much room do you give?', a: ['At least 3 feet', 'About 1 foot', 'None if you honk'], c: 0, tip: 'Three feet for safety. If you cannot, slow down and wait.', src: '6' },
+  { id: 'n6', type: 'choice', img: 'scenes/school-bus', wide: true, q: 'A school bus with red lights flashing is stopped ahead. What do you do?', a: ['Stop until the red lights stop flashing', 'Slow to 10 mph and pass', 'Pass if no children are visible'], c: 0, tip: 'Red lights mean stop, on both sides of an undivided road.', src: '8' },
+  { id: 'n7', type: 'choice', img: 'scenes/four-way-stop', wide: true, q: 'Four cars reach an all-way STOP at the same time. Who goes first?', a: ['The car on the right', 'The car on the left', 'The biggest car'], c: 0, tip: 'At an all-way stop, yield to the car on your right.', src: '7' },
+  { id: 'n8', type: 'choice', img: 'scenes/t-intersection', wide: true, q: 'You are at a T-intersection with no signs. Who goes first?', a: ['Traffic on the through road', 'Traffic on the road that ends', 'Whoever arrives first'], c: 0, tip: 'The road that ends yields to the through road.', src: '7' },
+  { id: 'n9', type: 'choice', img: 'scenes/blue-curb', wide: true, q: 'The curb is painted blue. Who may park there?', a: ['A driver with a disabled placard or plates', 'Anyone for a few minutes', 'Delivery drivers only'], c: 0, tip: 'Blue means disabled parking only.', src: '6' },
+  { id: 'n10', type: 'choice', img: 'scenes/railroad', wide: true, q: 'You approach a railroad crossing with a red light flashing. What do you do?', a: ['Stop, then go around the gate if it is safe', 'Stop and wait until the light stops and the gate lifts', 'Drive around the gate slowly'], c: 1, tip: 'Never go around a lowered gate. Wait until the light stops flashing.', src: '7' }
+];
+
 // Questions that live in a lesson but not in a district.
-export const EXTRA_QUESTIONS = [...SIGN_QUESTIONS, ...HANDBOOK_QUESTIONS];
+export const EXTRA_QUESTIONS = [...SIGN_QUESTIONS, ...HANDBOOK_QUESTIONS, ...SCENE_QUESTIONS];

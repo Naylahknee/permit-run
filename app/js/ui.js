@@ -91,7 +91,15 @@ export const ico = {
   }
 };
 
-export const img = (p, cls = '', alt = '') => h('img', { src: A(p), class: cls, alt, draggable: 'false' });
+/* Every picture eases in once it has painted (see `.eased` in the stylesheet). */
+export const img = (p, cls = '', alt = '') => {
+  const el = h('img', { src: A(p), class: cls, alt, draggable: 'false' });
+  const show = () => el.classList.add('eased');
+  el.addEventListener('load', show);
+  el.addEventListener('error', show);
+  if (el.complete) requestAnimationFrame(show);
+  return el;
+};
 export const num = n => (n || 0).toLocaleString('en-US');
 export const money = n => '$' + num(n);
 
