@@ -18,7 +18,7 @@ const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { c
 // The illustration a lesson shows on its card and in its reader: the lesson's
 // own road scene when it has one, otherwise the picture for its topic.
 const TOPIC_HERO = {
-  signs: 'scenes/railroad',
+  signs: 'scenes/real-signs-street',
   rights: 'scenes/t-intersection',
   speed: 'signs/speed-limit-25',
   parking: 'scenes/blue-curb',

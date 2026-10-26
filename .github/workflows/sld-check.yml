@@ -61,6 +61,15 @@ jobs:
             echo "label=the previous version" >> "$GITHUB_OUTPUT"
           fi
 
+      # Road-sign / traffic-light SVGs may be fully redrawn without tripping
+      # SLD's line-count heuristic. Keep hard blocks on real deletions and
+      # unsafe SVGs; run these tests separately from the vendored SLD engine.
+      - name: Test the road-asset policy
+        run: node --test .sld/validate-road-assets.test.mjs
+
+      - name: Validate new and redesigned sign/signal SVG assets
+        run: node .sld/validate-road-assets.mjs "${{ steps.baseref.outputs.ref }}"
+
       # The check fails the job ONLY when SLD stops the change. "Needs your
       # eyes" is a warning so legitimate changes are never blocked waiting
       # on a human nudge.
