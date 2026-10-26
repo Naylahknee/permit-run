@@ -80,11 +80,19 @@ function award(id) {
 async function splash() {
   const my = nav;
   const art = await inlineSvg('brand/splash-1080x1920', 'splash-art');
-  const node = h('button', { class: 'splash', 'aria-label': 'Tap to start', onClick: () => {
-    audio.unlock();
-    audio.setMusic(state.settings.music, state.settings.musicVol);
-    state.started ? home() : onboard();
-  } }, art);
+  const node = h('div', { class: 'splash-wrap' },
+    h('button', { class: 'splash', 'aria-label': 'Tap to start', onClick: () => {
+      audio.unlock();
+      audio.setMusic(state.settings.music, state.settings.musicVol);
+      state.started ? home() : onboard();
+    } }, art),
+    h('button', {
+      class: 'splash-switch',
+      onClick: () => {
+        try { localStorage.setItem('permitrun.design', 'modern'); } catch { /* the link still works */ }
+        location.href = '../';
+      }
+    }, 'Prefer the new light look?'));
   if (nav === my) show(node, 'no-pad');
 }
 
