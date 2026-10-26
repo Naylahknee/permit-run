@@ -14,6 +14,16 @@ const go = { learn: () => home(), practice: () => testMenu(), handbook: () => ha
 /* ---------- shared helpers ---------- */
 
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+// The illustration a topic shows on its lesson card, its reader and its results.
+const TOPIC_HERO = {
+  signs: 'scenes/scene-school-bus-intersection',
+  rights: 'signs/yield',
+  speed: 'signs/speed-limit-25',
+  parking: 'signs/no-parking',
+  alcohol: 'signs/school-zone'
+};
+const heroFor = topicId => TOPIC_HERO[topicId] || 'signs/stop';
 const mmss = s => { const m = Math.floor(s / 60); return m + ':' + String(Math.round(s % 60)).padStart(2, '0'); };
 
 let cleanup = [], nav = 0;
@@ -105,14 +115,7 @@ function home() {
   const rd = readiness();
 
   // The hero of the Continue card: the road scene for signs, a sign elsewhere.
-  const HERO = {
-    signs: 'scenes/scene-school-bus-intersection',
-    rights: 'signs/yield',
-    speed: 'signs/speed-limit-25',
-    parking: 'signs/no-parking',
-    alcohol: 'signs/school-zone'
-  };
-  const hero = HERO[topic.id] || 'signs/stop';
+  const hero = heroFor(topic.id);
   const isScene = hero.startsWith('scenes/');
 
   const row = l => {
@@ -126,7 +129,7 @@ function home() {
       class: 'prow ' + s,
       disabled: s === 'locked',
       'aria-label': l.title + ' — ' + (s === 'done' ? 'done, ' + score + '%' : s === 'in_progress' ? 'up next' : 'locked'),
-      onClick: () => { audio.sfx('tap'); startLesson(l.id); }
+      onClick: () => { audio.sfx('tap'); lessonReader(l.id); }
     },
       h('span', { class: 'pico' },
         s === 'done' ? img('ui/done', 'done-ico')
@@ -142,7 +145,7 @@ function home() {
       h('div', { class: 'row gap-s' },
         pill('ui/flame', num(state.streak)),
         pill('ui/star', num(state.cash)))),
-    h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); startLesson(cur.id); } },
+    h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); lessonReader(cur.id); } },
       h('div', { class: 'continue-hero' + (isScene ? '' : ' plain') }, img(hero)),
       h('div', { class: 'continue-body' },
         h('div', { class: 'col gap-xs grow' },
@@ -170,7 +173,7 @@ function handbook() {
     return h('button', {
       class: 'prow' + (locked ? ' locked' : ''),
       disabled: locked,
-      onClick: () => { audio.sfx('tap'); startLesson(l.id); }
+      onClick: () => { audio.sfx('tap'); lessonReader(l.id, handbook); }
     },
       h('span', { class: 'pico' },
         locked ? h('span', { class: 'pico-lock' }, ico.lock(18))
@@ -188,6 +191,47 @@ function handbook() {
       h('div', { class: 'list' }, lessonsOf(t.id).map(row)))),
     tabBar('handbook', go)
   ), 'has-tabs');
+}
+
+// The lesson itself: one short handbook page, then practice. The copy comes
+// from content.js; the bar under the header tracks where the lesson sits in
+// its topic.
+function lessonReader(id, back = home) {
+  applySettings();
+  const l = lessonById(id);
+  if (!l || statusFor(id) === 'locked') return home();
+  const topic = topicById(l.topic);
+  const read = l.read;
+  const inTopic = Math.max(1, lessonsOf(l.topic).length);
+  const step = Math.max(1, lessonNumber(id));
+  const total = l.questions.length;
+  const spoken = read.headline + '. ' + read.body + ' ' + read.points.map(p => p[1]).join(' ');
+
+  const points = h('div', { class: 'list read-points' }, read.points.map(([dot, line], i) =>
+    h('div', { class: 'read-point' },
+      h('span', { class: 'num' }, String(i + 1)),
+      h('span', { class: 'dot ' + dot }),
+      h('span', { class: 'read-point-text' }, line))));
+
+  show(h('div', { class: 'reader' },
+    h('div', { class: 'reader-head' },
+      h('button', { class: 'icon-btn', 'aria-label': 'Back', onClick: () => { audio.sfx('tap'); back(); } }, ico.arrow(22)),
+      h('h2', {}, topic.name),
+      h('span', { class: 'icon-btn', 'aria-hidden': 'true' }, ico.flag(20))),
+    h('div', { class: 'reader-bar' }, h('i', { style: `width:${Math.round(step / inTopic * 100)}%` })),
+    h('div', { class: 'reader-body' },
+      h('div', { class: 'hero plain' }, img(heroFor(l.topic))),
+      h('div', { class: 'read-copy' },
+        h('span', { class: 'read-kicker' }, read.kicker),
+        h('h1', { class: 'read-head' }, read.headline),
+        h('p', { class: 'read-text' }, read.body)),
+      points,
+      h('p', { class: 'read-src' }, 'California Driver Handbook · Section ' + l.section)),
+    h('div', { class: 'reader-foot' },
+      h('button', { class: 'cta', onClick: () => { audio.sfx('tap'); startLesson(id); } },
+        'Practice ' + total + (total === 1 ? ' question' : ' questions')))
+  ), 'no-pad');
+  if (state.settings.autoRead) audio.speak(spoken);
 }
 
 // A lesson runs on the existing question engine with that lesson's questions;
@@ -408,13 +452,14 @@ function question(run) {
     timerEl = h('span', { class: 'time-pill' }, ico.clock(15), h('b', {}, ''));
     right.append(timerEl);
   }
-  const hearts = run.challenge ? h('div', { class: 'hearts' }) : null;
-  const drawHearts = () => hearts && hearts.replaceChildren(...[0, 1, 2, 3, 4].map(k => ico.heart(k < 5 - run.strikes)));
-  if (hearts) { drawHearts(); right.append(hearts); }
+  // Three lives, as in the design. Calm mode never takes one away.
+  const hearts = h('div', { class: 'hearts' });
+  const drawHearts = () => hearts.replaceChildren(...[0, 1, 2].map(k => ico.heart(k < 3 - run.strikes)));
+  drawHearts(); right.append(hearts);
 
   const segs = dots(run.list.length, run.i, run.results);
   const head = h('div', { class: 'q-head' },
-    h('button', { class: 'round-btn', 'aria-label': 'Pause', onClick: () => pause(run) }, ico.pause(15)),
+    h('button', { class: 'q-close', 'aria-label': 'Close', onClick: () => pause(run) }, ico.close(22)),
     segs, right);
 
   const body = h('div', { class: 'q-body' });
@@ -448,15 +493,16 @@ function question(run) {
     save();
     const seg = segs.children[run.i];
     if (seg) seg.className = rightAnswer ? 'ok' : 'bad';
-    failedNow = run.challenge && run.strikes >= 5;
+    failedNow = run.challenge && run.strikes >= 3;
     const last = run.i === run.list.length - 1;
-    sheet.className = 'sheet ' + (rightAnswer ? 'ok' : 'bad');
     fb.hidden = false;
     const parts = [
-      h('div', { class: 'fb-title ' + (rightAnswer ? 'ok' : 'bad') },
-        rightAnswer ? ico.checkCircle(22) : ico.xCircle(22),
-        h('span', {}, rightAnswer ? 'Correct' : 'Not quite'),
-        speakBtn(() => (rightAnswer ? 'Correct. ' : 'Not quite. ') + q.tip)),
+      h('div', { class: 'fb-head' },
+        h('div', { class: 'fb-title ' + (rightAnswer ? 'ok' : 'bad') },
+          rightAnswer ? ico.checkCircle(22) : ico.xCircle(22),
+          h('span', {}, rightAnswer ? 'Correct' : 'Not quite'),
+          speakBtn(() => (rightAnswer ? 'Correct. ' : 'Not quite. ') + q.tip)),
+        h('span', { class: 'fb-flag', 'aria-hidden': 'true' }, ico.flag(20))),
       h('div', { class: 'fb-why' }, (msg && !rightAnswer ? msg + ' ' : '') + q.tip),
       q.src ? h('div', { class: 'fb-src' }, 'Handbook · Section ' + q.src) : null,
       extra ? h('div', { class: 'fb-extra' }, extra) : null
@@ -748,15 +794,17 @@ function lessonResults(run, right, total) {
   const nextLesson = LESSONS[LESSONS.findIndex(l => l.id === lesson.id) + 1];
   audio.sfx(ok ? 'win' : 'cash');
   show(h('div', { class: 'results' },
+    h('div', { class: 'res-top' },
+      h('button', { class: 'icon-btn', 'aria-label': 'Close', onClick: () => { audio.sfx('tap'); home(); } }, ico.close(22))),
     h('div', { class: 'score-ring', style: `background:conic-gradient(${ok ? 'var(--blue)' : 'var(--red)'} 0 ${pct}%,var(--track) 0)` },
       h('div', { class: 'score-hole' }, right + '/' + total)),
     h('div', { class: 'col center gap-xs' },
       h('div', { class: 'res-title' }, ok ? 'Passed' : 'Not passed'),
-      h('div', { class: 'res-sub' }, topicById(lesson.topic).name + ' · ' + lesson.title)),
+      h('div', { class: 'res-sub' }, topicById(lesson.topic).name + ' · Lesson ' + lessonNumber(lesson.id))),
     h('div', { class: 'stats3' },
-      h('div', { class: 'stat' }, img('icons/star'), h('b', {}, '+' + num(attempt.points_earned)), h('span', {}, 'Points')),
-      h('div', { class: 'stat' }, img('icons/flame'), h('b', {}, String(state.streak)), h('span', {}, 'Answer streak')),
-      h('div', { class: 'stat' }, img('icons/timer'), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
+      h('div', { class: 'stat' }, ico.star(26), h('b', {}, '+' + num(attempt.points_earned)), h('span', {}, 'XP')),
+      h('div', { class: 'stat' }, ico.flame(26), h('b', {}, String(state.streak)), h('span', {}, 'Day streak')),
+      h('div', { class: 'stat' }, ico.timer(26), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
     missedQs.length
       ? h('button', {
         class: 'review-row',
@@ -766,11 +814,10 @@ function lessonResults(run, right, total) {
         h('b', {}, 'Review ' + missedQs.length + (missedQs.length === 1 ? ' mistake' : ' mistakes')),
         h('span', { class: 'chev' }, ico.chev(18)))
       : null,
-    h('div', { class: 'res-actions' },
-      btn('Try again', () => startLesson(run.lesson), 'btn ghost'),
-      ok && nextLesson
-        ? btn('Next lesson', () => startLesson(nextLesson.id), 'btn primary')
-        : btn('Back to path', () => home(), 'btn primary'))
+    h('button', {
+      class: 'cta blue',
+      onClick: () => { audio.sfx('tap'); ok && nextLesson ? startLesson(nextLesson.id) : startLesson(run.lesson); }
+    }, ok && nextLesson ? 'Next lesson' : 'Try again')
   ));
 }
 

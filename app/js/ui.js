@@ -46,6 +46,7 @@ export const ico = {
   check: (s = 20) => icon('<path d="M4.6 12.7l4.7 4.7 10-10.7"/>', s, 2.4),
   lock: (s = 18) => icon('<rect x="4.8" y="10.4" width="14.4" height="10.2" rx="2.6"/><path d="M8.4 10.4V7.6a3.6 3.6 0 0 1 7.2 0v2.8"/>', s, 1.8),
   chev: (s = 18) => icon('<path d="M9 5.5 15.5 12 9 18.5"/>', s, 2),
+  close: (s = 22) => icon('<path d="M6.2 6.2 17.8 17.8M17.8 6.2 6.2 17.8"/>', s, 2.2),
   arrow: (s = 20) => icon('<path d="M14.5 5.5 8 12l6.5 6.5"/>', s, 2),
   pause: (s = 16) => icon('<rect x="7.5" y="5" width="3.2" height="14" rx="1.4" fill="currentColor" stroke="none"/><rect x="13.3" y="5" width="3.2" height="14" rx="1.4" fill="currentColor" stroke="none"/>', s),
   gear: (s = 22) => icon('<path d="M4 7h8.6M17.4 7H20M4 17h2.6M11.4 17H20"/><circle cx="15" cy="7" r="2.6"/><circle cx="9" cy="17" r="2.6"/>', s, 1.8),
@@ -58,8 +59,24 @@ export const ico = {
   heart: (filled, s = 20) => {
     const n = svgEl('svg', { viewBox: '0 0 24 24', width: s, height: s, 'aria-hidden': 'true' });
     n.innerHTML = filled
-      ? '<path d="M12 20.4 4.5 13a4.9 4.9 0 0 1 6.9-6.9l.6.6.6-.6A4.9 4.9 0 0 1 19.5 13z" fill="#FF4D5E"/>'
-      : '<path d="M12 20.4 4.5 13a4.9 4.9 0 0 1 6.9-6.9l.6.6.6-.6A4.9 4.9 0 0 1 19.5 13z" fill="none" stroke="#D8D5CF" stroke-width="1.8"/>';
+      ? '<path d="M12 20.4 4.5 13a4.9 4.9 0 0 1 6.9-6.9l.6.6.6-.6A4.9 4.9 0 0 1 19.5 13z" fill="#ED4545"/>'
+      : '<path d="M12 20.4 4.5 13a4.9 4.9 0 0 1 6.9-6.9l.6.6.6-.6A4.9 4.9 0 0 1 19.5 13z" fill="none" stroke="#E3E0DA" stroke-width="1.8"/>';
+    return n;
+  },
+  // Filled stat icons for the results screen: gold star, orange flame, blue clock.
+  star: (s = 24) => {
+    const n = svgEl('svg', { viewBox: '0 0 24 24', width: s, height: s, 'aria-hidden': 'true' });
+    n.innerHTML = '<path d="M12 3.3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.3l-5.4 2.9 1-6.1L3.2 9.8l6.1-.9z" fill="#FFC107"/>';
+    return n;
+  },
+  flame: (s = 24) => {
+    const n = svgEl('svg', { viewBox: '0 0 24 24', width: s, height: s, 'aria-hidden': 'true' });
+    n.innerHTML = '<path d="M12.9 2.4c.7 3.2-1.7 4.5-3.2 6.2C8 10.5 6.9 12.3 6.9 14.5a5.1 5.1 0 0 0 10.2 0c0-1.7-.6-3-1.5-4.2-.3 1.1-1 1.9-1.9 2.2.7-2.8.3-6.1-.8-10.1z" fill="#FF7043"/>';
+    return n;
+  },
+  timer: (s = 24) => {
+    const n = svgEl('svg', { viewBox: '0 0 24 24', width: s, height: s, 'aria-hidden': 'true' });
+    n.innerHTML = '<circle cx="12" cy="12.8" r="8.4" fill="none" stroke="#1458E0" stroke-width="2"/><path d="M12 8.4v4.4l3 1.9M9.4 2.6h5.2" fill="none" stroke="#1458E0" stroke-width="2" stroke-linecap="round"/>';
     return n;
   },
   checkCircle: (s = 22) => {
