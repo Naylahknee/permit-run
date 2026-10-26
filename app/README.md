@@ -49,6 +49,8 @@ It must be served over HTTPS so it can be installed as an app.
 
 - Questions and learn cards: `js/data.js`. Each question lists the handbook section it came from.
 - Road scenes for trace/tap questions are described in data and drawn by `js/scene.js`.
+- Full-bleed lesson illustrations live in `assets/scenes/`; a lesson picks one with
+  `scene: 'scenes/name'` in `js/content.js`, otherwise it shows its topic's picture.
 - After changing any file, run `node tools/build.mjs` from the repo root. It refreshes the
   offline file list (`precache.js`) so installed phones pick up the update. Add `--no-icons`
   to skip re-rendering the PNG icons (which needs Playwright).
