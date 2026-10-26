@@ -123,10 +123,10 @@ export function ring(percent, opts = {}) {
 /* ---------- bottom tab bar ---------- */
 
 export const TABS = [
-  { id: 'learn', label: 'Learn', icon: 'home' },
-  { id: 'practice', label: 'Practice', icon: 'flag' },
-  { id: 'handbook', label: 'Handbook', icon: 'book' },
-  { id: 'profile', label: 'Me', icon: 'person' }
+  { id: 'learn', label: 'Learn', icon: 'learn' },
+  { id: 'practice', label: 'Practice', icon: 'practice' },
+  { id: 'handbook', label: 'Handbook', icon: 'handbook' },
+  { id: 'profile', label: 'Me', icon: 'me' }
 ];
 
 export function tabBar(active, go) {
@@ -135,5 +135,6 @@ export function tabBar(active, go) {
       class: 'tab' + (t.id === active ? ' on' : ''),
       'aria-current': t.id === active ? 'page' : null,
       onClick: () => { audio.sfx('tap'); go[t.id](); }
-    }, h('span', { class: 'tab-ico' }, ico[t.icon](26)), h('span', {}, t.label))));
+    }, h('span', { class: 'tab-ico' }, img('ui/tab-' + t.icon + '-' + (t.id === active ? 'on' : 'off'))),
+      h('span', {}, t.label))));
 }

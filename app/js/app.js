@@ -23,6 +23,10 @@ function show(node, cls = '') {
   audio.stopSpeaking();
   app.className = 'screen ' + cls;
   app.replaceChildren(node);
+  // The tab bar sits beside the screen, not inside its fade-in wrapper: a
+  // transformed ancestor would drag the fixed bar into the content column.
+  const tabs = node.querySelector('.tabbar');
+  if (tabs) app.append(tabs);
   app.scrollTop = 0;
 }
 
@@ -125,7 +129,7 @@ function home() {
       onClick: () => { audio.sfx('tap'); startLesson(l.id); }
     },
       h('span', { class: 'pico' },
-        s === 'done' ? ico.checkCircle(24)
+        s === 'done' ? img('ui/done', 'done-ico')
           : s === 'in_progress' ? ring(score || 0, { size: 36, stroke: 5, color: 'var(--orange)' })
             : h('span', { class: 'pico-lock' }, ico.lock(18))),
       h('span', { class: 'pbody' }, h('b', {}, l.title), h('span', {}, sub)),
@@ -136,8 +140,8 @@ function home() {
     h('div', { class: 'learn-head' },
       h('h1', { class: 'learn-title' }, 'Learn'),
       h('div', { class: 'row gap-s' },
-        pill('icons/flame', num(state.streak)),
-        pill('icons/star', num(state.cash)))),
+        pill('ui/flame', num(state.streak)),
+        pill('ui/star', num(state.cash)))),
     h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); startLesson(cur.id); } },
       h('div', { class: 'continue-hero' + (isScene ? '' : ' plain') }, img(hero)),
       h('div', { class: 'continue-body' },
@@ -170,7 +174,7 @@ function handbook() {
     },
       h('span', { class: 'pico' },
         locked ? h('span', { class: 'pico-lock' }, ico.lock(18))
-          : s === 'done' ? ico.checkCircle(24)
+          : s === 'done' ? img('ui/done', 'done-ico')
             : img(topicById(l.topic).icon, 'topic-ico')),
       h('span', { class: 'pbody' },
         h('b', {}, l.title),
