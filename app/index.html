@@ -13,6 +13,16 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/brand/app-icon-1024.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+// Two designs share this site: this one, and the original dark game in classic/.
+// Players who picked classic (or who played before the redesign and never
+// picked) go straight there. Progress is shared, so switching loses nothing.
+try {
+  var d = localStorage.getItem('permitrun.design');
+  if (!d) { var s = JSON.parse(localStorage.getItem('permitrun.v1') || 'null'); if (s && s.started && !s.attempts) d = 'classic'; }
+  if (d === 'classic') location.replace('classic/');
+} catch (e) {}
+</script>
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="styles.css">
 </head>

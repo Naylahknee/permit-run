@@ -8,12 +8,15 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k.startsWith('permit-run-') && k !== CACHE).map(k => caches.delete(k))))
+    // only this design's old caches; classic/ keeps its own ('permit-run-classic-…')
+    .then(keys => Promise.all(keys.filter(k => /^permit-run-[0-9a-f]+$/.test(k) && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
+  const url = new URL(e.request.url);
+  // classic/ is a separate app with its own service worker and cache
+  if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.includes('/classic/')) return;
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).then(res => {
       if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }

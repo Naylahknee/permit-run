@@ -31,6 +31,17 @@ After the first visit, it works offline.
 - Settings: music, sound effects, read questions out loud, bigger text, less motion, 4/6/8 questions per mission.
 - Music and sounds are generated in the browser (soft lo-fi loop). Read-aloud uses the phone's built-in voice.
 
+## Two designs
+
+The site carries two complete versions of the game, and the player picks one:
+- **New design** (this folder): the light, lesson-based app.
+- **Classic** (`classic/`): the original dark game look with missions, cash and ranks.
+
+The welcome screen offers "Prefer the classic game look?", and **Settings → Design** switches either way.
+The choice is remembered on the device (`localStorage['permitrun.design']`). Both versions read the same saved
+progress, so switching loses nothing. Players who started before the redesign and never picked stay on Classic.
+Each version is its own installable app with its own offline cache. Both include the 3D Road Test.
+
 ## Run it locally
 
 ```sh
@@ -51,7 +62,7 @@ It must be served over HTTPS so it can be installed as an app.
 - Road scenes for trace/tap questions are described in data and drawn by `js/scene.js`.
 - Full-bleed lesson illustrations live in `assets/scenes/`; a lesson picks one with
   `scene: 'scenes/name'` in `js/content.js`, otherwise it shows its topic's picture.
-- After changing any file, run `node tools/build.mjs` from the repo root. It refreshes the
+- After changing any file in either design, run `node tools/build.mjs` from the repo root (it refreshes both offline lists). It refreshes the
   offline file list (`precache.js`) so installed phones pick up the update. Add `--no-icons`
   to skip re-rendering the PNG icons (which needs Playwright).
 - `tools/copy-assets.mjs` re-copies the SVGs from the design kit (`project/assets`) and strips their metadata.
