@@ -69,17 +69,26 @@ function award(id) {
 /* ---------- splash + onboarding ---------- */
 
 function splash() {
-  const node = h('button', { class: 'welcome', 'aria-label': 'Get started', onClick: () => {
+  const start = () => {
+    try { localStorage.setItem('permitrun.design', 'modern'); } catch { /* still playable */ }
     audio.unlock();
     audio.setMusic(state.settings.music, state.settings.musicVol);
     state.started ? home() : onboard();
-  } },
+  };
+  const node = h('div', { class: 'welcome' },
     img('brand/app-icon-1024', 'welcome-logo'),
     h('div', { class: 'col center gap-s' },
       h('div', { class: 'welcome-title' }, 'Permit Run'),
       h('div', { class: 'welcome-sub' }, 'California permit prep, one short lesson at a time.')),
-    h('span', { class: 'btn dark big' }, 'Get started'));
+    h('button', { class: 'btn dark big', onClick: start }, 'Get started'),
+    h('button', { class: 'welcome-alt', onClick: () => useDesign('classic') }, 'Prefer the classic game look?'));
   show(node, 'no-pad');
+}
+
+// Switch to the other design. Both read the same saved progress.
+function useDesign(which) {
+  try { localStorage.setItem('permitrun.design', which); } catch { /* the link still works */ }
+  location.href = which === 'classic' ? 'classic/' : './';
 }
 
 function onboard() {
@@ -414,7 +423,8 @@ function testMenu() {
         () => play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) })),
       row('icons/timer', 'Speed run', '10 quick questions · 90 seconds · best ' + state.test.speedBest + '/10',
         () => play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 })),
-      row('icons/car', 'Drive practice', 'Draw your turns and tap the road', driveStart)),
+      row('icons/car', 'Drive practice', 'Draw your turns and tap the road', driveStart),
+      row('icons/key', 'Road test · 3D', 'Drive a street. Stop, signal and yield like the DMV drive test', roadMenu)),
     h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.'),
     tabBar('practice', go)
   ), 'has-tabs');
@@ -850,6 +860,58 @@ function trophies() {
 }
 const stat = (k, v) => h('div', { class: 'row between' }, h('span', { class: 'muted' }, k), h('b', {}, String(v)));
 
+/* ---------- 3D road test ---------- */
+
+// Loaded on demand: the 3D engine (and its Three.js build) is only fetched
+// when someone opens the road test.
+let roadMod = null;
+const loadRoad = async () => roadMod || (roadMod = await import('./roadtest.js'));
+
+async function roadMenu() {
+  const my = nav;
+  let mod;
+  try { mod = await loadRoad(); }
+  catch { show(h('div', { class: 'col gap-m' }, header('Road test', testMenu), h('p', { class: 'muted' }, 'The 3D road test could not load. Check your connection and try again.'))); return; }
+  if (nav !== my) return;
+  const passed = mod.DRIVES.filter(d => state.road[d.id]).length;
+  const next = mod.DRIVES.findIndex(d => !state.road[d.id]);
+  show(h('div', { class: 'col gap-m' }, header('Road test', testMenu),
+    h('p', { class: 'muted' }, 'Short 3D drives that practise what the DMV examiner checks. Hold Go to drive and Brake to stop. The car steers itself.'),
+    h('div', { class: 'eyebrow' }, passed + ' of ' + mod.DRIVES.length + ' drives passed'),
+    h('div', { class: 'list' }, mod.DRIVES.map((d, i) => {
+      const st = state.road[d.id] || 0;
+      return h('button', { class: 'mcard' + (i === next ? ' next' : ''), onClick: () => { audio.sfx('tap'); roadDrive(i); } },
+        h('span', { class: 'mcard-ico rt-num' + (st ? ' done' : '') }, st ? ico.check(18) : String(i + 1)),
+        h('span', { class: 'col grow gap-xs' }, h('b', {}, d.name), h('span', { class: 'sub' }, d.goal)),
+        st ? h('span', { class: 'stars' }, '★'.repeat(st) + '☆'.repeat(3 - st)) : h('span', { class: 'chev' }, ico.chev(18)));
+    })),
+    tabBar('practice', go)
+  ), 'has-tabs');
+}
+
+async function roadDrive(i) {
+  const mod = await loadRoad();
+  const drive = mod.DRIVES[i];
+  const box = h('div', { class: 'rt' });
+  show(box, 'no-pad road-screen');
+  audio.setMusic(false);
+  const destroy = mod.startDrive(box, drive, {
+    h, img, ico, audio, reduced,
+    voice: () => state.settings.driveVoice,
+    setVoice: on => { state.settings.driveVoice = on; save(); },
+    onExit: () => roadMenu(),
+    onDone: ({ stars, again }) => {
+      const first = !state.road[drive.id];
+      state.road[drive.id] = Math.max(state.road[drive.id] || 0, stars);
+      const earned = (first ? 300 : 100) + (stars === 3 ? 100 : 0);
+      state.cash += earned; save();
+      toast('icons/cash', '+' + money(earned), drive.name + ' passed');
+      if (again) roadDrive(i); else if (i + 1 < mod.DRIVES.length) roadDrive(i + 1); else roadMenu();
+    }
+  });
+  cleanup.push(() => { destroy(); audio.setMusic(state.settings.music, state.settings.musicVol); });
+}
+
 /* ---------- settings ---------- */
 
 function settings() {
@@ -863,7 +925,12 @@ function settings() {
   vol.addEventListener('input', () => { s.musicVol = +vol.value; audio.setMusic(s.music, s.musicVol); save(); });
   const per = h('div', { class: 'seg' }, [4, 6, 8].map(n => h('button', { class: s.perMission === n ? 'on' : '', onClick: () => { s.perMission = n; save(); settings(); } }, String(n))));
 
+  const design = h('div', { class: 'seg design-seg' },
+    h('button', { class: 'on' }, 'New'),
+    h('button', { onClick: () => useDesign('classic') }, 'Classic'));
+
   show(h('div', { class: 'col gap-m' }, header('Settings', trophies),
+    h('div', { class: 'setting' }, h('div', { class: 'col' }, h('b', {}, 'Design'), h('span', { class: 'muted small' }, 'Classic is the original dark game look. Your progress stays the same.')), design),
     toggle('music', 'Music', 'Calm background beats.', () => audio.setMusic(s.music, s.musicVol)),
     h('div', { class: 'setting' }, h('b', {}, 'Music volume'), vol),
     toggle('sfx', 'Sound effects', 'Dings for right answers.'),
@@ -902,4 +969,4 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // For automated checks.
-window.__permitRun = { state, DISTRICTS, TOPICS, LESSONS, go: { home, handbook, map, trophies, settings, testMenu, missionIntro, learn, startMission, startLesson, play, results } };
+window.__permitRun = { state, DISTRICTS, TOPICS, LESSONS, go: { home, handbook, map, trophies, settings, testMenu, missionIntro, learn, startMission, startLesson, play, results, roadMenu, roadDrive } };
