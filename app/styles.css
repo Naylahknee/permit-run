@@ -16,6 +16,9 @@
   --shadow-hero: 0 8px 24px rgba(0, 0, 0, .12);
   --r: 20px;
 
+  /* width of the app column: phone-shaped on every screen size */
+  --shell: 480px;
+
   --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Helvetica, sans-serif;
   --display: var(--font); --body: var(--font); --mono: var(--font);
   --fs: 17px; --q: 20px; --ans: 17px;
@@ -38,7 +41,7 @@ img { user-select: none; -webkit-user-drag: none; }
 h1, h2, h3 { margin: 0; }
 p { margin: 0; }
 
-.screen { max-width: 480px; margin: 0 auto; min-height: 100%; padding: calc(10px + var(--safe-t)) 20px calc(28px + var(--safe-b)); }
+.screen { max-width: var(--shell); margin: 0 auto; min-height: 100%; padding: calc(10px + var(--safe-t)) 20px calc(28px + var(--safe-b)); }
 .screen.no-pad { padding: 0; }
 .screen.has-tabs { padding-bottom: calc(104px + var(--safe-b)); }
 .screen > * { animation: enter .28s ease-out both; }
@@ -163,7 +166,7 @@ p { margin: 0; }
 .pbody span { font-size: 13px; color: var(--ink3); }
 
 /* ---------- bottom tab bar ---------- */
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; margin: 0 auto; width: 100%; max-width: 480px;
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; margin: 0 auto; width: 100%; max-width: var(--shell);
   display: grid; grid-template-columns: repeat(4, 1fr); padding-top: 8px; padding-bottom: var(--safe-b);
   min-height: 84px; background: rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
   border-top: 1px solid rgba(0, 0, 0, .06); z-index: 10; }
@@ -377,6 +380,24 @@ p { margin: 0; }
 .seg { display: flex; background: var(--bg); border-radius: 12px; padding: 3px; }
 .seg button { width: 44px; height: 36px; border-radius: 9px; font: 700 16px var(--font); }
 .seg button.on { background: var(--card); box-shadow: var(--shadow); color: var(--blue); }
+
+/* ---------- tablet + desktop: the app sits on its own panel ---------- */
+/* The app stays a phone-sized column — on a wide screen that column becomes a
+   visible app surface instead of a strip of content lost in empty space. */
+@media (min-width: 720px) {
+  :root { --shell: 500px; }
+
+  html, body { background: linear-gradient(180deg, #E9E5DC 0%, #E1DCD1 100%); }
+
+  .screen {
+    background: var(--bg);
+    box-shadow: 0 0 0 1px rgba(28, 28, 30, .07), 0 18px 60px rgba(28, 28, 30, .13);
+  }
+
+  /* overlays and toasts belong to the panel, not the whole desktop */
+  .overlay { left: 0; right: 0; width: var(--shell); margin: 0 auto; }
+  .toast { max-width: calc(var(--shell) - 32px); }
+}
 
 /* short phones: keep the question readable */
 @media (max-height: 700px) {
