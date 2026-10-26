@@ -961,7 +961,12 @@ applySettings();
 splash();
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
+      await registration.update();
+    } catch (e) { /* Keep the game playable online without offline support. */ }
+  });
 }
 // Pause music when the app is hidden (phone locked, switched apps).
 document.addEventListener('visibilitychange', () => {
