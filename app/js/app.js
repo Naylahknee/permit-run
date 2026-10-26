@@ -1,7 +1,7 @@
 import { DISTRICTS, ALL_QUESTIONS, ACHIEVEMENTS, RANKS, byId, SIGN_Q } from './data.js';
 import { TOPICS, LESSONS, topicById, lessonById, lessonsOf, lessonNumber } from './content.js';
 import { state, save, reset, rankFor, record, statusFor, bestFor, readiness, currentLesson, recordAttempt, PASS_MARK } from './store.js';
-import { A, h, img, num, money, btn, speakBtn, header, dots, ring, pill, tabBar } from './ui.js';
+import { A, h, img, num, money, btn, speakBtn, header, dots, ring, pill, tabBar, ico } from './ui.js';
 import * as audio from './audio.js';
 import * as S from './scene.js';
 
@@ -14,6 +14,7 @@ const go = { learn: () => home(), practice: () => testMenu(), handbook: () => ha
 /* ---------- shared helpers ---------- */
 
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const mmss = s => { const m = Math.floor(s / 60); return m + ':' + String(Math.round(s % 60)).padStart(2, '0'); };
 
 let cleanup = [], nav = 0;
 function show(node, cls = '') {
@@ -23,12 +24,6 @@ function show(node, cls = '') {
   app.className = 'screen ' + cls;
   app.replaceChildren(node);
   app.scrollTop = 0;
-}
-
-async function inlineSvg(path, cls) {
-  const wrap = h('div', { class: cls });
-  try { wrap.innerHTML = await (await fetch(A(path))).text(); } catch { wrap.append(img(path)); }
-  return wrap;
 }
 
 function applySettings() {
@@ -57,15 +52,18 @@ function award(id) {
 
 /* ---------- splash + onboarding ---------- */
 
-async function splash() {
-  const my = nav;
-  const art = await inlineSvg('brand/splash-1080x1920', 'splash-art');
-  const node = h('button', { class: 'splash', 'aria-label': 'Tap to start', onClick: () => {
+function splash() {
+  const node = h('button', { class: 'welcome', 'aria-label': 'Get started', onClick: () => {
     audio.unlock();
     audio.setMusic(state.settings.music, state.settings.musicVol);
     state.started ? home() : onboard();
-  } }, art);
-  if (nav === my) show(node, 'no-pad');
+  } },
+    img('brand/app-icon-1024', 'welcome-logo'),
+    h('div', { class: 'col center gap-s' },
+      h('div', { class: 'welcome-title' }, 'Permit Run'),
+      h('div', { class: 'welcome-sub' }, 'California permit prep, one short lesson at a time.')),
+    h('span', { class: 'btn dark big' }, 'Get started'));
+  show(node, 'no-pad');
 }
 
 function onboard() {
@@ -75,13 +73,15 @@ function onboard() {
   const draw = () => grid.replaceChildren(...[1, 2, 3, 4, 5, 6].map(i =>
     h('button', { class: 'avatar' + (i === pick ? ' on' : ''), 'aria-label': 'Driver ' + i, onClick: () => { audio.sfx('tap'); pick = i; draw(); } }, img('avatars/avatar-' + i))));
   draw();
-  show(h('div', { class: 'col center gap-l onboard' },
-    h('div', { class: 'kicker' }, 'WELCOME'),
-    h('h1', { class: 'title' }, 'PICK YOUR DRIVER'),
+  show(h('div', { class: 'col gap-l onboard' },
+    h('div', { class: 'col gap-xs' },
+      h('span', { class: 'eyebrow' }, 'Welcome'),
+      h('h1', { class: 'learn-title' }, 'Pick your driver'),
+      h('p', { class: 'muted' }, 'This is you in every picture.')),
     grid, name,
-    btn('LET\'S GO', () => {
+    btn('Get started', () => {
       state.avatar = pick; state.name = name.value.trim(); state.started = true; save(); home();
-    }, 'btn primary big')
+    }, 'btn dark big')
   ));
 }
 
@@ -100,49 +100,58 @@ function home() {
   const topic = topicById(cur.topic);
   const rd = readiness();
 
+  // The hero of the Continue card: the road scene for signs, a sign elsewhere.
+  const HERO = {
+    signs: 'scenes/scene-school-bus-intersection',
+    rights: 'signs/yield',
+    speed: 'signs/speed-limit-25',
+    parking: 'signs/no-parking',
+    alcohol: 'signs/school-zone'
+  };
+  const hero = HERO[topic.id] || 'signs/stop';
+  const isScene = hero.startsWith('scenes/');
+
   const row = l => {
     const s = statusFor(l.id);
     const score = bestFor(l.id);
+    const name = topicById(l.topic).name;
+    const sub = s === 'done' ? name + ' · ' + score + '%'
+      : s === 'in_progress' ? name + ' · ' + l.minutes + ' min'
+        : name;
     return h('button', {
-      class: 'path-row ' + s,
+      class: 'prow ' + s,
       disabled: s === 'locked',
       'aria-label': l.title + ' — ' + (s === 'done' ? 'done, ' + score + '%' : s === 'in_progress' ? 'up next' : 'locked'),
       onClick: () => { audio.sfx('tap'); startLesson(l.id); }
     },
-      h('span', { class: 'path-state' },
-        s === 'done' ? img('icons/check', 'path-ico')
-          : s === 'in_progress' ? ring(score || 0, 30, 3)
-            : img('icons/lock', 'path-ico')),
-      h('span', { class: 'path-body' },
-        h('span', { class: 'path-topic' }, topicById(l.topic).name),
-        h('span', { class: 'path-title' }, l.title)),
-      h('span', { class: 'path-meta' }, s === 'done' ? score + '%' : s === 'in_progress' ? 'Start' : l.minutes + ' min'));
+      h('span', { class: 'pico' },
+        s === 'done' ? ico.checkCircle(24)
+          : s === 'in_progress' ? ring(score || 0, { size: 36, stroke: 5, color: 'var(--orange)' })
+            : h('span', { class: 'pico-lock' }, ico.lock(18))),
+      h('span', { class: 'pbody' }, h('b', {}, l.title), h('span', {}, sub)),
+      s === 'locked' ? null : h('span', { class: 'chev' }, ico.chev(18)));
   };
 
   show(h('div', { class: 'col gap-m' },
     h('div', { class: 'learn-head' },
-      h('div', { class: 'col' },
-        h('div', { class: 'kicker' }, 'Permit Run'),
-        h('h1', { class: 'learn-title' }, state.name ? 'Hi, ' + state.name : 'Learn')),
+      h('h1', { class: 'learn-title' }, 'Learn'),
       h('div', { class: 'row gap-s' },
-        pill('icons/flame', num(state.streak), 'streak'),
-        pill('icons/star', num(state.cash), 'points'))),
-    h('div', { class: 'card continue' },
-      h('div', { class: 'continue-top' },
-        img(topic.icon, 'continue-ico'),
-        h('span', { class: 'kicker' }, topic.name + ' · lesson ' + lessonNumber(cur.id))),
-      h('div', { class: 'continue-title' }, cur.title),
-      btn('Start', () => startLesson(cur.id), 'btn primary big')),
+        pill('icons/flame', num(state.streak)),
+        pill('icons/star', num(state.cash)))),
+    h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); startLesson(cur.id); } },
+      h('div', { class: 'continue-hero' + (isScene ? '' : ' plain') }, img(hero)),
+      h('div', { class: 'continue-body' },
+        h('div', { class: 'col gap-xs grow' },
+          h('span', { class: 'eyebrow' }, topic.name.toUpperCase() + ' · LESSON ' + lessonNumber(cur.id)),
+          h('span', { class: 'continue-title' }, cur.title)),
+        h('span', { class: 'go-btn' }, ico.play(18)))),
     h('div', { class: 'card ready' },
-      h('div', { class: 'ready-ring' }, ring(rd.percent, 76, 7), h('span', { class: 'ready-pct' }, rd.percent + '%')),
-      h('div', { class: 'col' },
+      ring(rd.percent, { size: 56, stroke: 6, label: rd.percent + '%' }),
+      h('div', { class: 'col gap-xs' },
         h('b', { class: 'ready-title' }, 'Test ready'),
-        h('span', { class: 'muted' }, rd.toGo + (rd.toGo === 1 ? ' lesson' : ' lessons') + ' to 80%'),
-        h('span', { class: 'muted small' }, rd.passed + ' of ' + rd.total + ' lessons passed'))),
-    h('div', { class: 'section-row' },
-      h('h2', { class: 'section-title' }, 'Your path'),
-      h('span', { class: 'muted small' }, rd.passed + ' of ' + rd.total)),
-    h('div', { class: 'path' }, LESSONS.map(row)),
+        h('span', { class: 'ready-sub' }, rd.toGo + (rd.toGo === 1 ? ' lesson' : ' lessons') + ' to 80%'))),
+    h('h2', { class: 'section-title', style: 'margin-top:4px' }, 'Your path'),
+    h('div', { class: 'list' }, LESSONS.map(row)),
     tabBar('learn', go)
   ), 'has-tabs');
 }
@@ -151,22 +160,28 @@ function home() {
 
 function handbook() {
   applySettings();
-  const group = t => h('div', { class: 'col gap-s' },
-    h('h3', { class: 'topic-head' }, img(t.icon, 'topic-ico'), t.name),
-    lessonsOf(t.id).map(l => h('div', { class: 'card hand-row' },
-      h('div', { class: 'col grow' },
+  const row = l => {
+    const s = statusFor(l.id);
+    const locked = s === 'locked';
+    return h('button', {
+      class: 'prow' + (locked ? ' locked' : ''),
+      disabled: locked,
+      onClick: () => { audio.sfx('tap'); startLesson(l.id); }
+    },
+      h('span', { class: 'pico' },
+        locked ? h('span', { class: 'pico-lock' }, ico.lock(18))
+          : s === 'done' ? ico.checkCircle(24)
+            : img(topicById(l.topic).icon, 'topic-ico')),
+      h('span', { class: 'pbody' },
         h('b', {}, l.title),
-        h('span', { class: 'muted small' }, 'Handbook §' + l.section + ' · ' + l.minutes + ' min')),
-      h('button', {
-        class: 'btn primary small',
-        disabled: statusFor(l.id) === 'locked',
-        onClick: () => { audio.sfx('tap'); startLesson(l.id); }
-      }, 'Practice'))));
+        h('span', {}, 'Handbook §' + l.section + ' · ' + l.minutes + ' min' + (s === 'done' ? ' · passed' : ''))),
+      locked ? null : h('span', { class: 'chev' }, ico.chev(18)));
+  };
   show(h('div', { class: 'col gap-m' },
-    h('div', { class: 'col' },
-      h('div', { class: 'kicker' }, 'Lessons by topic'),
-      h('h1', { class: 'learn-title' }, 'Handbook')),
-    TOPICS.map(group),
+    h('h1', { class: 'learn-title' }, 'Handbook'),
+    ...TOPICS.map(t => h('div', { class: 'col gap-s' },
+      h('h3', { class: 'group-head' }, img(t.icon, 'topic-ico'), t.name),
+      h('div', { class: 'list' }, lessonsOf(t.id).map(row)))),
     tabBar('handbook', go)
   ), 'has-tabs');
 }
@@ -339,14 +354,18 @@ function reviewStart() {
 }
 
 function testMenu() {
+  const row = (iconPath, title, sub, onClick) => h('button', { class: 'mcard', onClick: () => { audio.sfx('tap'); onClick(); } },
+    h('span', { class: 'mcard-ico' }, img(iconPath)),
+    h('span', { class: 'col grow gap-xs' }, h('b', {}, title), h('span', { class: 'sub' }, sub)),
+    h('span', { class: 'chev' }, ico.chev(18)));
   show(h('div', { class: 'col gap-m' },
-    h('div', { class: 'learn-head' }, h('h1', { class: 'learn-title' }, 'Practice')),
-    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) }); } },
-      img('icons/handbook'), h('div', { class: 'col' }, h('b', {}, 'PRACTICE TEST'), h('span', {}, '20 questions from every district. Get 16 right to pass.'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.best + ' / 20'))),
-    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 }); } },
-      img('icons/timer'), h('div', { class: 'col' }, h('b', {}, 'SPEED RUN'), h('span', {}, '10 quick questions. 90 seconds. Optional!'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.speedBest + ' / 10'))),
-    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); driveStart(); } },
-      img('icons/car'), h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.'))),
+    h('h1', { class: 'learn-title' }, 'Practice'),
+    h('div', { class: 'list' },
+      row('icons/handbook', 'Practice test', '20 questions · pass at 16 · best ' + state.test.best + '/20',
+        () => play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) })),
+      row('icons/timer', 'Speed run', '10 quick questions · 90 seconds · best ' + state.test.speedBest + '/10',
+        () => play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 })),
+      row('icons/car', 'Drive practice', 'Draw your turns and tap the road', driveStart)),
     h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.'),
     tabBar('practice', go)
   ), 'has-tabs');
@@ -376,90 +395,122 @@ function title(run) {
 
 function question(run) {
   const q = run.list[run.i];
-  const [t1, t2] = title(run);
-  let answered = false;
+  const [t1] = title(run);
+  let answered = false, pick = null, failedNow = false, timerEl = null;
 
-  // HUD
-  const timerEl = run.time ? h('div', { class: 'hud-timer' }) : null;
-  const strikeEl = run.challenge ? h('div', { class: 'strikes' }, [0, 1, 2, 3, 4].map(k => img(k < run.strikes ? 'icons/strike-on' : 'icons/strike-off'))) : null;
-  const cashEl = h('div', { class: 'hud-cash' }, money(state.cash));
-  const hud = h('div', { class: 'hud' },
-    h('div', { class: 'row gap-s' },
-      h('button', { class: 'icon-btn', 'aria-label': 'Pause', onClick: () => pause(run) }, img('icons/pause')),
-      h('div', { class: 'col' }, h('div', { class: 'chip pink' }, img('icons/mission-flag'), t1), h('div', { class: 'hud-sub' }, t2))),
-    h('div', { class: 'col end gap-xs' }, cashEl, strikeEl, timerEl));
+  // Top bar: pause, one progress bar per question, hearts (or the clock).
+  const right = h('div', { class: 'q-right' });
+  if (run.time) {
+    timerEl = h('span', { class: 'time-pill' }, ico.clock(15), h('b', {}, ''));
+    right.append(timerEl);
+  }
+  const hearts = run.challenge ? h('div', { class: 'hearts' }) : null;
+  const drawHearts = () => hearts && hearts.replaceChildren(...[0, 1, 2, 3, 4].map(k => ico.heart(k < 5 - run.strikes)));
+  if (hearts) { drawHearts(); right.append(hearts); }
 
-  const stage = h('div', { class: 'stage' });
+  const segs = dots(run.list.length, run.i, run.results);
+  const head = h('div', { class: 'q-head' },
+    h('button', { class: 'round-btn', 'aria-label': 'Pause', onClick: () => pause(run) }, ico.pause(15)),
+    segs, right);
+
+  const body = h('div', { class: 'q-body' });
   const sheet = h('div', { class: 'sheet' });
-  const flash = h('div', { class: 'flash' });
-  const fb = h('div', { class: 'feedback', hidden: true });
-  const qText = h('div', { class: 'q-text' }, q.q);
+  const fb = h('div', { class: 'fb', hidden: true });
+  const mainBtn = h('button', { class: 'cta', disabled: true }, 'Check');
+  mainBtn.hidden = q.type !== 'choice' && q.type !== 'pics';
+
+  const prompt = h('div', { class: 'q-prompt' },
+    h('span', { class: 'eyebrow' }, q.tag || t1),
+    h('div', { class: 'q-text' }, q.q));
   const readText = () => q.q + (q.type === 'choice' ? ' ' + q.a.map((a, j) => 'ABC'[j] + '. ' + a).join(' ') : '');
 
-  sheet.append(
-    h('div', { class: 'row between mono gold small' }, h('span', {}, 'QUESTION ' + (run.i + 1) + ' OF ' + run.list.length), h('span', {}, '+$100')),
-    h('div', { class: 'row gap-s top' }, qText, speakBtn(readText)));
+  let buttons = [], refreshPicks = () => {};
 
-  const done = (right, msg, extra) => {
+  const done = (rightAnswer, msg, extra) => {
     if (answered) return; answered = true;
-    run.results[run.i] = right;
-    record(q.id, right);
-    if (right) {
+    run.results[run.i] = rightAnswer;
+    record(q.id, rightAnswer);
+    if (rightAnswer) {
       state.cash += 100; run.earned += 100; state.streak++;
       state.bestStreak = Math.max(state.bestStreak, state.streak);
       if (state.streak >= 5) award('streak5');
       if (SIGN_Q.has(q.id)) { state.signRight++; if (state.signRight >= 10) award('signs'); }
       audio.sfx('right'); setTimeout(() => audio.sfx('cash'), 250);
-      cashEl.textContent = money(state.cash); cashEl.classList.add('bump');
     } else {
       state.streak = 0;
       audio.sfx('wrong');
-      if (run.challenge) { run.strikes++; strikeEl.replaceChildren(...[0, 1, 2, 3, 4].map(k => img(k < run.strikes ? 'icons/strike-on' : 'icons/strike-off'))); }
+      if (run.challenge) { run.strikes++; drawHearts(); }
     }
     save();
-    flash.textContent = right ? '+$100' : run.challenge ? 'STRIKE!' : 'ALMOST!';
-    flash.className = 'flash show ' + (right ? 'ok' : 'bad');
-    const failed = run.challenge && run.strikes >= 5;
+    const seg = segs.children[run.i];
+    if (seg) seg.className = rightAnswer ? 'ok' : 'bad';
+    failedNow = run.challenge && run.strikes >= 5;
     const last = run.i === run.list.length - 1;
+    sheet.className = 'sheet ' + (rightAnswer ? 'ok' : 'bad');
     fb.hidden = false;
-    sheet.querySelector('.hint')?.remove();
-    fb.replaceChildren(
-      h('div', { class: 'col grow gap-xs' },
-        msg && !right ? h('b', { class: 'pink-text' }, msg) : null,
-        h('div', { class: 'tip' }, q.tip),
-        q.src ? h('div', { class: 'mono dim small' }, 'HANDBOOK · SECTION ' + q.src) : null),
-      ...(extra ? [extra] : []),
-      btn(failed ? 'RESULTS' : last ? 'FINISH' : 'NEXT', () => next(run, failed), 'btn gold'));
-    if (state.settings.autoRead) audio.speak((right ? 'Correct! ' : 'Not quite. ') + q.tip);
-    const nextBtn = fb.querySelector('.btn.gold');
-    nextBtn.focus({ preventScroll: true });
-    nextBtn.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' });
+    const parts = [
+      h('div', { class: 'fb-title ' + (rightAnswer ? 'ok' : 'bad') },
+        rightAnswer ? ico.checkCircle(22) : ico.xCircle(22),
+        h('span', {}, rightAnswer ? 'Correct' : 'Not quite'),
+        speakBtn(() => (rightAnswer ? 'Correct. ' : 'Not quite. ') + q.tip)),
+      h('div', { class: 'fb-why' }, (msg && !rightAnswer ? msg + ' ' : '') + q.tip),
+      q.src ? h('div', { class: 'fb-src' }, 'Handbook · Section ' + q.src) : null,
+      extra ? h('div', { class: 'fb-extra' }, extra) : null
+    ];
+    fb.replaceChildren(...parts.filter(Boolean));
+    mainBtn.hidden = false;
+    mainBtn.disabled = false;
+    mainBtn.textContent = failedNow ? 'See results' : last ? 'Finish' : 'Continue';
+    if (state.settings.autoRead) audio.speak((rightAnswer ? 'Correct! ' : 'Not quite. ') + q.tip);
+    mainBtn.focus({ preventScroll: true });
   };
+
+  const check = () => {
+    if (answered || pick == null) return;
+    buttons.forEach((b, k) => {
+      b.disabled = true;
+      if (q.type === 'choice') {
+        b.className = 'answer' + (k === q.c ? ' ok' : k === pick ? ' bad' : '');
+        if (k === q.c || k === pick) mark(b, k === q.c ? 'ok' : 'bad');
+      } else {
+        b.className = 'pic' + (k === q.c ? ' ok' : k === pick ? ' bad' : '');
+      }
+    });
+    done(pick === q.c);
+  };
+
+  mainBtn.addEventListener('click', () => {
+    if (answered) { next(run, failedNow); return; }
+    if (q.type === 'choice' || q.type === 'pics') check();
+  });
 
   // stage + answers per type
   if (q.type === 'choice') {
-    stage.append(visualFor(q));
-    const list = h('div', { class: 'answers' });
-    const buttons = q.a.map((text, j) => h('button', { class: 'answer', onClick: () => {
-      if (answered) return;
-      buttons.forEach((b, k) => { b.disabled = true; if (k === q.c) mark(b, 'ok'); else if (k === j) mark(b, 'bad'); });
-      done(j === q.c);
-    } }, h('span', { class: 'letter' }, 'ABC'[j]), h('span', {}, text)));
-    list.append(...buttons); sheet.append(list);
+    buttons = q.a.map((text, j) => h('button', {
+      class: 'answer',
+      onClick: () => { if (answered) return; pick = j; refreshPicks(); }
+    }, h('span', { class: 'letter' }, 'ABC'[j]), h('span', {}, text)));
+    refreshPicks = () => {
+      buttons.forEach((b, k) => { b.className = 'answer' + (k === pick ? ' on' : ''); });
+      mainBtn.disabled = pick == null;
+    };
+    body.append(visualFor(q), prompt, h('div', { class: 'answers' }, buttons));
     run.keys = buttons;
   } else if (q.type === 'pics') {
-    stage.classList.add('pics-stage');
-    const buttons = q.a.map((opt, j) => h('button', { class: 'pic', 'aria-label': opt.label, onClick: () => {
-      if (answered) return;
-      buttons.forEach((b, k) => { b.disabled = true; if (k === q.c) b.classList.add('ok'); else if (k === j) b.classList.add('bad'); });
-      done(j === q.c);
-    } }, opt.img ? img(opt.img) : wheels(opt.wheels), h('span', {}, opt.label)));
-    stage.append(h('div', { class: 'pics' }, buttons));
+    buttons = q.a.map((opt, j) => h('button', {
+      class: 'pic', 'aria-label': opt.label,
+      onClick: () => { if (answered) return; pick = j; refreshPicks(); }
+    }, opt.img ? img(opt.img) : wheels(opt.wheels), h('span', {}, opt.label)));
+    refreshPicks = () => {
+      buttons.forEach((b, k) => { b.className = 'pic' + (k === pick ? ' on' : ''); });
+      mainBtn.disabled = pick == null;
+    };
+    body.append(prompt, h('div', { class: 'pics' }, buttons));
     run.keys = buttons;
   } else if (q.type === 'tap') {
     const sc = S.buildScene(q.scene);
-    stage.append(h('div', { class: 'scene-wrap' }, sc.svg));
-    sheet.append(h('div', { class: 'hint' }, '👆  Tap your answer on the picture.'));
+    body.append(h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)), prompt);
+    sheet.append(h('div', { class: 'sheet-hint' }, 'Tap your answer on the picture.'));
     sc.svg.addEventListener('click', e => {
       if (answered) return;
       const t = e.target.closest('.tappable');
@@ -475,11 +526,10 @@ function question(run) {
     run.keys = null;
   } else if (q.type === 'trace') {
     const sc = S.buildScene(q.scene);
-    const wrap = h('div', { class: 'scene-wrap' }, sc.svg);
-    stage.append(wrap);
+    body.append(h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)), prompt);
     const pulse = S.el('circle', { cx: sc.player.x, cy: sc.player.y, r: 30, class: 'pulse' }, sc.svg);
     const ink = S.el('polyline', { points: '', class: 'ink' }, sc.svg);
-    const msg = h('div', { class: 'hint' }, '✍️  Put your finger on your car and draw where it goes.');
+    const msg = h('div', { class: 'sheet-hint' }, 'Put your finger on your car and draw where it goes.');
     sheet.append(msg);
     let pts = [], drawing = false;
     const startPos = sc.player.node.getAttribute('transform');
@@ -498,13 +548,13 @@ function question(run) {
     const end = async () => {
       if (!drawing) return; drawing = false;
       const r = S.checkTrace(sc, pts, q.goal);
-      if (r.retry) { msg.textContent = '👉  ' + r.msg; msg.classList.add('nudge'); ink.setAttribute('points', ''); pulse.style.display = ''; setTimeout(() => msg.classList.remove('nudge'), 500); return; }
+      if (r.retry) { msg.textContent = r.msg; ink.setAttribute('points', ''); pulse.style.display = ''; return; }
       ink.setAttribute('class', 'ink ' + (r.ok ? 'ok' : 'bad'));
       msg.remove();
       const d = S.demoPath(sc, q.demo);
       const ghost = S.el('path', { d, class: 'ghost-path' }, sc.layer);
       const watch = async () => { sc.player.node.setAttribute('transform', startPos); audio.sfx('whoosh'); await S.driveAlong(sc.player.node, d, sc.svg, { duration: 2400, reduced: reduced() }); };
-      done(r.ok, r.msg, h('button', { class: 'btn ghost small', onClick: watch }, '▶ WATCH'));
+      done(r.ok, r.msg, h('button', { class: 'btn ghost small', onClick: watch }, '▶ Watch'));
       ghost.getBoundingClientRect();
       await wait(300); watch();
     };
@@ -513,13 +563,14 @@ function question(run) {
     run.keys = null;
   }
 
-  sheet.append(fb);
-  show(h('div', { class: 'play' }, hud, dots(run.list.length, run.i, run.results), h('div', { class: 'stage-wrap' }, stage, flash), sheet), 'no-pad play-screen');
+  sheet.append(fb, mainBtn);
+  show(h('div', { class: 'play' }, head, body, sheet), 'no-pad play-screen');
   if (state.settings.autoRead) audio.speak(readText());
 
-  // keyboard: 1-3 to answer, Enter for next
+  // keyboard: 1-3 to pick an answer, Enter to check / continue
   const onKey = e => {
     if (e.key >= '1' && e.key <= '3' && run.keys && !answered) run.keys[+e.key - 1]?.click();
+    if (e.key === 'Enter' && !mainBtn.hidden && !mainBtn.disabled) mainBtn.click();
   };
   document.addEventListener('keydown', onKey);
   cleanup.push(() => document.removeEventListener('keydown', onKey));
@@ -527,8 +578,9 @@ function question(run) {
   // timer
   if (run.time) {
     const tick = () => {
-      const m = Math.floor(run.left / 60), s = run.left % 60, pct = run.left / run.time * 100;
-      timerEl.replaceChildren(h('div', { class: 'ring', style: `background:conic-gradient(#1458E0 0 ${pct}%,#F0EEEA ${pct}% 100%)` }, h('span', {}, m + ':' + String(s).padStart(2, '0'))));
+      const m = Math.floor(run.left / 60), s = run.left % 60;
+      timerEl.querySelector('b').textContent = m + ':' + String(s).padStart(2, '0');
+      timerEl.classList.toggle('low', run.left <= 10);
     };
     tick();
     const iv = setInterval(() => {
@@ -542,7 +594,7 @@ function question(run) {
 
 function mark(b, k) {
   b.classList.add(k);
-  b.querySelector('.letter').replaceWith(img(k === 'ok' ? 'icons/check' : 'icons/wrong', 'letter-ico'));
+  b.querySelector('.letter')?.replaceWith(h('span', { class: 'letter-ico' }, k === 'ok' ? ico.checkCircle(24) : ico.xCircle(24)));
 }
 
 function next(run, failed) {
@@ -552,10 +604,10 @@ function next(run, failed) {
 }
 
 function visualFor(q) {
-  if (q.scene) { const sc = S.buildScene(q.scene); return h('div', { class: 'scene-wrap' }, sc.svg); }
-  if (q.big) return h('div', { class: 'backdrop' }, bigCard(q.big));
-  if (q.wide) return h('div', { class: 'wide-img' }, img(q.img));
-  return h('div', { class: 'backdrop' }, h('div', { class: 'sign-card' + (q.dark ? ' dark' : '') }, img(q.img)));
+  if (q.scene) { const sc = S.buildScene(q.scene); return h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)); }
+  if (q.big) return h('div', { class: 'hero plain' }, bigCard(q.big));
+  if (q.wide) return h('div', { class: 'hero' }, img(q.img));
+  return h('div', { class: 'hero plain' + (q.dark ? ' dark' : '') }, img(q.img));
 }
 
 // Top-down front wheels next to a curb, for hill-parking questions.
@@ -636,22 +688,37 @@ function results(run, failed, timeUp) {
   const rankUp = after.index > before.index;
   audio.sfx(headline.includes('PASSED') || rankUp ? 'win' : 'cash');
 
-  const next = run.mode === 'mission' && stars && run.district + 1 < DISTRICTS.length
-    ? btn('NEXT MISSION', () => missionIntro(run.district + 1), 'btn primary grow')
-    : run.mode === 'mission' ? btn('TRY AGAIN', () => startMission(run.district), 'btn primary grow')
-      : btn('HOME', home, 'btn primary grow');
+  const won = run.mode === 'test' ? right >= 16
+    : run.mode === 'mission' ? !!stars
+      : right >= Math.ceil(total * 0.8);
+  const secs = Math.max(0, Math.round((Date.now() - (run.started || Date.now())) / 1000));
 
-  show(h('div', { class: 'col center gap-m results' },
-    h('div', { class: 'banner' }, h('div', { class: 'banner-title' + (headline.includes('PASSED') ? ' gold' : '') }, headline), h('div', { class: 'banner-sub' }, sub)),
-    img(after.badge, 'rank-badge' + (rankUp ? ' pop' : '')),
-    rankUp ? h('div', { class: 'teal big-line' }, 'RANK UP: ' + after.name.toUpperCase() + '!') : h('div', { class: 'muted' }, 'Rank: ' + after.name),
-    h('div', { class: 'score' }, right + ' / ' + total),
+  const next = run.mode === 'mission' && stars && run.district + 1 < DISTRICTS.length
+    ? btn('Next mission', () => missionIntro(run.district + 1), 'btn primary')
+    : run.mode === 'mission' ? btn('Try again', () => startMission(run.district), 'btn primary')
+      : btn('Home', home, 'btn primary');
+
+  show(h('div', { class: 'results' },
+    h('div', { class: 'score-ring', style: `background:conic-gradient(${won ? 'var(--blue)' : 'var(--red)'} 0 ${pct}%,var(--track) 0)` },
+      h('div', { class: 'score-hole' }, right + '/' + total)),
+    h('div', { class: 'col center gap-xs' },
+      h('div', { class: 'res-title' }, headline),
+      h('div', { class: 'res-sub' }, sub)),
+    h('div', { class: 'stats3' },
+      h('div', { class: 'stat' }, img('icons/star'), h('b', {}, '+' + num(run.earned + bonus)), h('span', {}, 'Points')),
+      h('div', { class: 'stat' }, img('icons/flame'), h('b', {}, String(state.streak)), h('span', {}, 'Answer streak')),
+      h('div', { class: 'stat' }, img('icons/timer'), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
     stars ? h('div', { class: 'stars big' }, '★'.repeat(stars) + '☆'.repeat(3 - stars)) : null,
-    h('div', { class: 'gold big-line' }, '+' + money(run.earned + bonus)),
-    after.next ? h('div', { class: 'progress-bar' }, h('i', { style: `width:${Math.min(100, (state.cash - after.min) / (after.next.min - after.min) * 100)}%` })) : null,
-    after.next ? h('div', { class: 'mono small dim' }, money(after.next.min - state.cash) + ' TO ' + after.next.name.toUpperCase()) : null,
-    h('div', { class: 'row gap-s wide' },
-      run.results.some(r => r === false) ? btn('REVIEW', reviewStart, 'btn ghost grow') : btn('MAP', map, 'btn ghost grow'),
+    h('div', { class: 'rank-card' },
+      img(after.badge, rankUp ? 'pop' : ''),
+      h('div', { class: 'col' },
+        h('div', { class: 'rank-name' }, rankUp ? 'Rank up: ' + after.name : after.name),
+        after.next
+          ? h('div', { class: 'progress-bar' }, h('i', { style: `width:${Math.min(100, (state.cash - after.min) / (after.next.min - after.min) * 100)}%` }))
+          : h('div', { class: 'small dim' }, 'Top rank reached'),
+        after.next ? h('div', { class: 'small dim' }, money(after.next.min - state.cash) + ' to ' + after.next.name) : null)),
+    h('div', { class: 'res-actions' },
+      run.results.some(r => r === false) ? btn('Review', reviewStart, 'btn ghost') : btn('Map', map, 'btn ghost'),
       next)
   ));
 }
@@ -659,31 +726,47 @@ function results(run, failed, timeUp) {
 /* ---------- lesson results ---------- */
 
 // Lesson runs close the loop here: the attempt is saved, which is what the
-// Learn path and the readiness ring read. The full Results screen (score ring,
-// missed-question review) replaces this.
+// Learn path and the readiness ring read, then the results screen shows the
+// score, the points, and a way back into the missed questions.
 function lessonResults(run, right, total) {
   const pct = Math.round(right / total * 100);
   const ok = pct >= PASS_MARK;
-  const missed = run.list.filter((q, i) => run.results[i] === false).map(q => q.id);
+  const missedQs = run.list.filter((q, i) => run.results[i] === false);
+  const secs = Math.max(0, Math.round((Date.now() - (run.started || Date.now())) / 1000));
   const attempt = recordAttempt({
     lessonId: run.lesson,
     scorePercent: pct,
     points: run.earned,
-    seconds: (Date.now() - (run.started || Date.now())) / 1000,
-    missedIds: missed
+    seconds: secs,
+    missedIds: missedQs.map(q => q.id)
   });
   const lesson = lessonById(run.lesson);
+  const nextLesson = LESSONS[LESSONS.findIndex(l => l.id === lesson.id) + 1];
   audio.sfx(ok ? 'win' : 'cash');
-  show(h('div', { class: 'col center gap-m results' },
-    h('div', { class: 'banner' },
-      h('div', { class: 'banner-title' + (ok ? ' gold' : '') }, ok ? 'LESSON PASSED' : 'KEEP PRACTICING'),
-      h('div', { class: 'banner-sub' }, lesson.title + ' · Handbook §' + lesson.section)),
-    h('div', { class: 'score' }, right + ' of ' + total),
-    h('div', { class: 'muted center-text' }, pct + '% · ' + (ok ? 'saved to your path' : 'you need ' + PASS_MARK + '% to pass')),
-    h('div', { class: 'gold big-line' }, '+' + money(attempt.points_earned)),
-    h('div', { class: 'row gap-s wide' },
-      btn('TRY AGAIN', () => startLesson(run.lesson), 'btn ghost grow'),
-      btn('CONTINUE', () => home(), 'btn primary grow'))
+  show(h('div', { class: 'results' },
+    h('div', { class: 'score-ring', style: `background:conic-gradient(${ok ? 'var(--blue)' : 'var(--red)'} 0 ${pct}%,var(--track) 0)` },
+      h('div', { class: 'score-hole' }, right + '/' + total)),
+    h('div', { class: 'col center gap-xs' },
+      h('div', { class: 'res-title' }, ok ? 'Passed' : 'Not passed'),
+      h('div', { class: 'res-sub' }, topicById(lesson.topic).name + ' · ' + lesson.title)),
+    h('div', { class: 'stats3' },
+      h('div', { class: 'stat' }, img('icons/star'), h('b', {}, '+' + num(attempt.points_earned)), h('span', {}, 'Points')),
+      h('div', { class: 'stat' }, img('icons/flame'), h('b', {}, String(state.streak)), h('span', {}, 'Answer streak')),
+      h('div', { class: 'stat' }, img('icons/timer'), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
+    missedQs.length
+      ? h('button', {
+        class: 'review-row',
+        onClick: () => { audio.sfx('tap'); play({ mode: 'review', list: missedQs.map(q => ({ ...q })) }); }
+      },
+        ico.xCircle(24),
+        h('b', {}, 'Review ' + missedQs.length + (missedQs.length === 1 ? ' mistake' : ' mistakes')),
+        h('span', { class: 'chev' }, ico.chev(18)))
+      : null,
+    h('div', { class: 'res-actions' },
+      btn('Try again', () => startLesson(run.lesson), 'btn ghost'),
+      ok && nextLesson
+        ? btn('Next lesson', () => startLesson(nextLesson.id), 'btn primary')
+        : btn('Back to path', () => home(), 'btn primary'))
   ));
 }
 
@@ -693,8 +776,8 @@ function trophies() {
   const r = rankFor(state.cash);
   show(h('div', { class: 'col gap-m' },
     h('div', { class: 'learn-head' },
-      h('h1', { class: 'learn-title' }, 'Profile'),
-      h('button', { class: 'icon-btn', 'aria-label': 'Settings', onClick: settings }, img('icons/settings'))),
+      h('h1', { class: 'learn-title' }, 'Me'),
+      h('button', { class: 'round-btn', 'aria-label': 'Settings', onClick: settings }, ico.gear(20))),
     h('div', { class: 'panel col center gap-s' },
       img(r.badge, 'rank-badge'),
       h('div', { class: 'big-title' }, r.name.toUpperCase()),
