@@ -69,17 +69,26 @@ function award(id) {
 /* ---------- splash + onboarding ---------- */
 
 function splash() {
-  const node = h('button', { class: 'welcome', 'aria-label': 'Get started', onClick: () => {
+  const start = () => {
+    try { localStorage.setItem('permitrun.design', 'modern'); } catch { /* still playable */ }
     audio.unlock();
     audio.setMusic(state.settings.music, state.settings.musicVol);
     state.started ? home() : onboard();
-  } },
+  };
+  const node = h('div', { class: 'welcome' },
     img('brand/app-icon-1024', 'welcome-logo'),
     h('div', { class: 'col center gap-s' },
       h('div', { class: 'welcome-title' }, 'Permit Run'),
       h('div', { class: 'welcome-sub' }, 'California permit prep, one short lesson at a time.')),
-    h('span', { class: 'btn dark big' }, 'Get started'));
+    h('button', { class: 'btn dark big', onClick: start }, 'Get started'),
+    h('button', { class: 'welcome-alt', onClick: () => useDesign('classic') }, 'Prefer the classic game look?'));
   show(node, 'no-pad');
+}
+
+// Switch to the other design. Both read the same saved progress.
+function useDesign(which) {
+  try { localStorage.setItem('permitrun.design', which); } catch { /* the link still works */ }
+  location.href = which === 'classic' ? 'classic/' : './';
 }
 
 function onboard() {
@@ -916,7 +925,12 @@ function settings() {
   vol.addEventListener('input', () => { s.musicVol = +vol.value; audio.setMusic(s.music, s.musicVol); save(); });
   const per = h('div', { class: 'seg' }, [4, 6, 8].map(n => h('button', { class: s.perMission === n ? 'on' : '', onClick: () => { s.perMission = n; save(); settings(); } }, String(n))));
 
+  const design = h('div', { class: 'seg design-seg' },
+    h('button', { class: 'on' }, 'New'),
+    h('button', { onClick: () => useDesign('classic') }, 'Classic'));
+
   show(h('div', { class: 'col gap-m' }, header('Settings', trophies),
+    h('div', { class: 'setting' }, h('div', { class: 'col' }, h('b', {}, 'Design'), h('span', { class: 'muted small' }, 'Classic is the original dark game look. Your progress stays the same.')), design),
     toggle('music', 'Music', 'Calm background beats.', () => audio.setMusic(s.music, s.musicVol)),
     h('div', { class: 'setting' }, h('b', {}, 'Music volume'), vol),
     toggle('sfx', 'Sound effects', 'Dings for right answers.'),
