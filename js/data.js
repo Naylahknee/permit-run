@@ -1,3 +1,5 @@
+import { EXTRA_QUESTIONS } from './extra-questions.js';
+
 // Game content. Every fact comes from the California Driver's Handbook
 // (DMV, 2025 edition, CC BY-NC 4.0). Section numbers are in `src`.
 //
@@ -149,7 +151,7 @@ export const DISTRICTS = [
       { img: 'signs/railroad-advance', say: 'Railroad: slow down and look.', more: 'If a train is coming, stop at least 15 feet from the tracks.' }
     ],
     qs: [
-      { id: 'v1', type: 'choice', img: 'scenes/scene-school-bus-intersection', wide: true, q: 'A school bus ahead starts flashing YELLOW lights. What should you do?', a: ['Slow down and get ready to stop.', 'Stop right away and stay stopped.', 'Pass the bus carefully on the left.'], c: 0, tip: 'Flashing yellow: the bus is about to stop. Flashing red: you must stop.', src: '7', dmv: true },
+      { id: 'v1', type: 'choice', img: 'scenes/school-bus', wide: true, q: 'A school bus ahead starts flashing YELLOW lights. What should you do?', a: ['Slow down and get ready to stop.', 'Stop right away and stay stopped.', 'Pass the bus carefully on the left.'], c: 0, tip: 'Flashing yellow: the bus is about to stop. Flashing red: you must stop.', src: '7', dmv: true },
       { id: 'v2', type: 'choice', img: 'vehicles/school-bus-rear', q: 'A school bus is flashing RED lights. What do you do?', a: ['Stop. Stay stopped until the red lights stop flashing.', 'Slow to 25 mph and pass.', 'Honk and drive around.'], c: 0, tip: 'Red lights on a school bus = STOP, from either direction on a two-lane road.', src: '7' },
       { id: 'v3', type: 'choice', img: 'signs/railroad-advance', q: 'You are near a railroad crossing with no gates. You cannot see 400 feet down the tracks. What is the speed limit?', a: ['15 mph', '10 mph', '25 mph'], c: 0, tip: 'Within 100 feet of a crossing you cannot see well: 15 mph.', src: '7', dmv: true },
       {
@@ -258,6 +260,10 @@ export const DISTRICTS = [
   }
 ];
 
-export const ALL_QUESTIONS = DISTRICTS.flatMap((d, di) => d.qs.map(q => ({ ...q, district: di })));
+// Sign and handbook questions (extra-questions.js) join the pool for lessons and tests.
+export const ALL_QUESTIONS = [
+  ...DISTRICTS.flatMap((d, di) => d.qs.map(q => ({ ...q, district: di }))),
+  ...EXTRA_QUESTIONS.map(q => ({ ...q, district: 0 }))
+];
 export const byId = Object.fromEntries(ALL_QUESTIONS.map(q => [q.id, q]));
 export const SIGN_Q = new Set(ALL_QUESTIONS.filter(q => (q.img || '').match(/^(signs|signals)\//) || q.type === 'pics' && q.a.some(a => a.img)).map(q => q.id));

@@ -1,39 +1,32 @@
 import { DISTRICTS, ALL_QUESTIONS, ACHIEVEMENTS, RANKS, byId, SIGN_Q } from './data.js';
-import { state, save, reset, rankFor, record } from './store.js';
+import { TOPICS, LESSONS, topicById, lessonById, lessonsOf, lessonNumber } from './content.js';
+import { state, save, reset, rankFor, record, statusFor, bestFor, readiness, currentLesson, recordAttempt, PASS_MARK } from './store.js';
+import { A, h, img, num, money, btn, speakBtn, header, dots, ring, pill, tabBar, ico } from './ui.js';
 import * as audio from './audio.js';
 import * as S from './scene.js';
 
 const app = document.getElementById('app');
-const A = p => `assets/${p}.svg`;
 const reduced = () => state.settings.reduceMotion || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- tiny DOM helper ---------- */
+// Where the four tabs lead.
+const go = { learn: () => home(), practice: () => testMenu(), handbook: () => handbook(), profile: () => trophies() };
 
-function h(tag, props, ...kids) {
-  const n = document.createElement(tag);
-  for (const k in props || {}) {
-    const v = props[k];
-    if (v == null || v === false) continue;
-    if (k === 'class') n.className = v;
-    else if (k === 'style') n.style.cssText = v;
-    else if (k.startsWith('on')) n.addEventListener(k.slice(2).toLowerCase(), v);
-    else if (k === 'html') n.innerHTML = v;
-    else n.setAttribute(k, v === true ? '' : v);
-  }
-  for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(c));
-  return n;
-}
-const img = (p, cls = '', alt = '') => h('img', { src: A(p), class: cls, alt, draggable: 'false' });
-const money = n => '$' + n.toLocaleString('en-US');
+/* ---------- shared helpers ---------- */
+
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
-function btn(label, onClick, cls = 'btn') {
-  return h('button', { class: cls, onClick: e => { audio.sfx('tap'); onClick(e); } }, label);
-}
-function speakBtn(getText) {
-  if (!audio.canSpeak) return null;
-  return h('button', { class: 'speak', 'aria-label': 'Read out loud', onClick: () => audio.speak(getText()) }, img('icons/sound'));
-}
+// The illustration a lesson shows on its card and in its reader: the lesson's
+// own road scene when it has one, otherwise the picture for its topic.
+const TOPIC_HERO = {
+  signs: 'scenes/real-signs-street',
+  rights: 'scenes/t-intersection',
+  speed: 'signs/speed-limit-25',
+  parking: 'scenes/blue-curb',
+  alcohol: 'signs/school-zone'
+};
+const heroFor = lesson => lesson.scene || TOPIC_HERO[lesson.topic] || 'signs/stop';
+const isScene = src => src.startsWith('scenes/');
+const mmss = s => { const m = Math.floor(s / 60); return m + ':' + String(Math.round(s % 60)).padStart(2, '0'); };
 
 let cleanup = [], nav = 0;
 function show(node, cls = '') {
@@ -42,13 +35,11 @@ function show(node, cls = '') {
   audio.stopSpeaking();
   app.className = 'screen ' + cls;
   app.replaceChildren(node);
+  // The tab bar sits beside the screen, not inside its fade-in wrapper: a
+  // transformed ancestor would drag the fixed bar into the content column.
+  const tabs = node.querySelector('.tabbar');
+  if (tabs) app.append(tabs);
   app.scrollTop = 0;
-}
-
-async function inlineSvg(path, cls) {
-  const wrap = h('div', { class: cls });
-  try { wrap.innerHTML = await (await fetch(A(path))).text(); } catch { wrap.append(img(path)); }
-  return wrap;
 }
 
 function applySettings() {
@@ -77,15 +68,18 @@ function award(id) {
 
 /* ---------- splash + onboarding ---------- */
 
-async function splash() {
-  const my = nav;
-  const art = await inlineSvg('brand/splash-1080x1920', 'splash-art');
-  const node = h('button', { class: 'splash', 'aria-label': 'Tap to start', onClick: () => {
+function splash() {
+  const node = h('button', { class: 'welcome', 'aria-label': 'Get started', onClick: () => {
     audio.unlock();
     audio.setMusic(state.settings.music, state.settings.musicVol);
     state.started ? home() : onboard();
-  } }, art);
-  if (nav === my) show(node, 'no-pad');
+  } },
+    img('brand/app-icon-1024', 'welcome-logo'),
+    h('div', { class: 'col center gap-s' },
+      h('div', { class: 'welcome-title' }, 'Permit Run'),
+      h('div', { class: 'welcome-sub' }, 'California permit prep, one short lesson at a time.')),
+    h('span', { class: 'btn dark big' }, 'Get started'));
+  show(node, 'no-pad');
 }
 
 function onboard() {
@@ -95,13 +89,15 @@ function onboard() {
   const draw = () => grid.replaceChildren(...[1, 2, 3, 4, 5, 6].map(i =>
     h('button', { class: 'avatar' + (i === pick ? ' on' : ''), 'aria-label': 'Driver ' + i, onClick: () => { audio.sfx('tap'); pick = i; draw(); } }, img('avatars/avatar-' + i))));
   draw();
-  show(h('div', { class: 'col center gap-l onboard' },
-    h('div', { class: 'kicker' }, 'WELCOME'),
-    h('h1', { class: 'title' }, 'PICK YOUR DRIVER'),
+  show(h('div', { class: 'col gap-l onboard' },
+    h('div', { class: 'col gap-xs' },
+      h('span', { class: 'eyebrow' }, 'Welcome'),
+      h('h1', { class: 'learn-title' }, 'Pick your driver'),
+      h('p', { class: 'muted' }, 'This is you in every picture.')),
     grid, name,
-    btn('LET\'S GO', () => {
+    btn('Get started', () => {
       state.avatar = pick; state.name = name.value.trim(); state.started = true; save(); home();
-    }, 'btn primary big')
+    }, 'btn dark big')
   ));
 }
 
@@ -112,49 +108,141 @@ function nextDistrict() {
   return Math.min(state.unlocked, DISTRICTS.length) - 1;
 }
 
-function topBar() {
-  const r = rankFor(state.cash);
-  return h('div', { class: 'topbar' },
-    h('button', { class: 'me', onClick: trophies, 'aria-label': 'My trophies' },
-      img('avatars/avatar-' + state.avatar, 'me-av'),
-      h('div', { class: 'col' }, h('b', {}, state.name || 'Driver'), h('span', { class: 'mono gold' }, r.name.toUpperCase()))),
-    h('div', { class: 'row gap-s' },
-      h('div', { class: 'cash' }, money(state.cash)),
-      h('button', { class: 'icon-btn', 'aria-label': 'Settings', onClick: settings }, img('icons/settings')))
-  );
+// Learn — the home screen. Streak and points, the lesson to continue, test
+// readiness, then every lesson in order.
+function home() {
+  applySettings();
+  const cur = currentLesson();
+  const topic = topicById(cur.topic);
+  const rd = readiness();
+
+  // The hero of the Continue card: the lesson's road scene, or its topic's sign.
+  const hero = heroFor(cur);
+
+  const row = l => {
+    const s = statusFor(l.id);
+    const score = bestFor(l.id);
+    const name = topicById(l.topic).name;
+    const sub = s === 'done' ? name + ' · ' + score + '%'
+      : s === 'in_progress' ? name + ' · ' + l.minutes + ' min'
+        : name;
+    return h('button', {
+      class: 'prow ' + s,
+      disabled: s === 'locked',
+      'aria-label': l.title + ' — ' + (s === 'done' ? 'done, ' + score + '%' : s === 'in_progress' ? 'up next' : 'locked'),
+      onClick: () => { audio.sfx('tap'); lessonReader(l.id); }
+    },
+      h('span', { class: 'pico' },
+        s === 'done' ? img('ui/done', 'done-ico')
+          : s === 'in_progress' ? ring(score || 0, { size: 36, stroke: 5, color: 'var(--orange)' })
+            : h('span', { class: 'pico-lock' }, ico.lock(18))),
+      h('span', { class: 'pbody' }, h('b', {}, l.title), h('span', {}, sub)),
+      s === 'locked' ? null : h('span', { class: 'chev' }, ico.chev(18)));
+  };
+
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'learn-head' },
+      h('h1', { class: 'learn-title' }, 'Learn'),
+      h('div', { class: 'row gap-s' },
+        pill('ui/flame', num(state.streak)),
+        pill('ui/star', num(state.cash)))),
+    h('button', { class: 'continue', onClick: () => { audio.sfx('tap'); lessonReader(cur.id); } },
+      h('div', { class: 'continue-hero' + (isScene(hero) ? '' : ' plain') }, img(hero)),
+      h('div', { class: 'continue-body' },
+        h('div', { class: 'col gap-xs grow' },
+          h('span', { class: 'eyebrow' }, topic.name.toUpperCase() + ' · LESSON ' + lessonNumber(cur.id)),
+          h('span', { class: 'continue-title' }, cur.title)),
+        h('span', { class: 'go-btn' }, ico.play(18)))),
+    h('div', { class: 'card ready' },
+      ring(rd.percent, { size: 56, stroke: 6, label: rd.percent + '%' }),
+      h('div', { class: 'col gap-xs' },
+        h('b', { class: 'ready-title' }, 'Test ready'),
+        h('span', { class: 'ready-sub' }, rd.toGo + (rd.toGo === 1 ? ' lesson' : ' lessons') + ' to 80%'))),
+    h('h2', { class: 'section-title', style: 'margin-top:4px' }, 'Your path'),
+    h('div', { class: 'list' }, LESSONS.map(row)),
+    tabBar('learn', go)
+  ), 'has-tabs');
 }
 
-async function home() {
+/* ---------- handbook ---------- */
+
+function handbook() {
   applySettings();
-  const di = nextDistrict(), d = DISTRICTS[di], my = nav;
-  const logo = await inlineSvg('brand/logo-wordmark', 'wordmark');
-  if (nav !== my) return; // the player already moved on
-  const tile = (icon, label, fn, badge) => h('button', { class: 'tile', onClick: () => { audio.sfx('tap'); fn(); } },
-    img(icon), h('span', {}, label), badge ? h('i', { class: 'count' }, badge) : null);
-  show(h('div', { class: 'col gap-l home' },
-    topBar(),
-    logo,
-    h('button', { class: 'mission-card', onClick: () => { audio.sfx('tap'); missionIntro(di); } },
-      h('div', { class: 'row between' },
-        h('span', { class: 'chip pink' }, img('icons/mission-flag'), 'MISSION ' + (di + 1)),
-        h('span', { class: 'mono gold' }, state.districts[di].stars ? 'PLAY AGAIN' : 'UP NEXT')),
-      h('div', { class: 'mission-name' }, d.name.toUpperCase()),
-      h('div', { class: 'muted' }, d.topic),
-      h('div', { class: 'play-pill' }, '▶  PLAY')),
-    h('button', { class: 'drive-card', onClick: () => { audio.sfx('tap'); driveStart(); } },
-      img('icons/car'),
-      h('div', { class: 'col' }, h('b', {}, 'DRIVE PRACTICE'), h('span', {}, 'Draw your turns and tap the road. No reading lists.')),
-      h('span', { class: 'go' }, '▶')),
-    h('button', { class: 'drive-card road', onClick: () => { audio.sfx('tap'); roadMenu(); } },
-      img('icons/key'),
-      h('div', { class: 'col' }, h('b', {}, 'ROAD TEST · 3D'), h('span', {}, 'Drive a real street. Stop, signal, and yield like on the DMV drive test.')),
-      h('span', { class: 'go' }, '▶')),
-    h('div', { class: 'tiles' },
-      tile('icons/district-map', 'MAP', map),
-      tile('icons/timer', 'TEST', testMenu),
-      tile('icons/handbook', 'REVIEW', reviewStart, state.review.length || null),
-      tile('icons/trophy', 'TROPHIES', trophies))
-  ), 'home-screen');
+  const row = l => {
+    const s = statusFor(l.id);
+    const locked = s === 'locked';
+    return h('button', {
+      class: 'prow' + (locked ? ' locked' : ''),
+      disabled: locked,
+      onClick: () => { audio.sfx('tap'); lessonReader(l.id, handbook); }
+    },
+      h('span', { class: 'pico' },
+        locked ? h('span', { class: 'pico-lock' }, ico.lock(18))
+          : s === 'done' ? img('ui/done', 'done-ico')
+            : img(topicById(l.topic).icon, 'topic-ico')),
+      h('span', { class: 'pbody' },
+        h('b', {}, l.title),
+        h('span', {}, 'Handbook §' + l.section + ' · ' + l.minutes + ' min' + (s === 'done' ? ' · passed' : ''))),
+      locked ? null : h('span', { class: 'chev' }, ico.chev(18)));
+  };
+  show(h('div', { class: 'col gap-m' },
+    h('h1', { class: 'learn-title' }, 'Handbook'),
+    ...TOPICS.map(t => h('div', { class: 'col gap-s' },
+      h('h3', { class: 'group-head' }, img(t.icon, 'topic-ico'), t.name),
+      h('div', { class: 'list' }, lessonsOf(t.id).map(row)))),
+    tabBar('handbook', go)
+  ), 'has-tabs');
+}
+
+// The lesson itself: one short handbook page, then practice. The copy comes
+// from content.js; the bar under the header tracks where the lesson sits in
+// its topic.
+function lessonReader(id, back = home) {
+  applySettings();
+  const l = lessonById(id);
+  if (!l || statusFor(id) === 'locked') return home();
+  const topic = topicById(l.topic);
+  const read = l.read;
+  const inTopic = Math.max(1, lessonsOf(l.topic).length);
+  const step = Math.max(1, lessonNumber(id));
+  const total = l.questions.length;
+  const spoken = read.headline + '. ' + read.body + ' ' + read.points.map(p => p[1]).join(' ');
+
+  const points = h('div', { class: 'list read-points' }, read.points.map(([dot, line], i) =>
+    h('div', { class: 'read-point' },
+      h('span', { class: 'num' }, String(i + 1)),
+      h('span', { class: 'dot ' + dot }),
+      h('span', { class: 'read-point-text' }, line))));
+
+  show(h('div', { class: 'reader' },
+    h('div', { class: 'reader-head' },
+      h('button', { class: 'icon-btn', 'aria-label': 'Back', onClick: () => { audio.sfx('tap'); back(); } }, ico.arrow(22)),
+      h('h2', {}, topic.name),
+      h('span', { class: 'icon-btn', 'aria-hidden': 'true' }, ico.flag(20))),
+    h('div', { class: 'reader-bar' }, h('i', { style: `width:${Math.round(step / inTopic * 100)}%` })),
+    h('div', { class: 'reader-body' },
+      h('div', { class: 'hero' + (isScene(heroFor(l)) ? '' : ' plain') }, img(heroFor(l))),
+      h('div', { class: 'read-copy' },
+        h('span', { class: 'read-kicker' }, read.kicker),
+        h('h1', { class: 'read-head' }, read.headline),
+        h('p', { class: 'read-text' }, read.body)),
+      points,
+      h('p', { class: 'read-src' }, 'California Driver Handbook · Section ' + l.section)),
+    h('div', { class: 'reader-foot' },
+      h('button', { class: 'cta', onClick: () => { audio.sfx('tap'); startLesson(id); } },
+        'Practice ' + total + (total === 1 ? ' question' : ' questions')))
+  ), 'no-pad');
+  if (state.settings.autoRead) audio.speak(spoken);
+}
+
+// A lesson runs on the existing question engine with that lesson's questions;
+// results() saves the attempt so the Learn path updates.
+function startLesson(id) {
+  const l = lessonById(id);
+  if (!l || statusFor(id) === 'locked') return;
+  const list = l.questions.map(q => byId[q]).filter(Boolean).map(q => ({ ...q }));
+  if (!list.length) return;
+  play({ mode: 'mission', lesson: id, district: l.district, list });
 }
 
 /* ---------- map ---------- */
@@ -171,11 +259,7 @@ function map() {
         h('span', { class: 'mono small ' + (locked ? 'dim' : st.stars ? 'teal' : 'gold') }, status),
         h('span', { class: 'stars' }, '★'.repeat(st.stars) + '☆'.repeat(3 - st.stars))));
   });
-  show(h('div', { class: 'col gap-m' }, header('CITY MAP', home), h('div', { class: 'districts' }, cards)));
-}
-
-function header(title, back) {
-  return h('div', { class: 'screen-head' }, h('button', { class: 'icon-btn back', 'aria-label': 'Back', onClick: () => { audio.sfx('tap'); back(); } }, '‹'), h('h2', {}, title));
+  show(h('div', { class: 'col gap-m' }, header('City map', home), h('div', { class: 'districts' }, cards)));
 }
 
 /* ---------- mission intro + learn cards ---------- */
@@ -205,7 +289,7 @@ function learn(i, k) {
   if (card.anim) visual.append(animCard(card.anim));
   const text = card.say + ' ' + card.more;
   const node = h('div', { class: 'col gap-m learn' },
-    header('LEARN · ' + d.name.toUpperCase(), () => missionIntro(i)),
+    header('Learn · ' + d.name, () => missionIntro(i)),
     dots(d.learn.length, k),
     visual,
     h('div', { class: 'learn-text' }, h('div', { class: 'row gap-s' }, h('b', {}, card.say), speakBtn(() => text)), h('p', {}, card.more)),
@@ -219,10 +303,6 @@ function learn(i, k) {
   if (state.settings.autoRead) audio.speak(text);
 }
 
-function dots(n, k, results) {
-  return h('div', { class: 'dots' }, Array.from({ length: n }, (_, j) =>
-    h('i', { class: results && results[j] != null ? (results[j] ? 'ok' : 'bad') : j === k ? 'on' : j < k ? 'done' : '' })));
-}
 
 function bigCard(b) {
   return h('div', { class: 'big-card' }, h('div', { class: 'big-word' }, b.text), b.sub ? h('div', { class: 'big-sub' }, b.sub) : null);
@@ -315,7 +395,7 @@ function startMission(i) {
 
 function reviewStart() {
   if (!state.review.length) {
-    show(h('div', { class: 'col center gap-l' }, header('REVIEW', home), img('icons/check', 'intro-icon'),
+    show(h('div', { class: 'col center gap-l' }, header('Review', home), img('icons/check', 'intro-icon'),
       h('div', { class: 'big-title' }, 'ALL CLEAR'), h('p', { class: 'muted center-text' }, 'No mistakes to review right now. Nice driving!'), btn('HOME', home, 'btn primary big')));
     return;
   }
@@ -323,17 +403,25 @@ function reviewStart() {
 }
 
 function testMenu() {
-  show(h('div', { class: 'col gap-m' }, header('PRACTICE', home),
-    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) }); } },
-      img('icons/handbook'), h('div', { class: 'col' }, h('b', {}, 'PRACTICE TEST'), h('span', {}, '20 questions from every district. Get 16 right to pass.'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.best + ' / 20'))),
-    h('button', { class: 'mode-card', onClick: () => { audio.sfx('tap'); play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 }); } },
-      img('icons/timer'), h('div', { class: 'col' }, h('b', {}, 'SPEED RUN'), h('span', {}, '10 quick questions. 90 seconds. Optional!'), h('span', { class: 'mono gold small' }, 'BEST ' + state.test.speedBest + ' / 10'))),
-    h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.')
-  ));
+  const row = (iconPath, title, sub, onClick) => h('button', { class: 'mcard', onClick: () => { audio.sfx('tap'); onClick(); } },
+    h('span', { class: 'mcard-ico' }, img(iconPath)),
+    h('span', { class: 'col grow gap-xs' }, h('b', {}, title), h('span', { class: 'sub' }, sub)),
+    h('span', { class: 'chev' }, ico.chev(18)));
+  show(h('div', { class: 'col gap-m' },
+    h('h1', { class: 'learn-title' }, 'Practice'),
+    h('div', { class: 'list' },
+      row('icons/handbook', 'Practice test', '20 questions · pass at 16 · best ' + state.test.best + '/20',
+        () => play({ mode: 'test', list: shuffle(ALL_QUESTIONS).slice(0, 20).map(q => ({ ...q })) })),
+      row('icons/timer', 'Speed run', '10 quick questions · 90 seconds · best ' + state.test.speedBest + '/10',
+        () => play({ mode: 'speed', list: shuffle(ALL_QUESTIONS.filter(q => q.type === 'choice' || q.type === 'pics')).slice(0, 10).map(q => ({ ...q })), time: 90 })),
+      row('icons/car', 'Drive practice', 'Draw your turns and tap the road', driveStart)),
+    h('p', { class: 'muted small' }, 'The real DMV knowledge test has 46 questions for drivers under 18. You need 38 right to pass.'),
+    tabBar('practice', go)
+  ), 'has-tabs');
 }
 
 function play(run) {
-  run.i = 0; run.results = []; run.earned = 0; run.strikes = 0;
+  run.i = 0; run.results = []; run.earned = 0; run.strikes = 0; run.started = Date.now();
   run.challenge = !state.settings.calm;
   run.list.forEach(q => {
     if (q.type === 'choice' || q.type === 'pics') {
@@ -346,6 +434,7 @@ function play(run) {
 }
 
 function title(run) {
+  if (run.lesson) { const l = lessonById(run.lesson); return [topicById(l.topic).name.toUpperCase(), l.title]; }
   if (run.mode === 'mission') return ['MISSION ' + (run.district + 1), DISTRICTS[run.district].name];
   if (run.mode === 'test') return ['PRACTICE TEST', 'All districts'];
   if (run.mode === 'speed') return ['SPEED RUN', 'Beat the clock'];
@@ -355,90 +444,124 @@ function title(run) {
 
 function question(run) {
   const q = run.list[run.i];
-  const [t1, t2] = title(run);
-  let answered = false;
+  const [t1] = title(run);
+  let answered = false, pick = null, failedNow = false, timerEl = null;
 
-  // HUD
-  const timerEl = run.time ? h('div', { class: 'hud-timer' }) : null;
-  const strikeEl = run.challenge ? h('div', { class: 'strikes' }, [0, 1, 2, 3, 4].map(k => img(k < run.strikes ? 'icons/strike-on' : 'icons/strike-off'))) : null;
-  const cashEl = h('div', { class: 'hud-cash' }, money(state.cash));
-  const hud = h('div', { class: 'hud' },
-    h('div', { class: 'row gap-s' },
-      h('button', { class: 'icon-btn', 'aria-label': 'Pause', onClick: () => pause(run) }, img('icons/pause')),
-      h('div', { class: 'col' }, h('div', { class: 'chip pink' }, img('icons/mission-flag'), t1), h('div', { class: 'hud-sub' }, t2))),
-    h('div', { class: 'col end gap-xs' }, cashEl, strikeEl, timerEl));
+  // Top bar: pause, one progress bar per question, hearts (or the clock).
+  const right = h('div', { class: 'q-right' });
+  if (run.time) {
+    timerEl = h('span', { class: 'time-pill' }, ico.clock(15), h('b', {}, ''));
+    right.append(timerEl);
+  }
+  // Three lives, as in the design. Calm mode never takes one away.
+  const hearts = h('div', { class: 'hearts' });
+  const drawHearts = () => hearts.replaceChildren(...[0, 1, 2].map(k => ico.heart(k < 3 - run.strikes)));
+  drawHearts(); right.append(hearts);
 
-  const stage = h('div', { class: 'stage' });
+  const segs = dots(run.list.length, run.i, run.results);
+  const head = h('div', { class: 'q-head' },
+    h('button', { class: 'q-close', 'aria-label': 'Close', onClick: () => pause(run) }, ico.close(22)),
+    segs, right);
+
+  const body = h('div', { class: 'q-body' });
   const sheet = h('div', { class: 'sheet' });
-  const flash = h('div', { class: 'flash' });
-  const fb = h('div', { class: 'feedback', hidden: true });
-  const qText = h('div', { class: 'q-text' }, q.q);
+  const fb = h('div', { class: 'fb', hidden: true });
+  const mainBtn = h('button', { class: 'cta', disabled: true }, 'Check');
+  mainBtn.hidden = q.type !== 'choice' && q.type !== 'pics';
+
+  const prompt = h('div', { class: 'q-prompt' },
+    h('span', { class: 'eyebrow' }, q.tag || t1),
+    h('div', { class: 'q-text' }, q.q));
   const readText = () => q.q + (q.type === 'choice' ? ' ' + q.a.map((a, j) => 'ABC'[j] + '. ' + a).join(' ') : '');
 
-  sheet.append(
-    h('div', { class: 'row between mono gold small' }, h('span', {}, 'QUESTION ' + (run.i + 1) + ' OF ' + run.list.length), h('span', {}, '+$100')),
-    h('div', { class: 'row gap-s top' }, qText, speakBtn(readText)));
+  let buttons = [], refreshPicks = () => {};
 
-  const done = (right, msg, extra) => {
+  const done = (rightAnswer, msg, extra) => {
     if (answered) return; answered = true;
-    run.results[run.i] = right;
-    record(q.id, right);
-    if (right) {
+    run.results[run.i] = rightAnswer;
+    record(q.id, rightAnswer);
+    if (rightAnswer) {
       state.cash += 100; run.earned += 100; state.streak++;
       state.bestStreak = Math.max(state.bestStreak, state.streak);
       if (state.streak >= 5) award('streak5');
       if (SIGN_Q.has(q.id)) { state.signRight++; if (state.signRight >= 10) award('signs'); }
       audio.sfx('right'); setTimeout(() => audio.sfx('cash'), 250);
-      cashEl.textContent = money(state.cash); cashEl.classList.add('bump');
     } else {
       state.streak = 0;
       audio.sfx('wrong');
-      if (run.challenge) { run.strikes++; strikeEl.replaceChildren(...[0, 1, 2, 3, 4].map(k => img(k < run.strikes ? 'icons/strike-on' : 'icons/strike-off'))); }
+      if (run.challenge) { run.strikes++; drawHearts(); }
     }
     save();
-    flash.textContent = right ? '+$100' : run.challenge ? 'STRIKE!' : 'ALMOST!';
-    flash.className = 'flash show ' + (right ? 'ok' : 'bad');
-    const failed = run.challenge && run.strikes >= 5;
+    const seg = segs.children[run.i];
+    if (seg) seg.className = rightAnswer ? 'ok' : 'bad';
+    failedNow = run.challenge && run.strikes >= 3;
     const last = run.i === run.list.length - 1;
     fb.hidden = false;
-    sheet.querySelector('.hint')?.remove();
-    fb.replaceChildren(
-      h('div', { class: 'col grow gap-xs' },
-        msg && !right ? h('b', { class: 'pink-text' }, msg) : null,
-        h('div', { class: 'tip' }, q.tip),
-        q.src ? h('div', { class: 'mono dim small' }, 'HANDBOOK · SECTION ' + q.src) : null),
-      ...(extra ? [extra] : []),
-      btn(failed ? 'RESULTS' : last ? 'FINISH' : 'NEXT', () => next(run, failed), 'btn gold'));
-    if (state.settings.autoRead) audio.speak((right ? 'Correct! ' : 'Not quite. ') + q.tip);
-    const nextBtn = fb.querySelector('.btn.gold');
-    nextBtn.focus({ preventScroll: true });
-    nextBtn.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' });
+    const parts = [
+      h('div', { class: 'fb-head' },
+        h('div', { class: 'fb-title ' + (rightAnswer ? 'ok' : 'bad') },
+          rightAnswer ? ico.checkCircle(22) : ico.xCircle(22),
+          h('span', {}, rightAnswer ? 'Correct' : 'Not quite'),
+          speakBtn(() => (rightAnswer ? 'Correct. ' : 'Not quite. ') + q.tip)),
+        h('span', { class: 'fb-flag', 'aria-hidden': 'true' }, ico.flag(20))),
+      h('div', { class: 'fb-why' }, (msg && !rightAnswer ? msg + ' ' : '') + q.tip),
+      q.src ? h('div', { class: 'fb-src' }, 'Handbook · Section ' + q.src) : null,
+      extra ? h('div', { class: 'fb-extra' }, extra) : null
+    ];
+    fb.replaceChildren(...parts.filter(Boolean));
+    mainBtn.hidden = false;
+    mainBtn.disabled = false;
+    mainBtn.textContent = failedNow ? 'See results' : last ? 'Finish' : 'Continue';
+    if (state.settings.autoRead) audio.speak((rightAnswer ? 'Correct! ' : 'Not quite. ') + q.tip);
+    mainBtn.focus({ preventScroll: true });
   };
+
+  const check = () => {
+    if (answered || pick == null) return;
+    buttons.forEach((b, k) => {
+      b.disabled = true;
+      if (q.type === 'choice') {
+        b.className = 'answer' + (k === q.c ? ' ok' : k === pick ? ' bad' : '');
+        if (k === q.c || k === pick) mark(b, k === q.c ? 'ok' : 'bad');
+      } else {
+        b.className = 'pic' + (k === q.c ? ' ok' : k === pick ? ' bad' : '');
+      }
+    });
+    done(pick === q.c);
+  };
+
+  mainBtn.addEventListener('click', () => {
+    if (answered) { next(run, failedNow); return; }
+    if (q.type === 'choice' || q.type === 'pics') check();
+  });
 
   // stage + answers per type
   if (q.type === 'choice') {
-    stage.append(visualFor(q));
-    const list = h('div', { class: 'answers' });
-    const buttons = q.a.map((text, j) => h('button', { class: 'answer', onClick: () => {
-      if (answered) return;
-      buttons.forEach((b, k) => { b.disabled = true; if (k === q.c) mark(b, 'ok'); else if (k === j) mark(b, 'bad'); });
-      done(j === q.c);
-    } }, h('span', { class: 'letter' }, 'ABC'[j]), h('span', {}, text)));
-    list.append(...buttons); sheet.append(list);
+    buttons = q.a.map((text, j) => h('button', {
+      class: 'answer',
+      onClick: () => { if (answered) return; pick = j; refreshPicks(); }
+    }, h('span', { class: 'letter' }, 'ABC'[j]), h('span', {}, text)));
+    refreshPicks = () => {
+      buttons.forEach((b, k) => { b.className = 'answer' + (k === pick ? ' on' : ''); });
+      mainBtn.disabled = pick == null;
+    };
+    body.append(visualFor(q), prompt, h('div', { class: 'answers' }, buttons));
     run.keys = buttons;
   } else if (q.type === 'pics') {
-    stage.classList.add('pics-stage');
-    const buttons = q.a.map((opt, j) => h('button', { class: 'pic', 'aria-label': opt.label, onClick: () => {
-      if (answered) return;
-      buttons.forEach((b, k) => { b.disabled = true; if (k === q.c) b.classList.add('ok'); else if (k === j) b.classList.add('bad'); });
-      done(j === q.c);
-    } }, opt.img ? img(opt.img) : wheels(opt.wheels), h('span', {}, opt.label)));
-    stage.append(h('div', { class: 'pics' }, buttons));
+    buttons = q.a.map((opt, j) => h('button', {
+      class: 'pic', 'aria-label': opt.label,
+      onClick: () => { if (answered) return; pick = j; refreshPicks(); }
+    }, opt.img ? img(opt.img) : wheels(opt.wheels), h('span', {}, opt.label)));
+    refreshPicks = () => {
+      buttons.forEach((b, k) => { b.className = 'pic' + (k === pick ? ' on' : ''); });
+      mainBtn.disabled = pick == null;
+    };
+    body.append(prompt, h('div', { class: 'pics' }, buttons));
     run.keys = buttons;
   } else if (q.type === 'tap') {
     const sc = S.buildScene(q.scene);
-    stage.append(h('div', { class: 'scene-wrap' }, sc.svg));
-    sheet.append(h('div', { class: 'hint' }, '👆  Tap your answer on the picture.'));
+    body.append(h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)), prompt);
+    sheet.append(h('div', { class: 'sheet-hint' }, 'Tap your answer on the picture.'));
     sc.svg.addEventListener('click', e => {
       if (answered) return;
       const t = e.target.closest('.tappable');
@@ -454,11 +577,10 @@ function question(run) {
     run.keys = null;
   } else if (q.type === 'trace') {
     const sc = S.buildScene(q.scene);
-    const wrap = h('div', { class: 'scene-wrap' }, sc.svg);
-    stage.append(wrap);
+    body.append(h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)), prompt);
     const pulse = S.el('circle', { cx: sc.player.x, cy: sc.player.y, r: 30, class: 'pulse' }, sc.svg);
     const ink = S.el('polyline', { points: '', class: 'ink' }, sc.svg);
-    const msg = h('div', { class: 'hint' }, '✍️  Put your finger on your car and draw where it goes.');
+    const msg = h('div', { class: 'sheet-hint' }, 'Put your finger on your car and draw where it goes.');
     sheet.append(msg);
     let pts = [], drawing = false;
     const startPos = sc.player.node.getAttribute('transform');
@@ -477,13 +599,13 @@ function question(run) {
     const end = async () => {
       if (!drawing) return; drawing = false;
       const r = S.checkTrace(sc, pts, q.goal);
-      if (r.retry) { msg.textContent = '👉  ' + r.msg; msg.classList.add('nudge'); ink.setAttribute('points', ''); pulse.style.display = ''; setTimeout(() => msg.classList.remove('nudge'), 500); return; }
+      if (r.retry) { msg.textContent = r.msg; ink.setAttribute('points', ''); pulse.style.display = ''; return; }
       ink.setAttribute('class', 'ink ' + (r.ok ? 'ok' : 'bad'));
       msg.remove();
       const d = S.demoPath(sc, q.demo);
       const ghost = S.el('path', { d, class: 'ghost-path' }, sc.layer);
       const watch = async () => { sc.player.node.setAttribute('transform', startPos); audio.sfx('whoosh'); await S.driveAlong(sc.player.node, d, sc.svg, { duration: 2400, reduced: reduced() }); };
-      done(r.ok, r.msg, h('button', { class: 'btn ghost small', onClick: watch }, '▶ WATCH'));
+      done(r.ok, r.msg, h('button', { class: 'btn ghost small', onClick: watch }, '▶ Watch'));
       ghost.getBoundingClientRect();
       await wait(300); watch();
     };
@@ -492,13 +614,14 @@ function question(run) {
     run.keys = null;
   }
 
-  sheet.append(fb);
-  show(h('div', { class: 'play' }, hud, dots(run.list.length, run.i, run.results), h('div', { class: 'stage-wrap' }, stage, flash), sheet), 'no-pad play-screen');
+  sheet.append(fb, mainBtn);
+  show(h('div', { class: 'play' }, head, body, sheet), 'no-pad play-screen');
   if (state.settings.autoRead) audio.speak(readText());
 
-  // keyboard: 1-3 to answer, Enter for next
+  // keyboard: 1-3 to pick an answer, Enter to check / continue
   const onKey = e => {
     if (e.key >= '1' && e.key <= '3' && run.keys && !answered) run.keys[+e.key - 1]?.click();
+    if (e.key === 'Enter' && !mainBtn.hidden && !mainBtn.disabled) mainBtn.click();
   };
   document.addEventListener('keydown', onKey);
   cleanup.push(() => document.removeEventListener('keydown', onKey));
@@ -506,8 +629,9 @@ function question(run) {
   // timer
   if (run.time) {
     const tick = () => {
-      const m = Math.floor(run.left / 60), s = run.left % 60, pct = run.left / run.time * 100;
-      timerEl.replaceChildren(h('div', { class: 'ring', style: `background:conic-gradient(#FFC53D 0 ${pct}%,#2B3160 ${pct}% 100%)` }, h('span', {}, m + ':' + String(s).padStart(2, '0'))));
+      const m = Math.floor(run.left / 60), s = run.left % 60;
+      timerEl.querySelector('b').textContent = m + ':' + String(s).padStart(2, '0');
+      timerEl.classList.toggle('low', run.left <= 10);
     };
     tick();
     const iv = setInterval(() => {
@@ -521,7 +645,7 @@ function question(run) {
 
 function mark(b, k) {
   b.classList.add(k);
-  b.querySelector('.letter').replaceWith(img(k === 'ok' ? 'icons/check' : 'icons/wrong', 'letter-ico'));
+  b.querySelector('.letter')?.replaceWith(h('span', { class: 'letter-ico' }, k === 'ok' ? ico.checkCircle(24) : ico.xCircle(24)));
 }
 
 function next(run, failed) {
@@ -531,10 +655,10 @@ function next(run, failed) {
 }
 
 function visualFor(q) {
-  if (q.scene) { const sc = S.buildScene(q.scene); return h('div', { class: 'scene-wrap' }, sc.svg); }
-  if (q.big) return h('div', { class: 'backdrop' }, bigCard(q.big));
-  if (q.wide) return h('div', { class: 'wide-img' }, img(q.img));
-  return h('div', { class: 'backdrop' }, h('div', { class: 'sign-card' + (q.dark ? ' dark' : '') }, img(q.img)));
+  if (q.scene) { const sc = S.buildScene(q.scene); return h('div', { class: 'hero scene' }, h('div', { class: 'scene-wrap' }, sc.svg)); }
+  if (q.big) return h('div', { class: 'hero plain' }, bigCard(q.big));
+  if (q.wide) return h('div', { class: 'hero' }, img(q.img));
+  return h('div', { class: 'hero plain' + (q.dark ? ' dark' : '') }, img(q.img));
 }
 
 // Top-down front wheels next to a curb, for hill-parking questions.
@@ -550,54 +674,6 @@ function wheels(kind) {
   const t = S.el('text', { x: 110, y: 74, 'text-anchor': 'middle', class: 'scene-label dark', transform: 'rotate(90 110 74)' }, svg);
   t.textContent = 'CURB';
   return svg;
-}
-
-/* ---------- 3D road test ---------- */
-
-let roadMod = null;
-async function loadRoad() { return roadMod || (roadMod = await import('./roadtest.js')); }
-
-async function roadMenu() {
-  const my = nav;
-  let mod;
-  try { mod = await loadRoad(); } catch { show(h('div', { class: 'col gap-m' }, header('ROAD TEST', home), h('p', { class: 'muted' }, 'The 3D road test could not load. Check your connection and try again.'))); return; }
-  if (nav !== my) return;
-  const done = mod.DRIVES.filter(d => state.road[d.id]).length;
-  show(h('div', { class: 'col gap-m' }, header('ROAD TEST · 3D', home),
-    h('p', { class: 'muted' }, 'Short drives that practice what the DMV examiner checks. Hold GO to drive and BRAKE to stop. The car steers itself.'),
-    h('div', { class: 'mono gold small' }, done + ' OF ' + mod.DRIVES.length + ' DRIVES PASSED'),
-    h('div', { class: 'districts' }, mod.DRIVES.map((d, i) => {
-      const st = state.road[d.id] || 0;
-      return h('button', { class: 'district' + (!st && i === mod.DRIVES.findIndex(x => !state.road[x.id]) ? ' active' : ''), onClick: () => { audio.sfx('tap'); roadDrive(i); } },
-        h('div', { class: 'row between' }, h('span', { class: 'mono gold' }, 'DRIVE ' + (i + 1)), img(st ? 'icons/check' : 'icons/car', 'ico')),
-        h('div', { class: 'district-name' }, d.name.toUpperCase()),
-        h('div', { class: 'muted' }, d.goal),
-        h('div', { class: 'row between' }, h('span', { class: 'mono small ' + (st ? 'teal' : 'gold') }, st ? 'PASSED' : 'READY'), h('span', { class: 'stars' }, '★'.repeat(st) + '☆'.repeat(3 - st))));
-    }))));
-}
-
-async function roadDrive(i) {
-  const mod = await loadRoad();
-  const drive = mod.DRIVES[i];
-  const box = h('div', { class: 'rt' });
-  show(box, 'no-pad road-screen');
-  audio.setMusic(false);
-  const destroy = mod.startDrive(box, drive, {
-    h, img, audio,
-    reduced,
-    voice: () => state.settings.driveVoice,
-    setVoice: on => { state.settings.driveVoice = on; save(); },
-    onExit: () => roadMenu(),
-    onDone: ({ stars, again }) => {
-      const first = !state.road[drive.id];
-      state.road[drive.id] = Math.max(state.road[drive.id] || 0, stars);
-      const earned = (first ? 300 : 100) + (stars === 3 ? 100 : 0);
-      state.cash += earned; save();
-      toast('icons/cash', '+' + money(earned), drive.name + ' passed');
-      if (again) roadDrive(i); else if (i + 1 < mod.DRIVES.length) roadDrive(i + 1); else roadMenu();
-    }
-  });
-  cleanup.push(() => { destroy(); audio.setMusic(state.settings.music, state.settings.musicVol); });
 }
 
 /* ---------- pause ---------- */
@@ -621,6 +697,7 @@ function pause(run) {
 
 function results(run, failed, timeUp) {
   const right = run.results.filter(Boolean).length, total = run.list.length;
+  if (run.lesson) return lessonResults(run, right, total);
   const before = rankFor(state.cash - run.earned);
   let bonus = 0, headline, sub, stars = 0;
   const pct = Math.round(right / total * 100);
@@ -662,23 +739,86 @@ function results(run, failed, timeUp) {
   const rankUp = after.index > before.index;
   audio.sfx(headline.includes('PASSED') || rankUp ? 'win' : 'cash');
 
-  const next = run.mode === 'mission' && stars && run.district + 1 < DISTRICTS.length
-    ? btn('NEXT MISSION', () => missionIntro(run.district + 1), 'btn primary grow')
-    : run.mode === 'mission' ? btn('TRY AGAIN', () => startMission(run.district), 'btn primary grow')
-      : btn('HOME', home, 'btn primary grow');
+  const won = run.mode === 'test' ? right >= 16
+    : run.mode === 'mission' ? !!stars
+      : right >= Math.ceil(total * 0.8);
+  const secs = Math.max(0, Math.round((Date.now() - (run.started || Date.now())) / 1000));
 
-  show(h('div', { class: 'col center gap-m results' },
-    h('div', { class: 'banner' }, h('div', { class: 'banner-title' + (headline.includes('PASSED') ? ' gold' : '') }, headline), h('div', { class: 'banner-sub' }, sub)),
-    img(after.badge, 'rank-badge' + (rankUp ? ' pop' : '')),
-    rankUp ? h('div', { class: 'teal big-line' }, 'RANK UP: ' + after.name.toUpperCase() + '!') : h('div', { class: 'muted' }, 'Rank: ' + after.name),
-    h('div', { class: 'score' }, right + ' / ' + total),
+  const next = run.mode === 'mission' && stars && run.district + 1 < DISTRICTS.length
+    ? btn('Next mission', () => missionIntro(run.district + 1), 'btn primary')
+    : run.mode === 'mission' ? btn('Try again', () => startMission(run.district), 'btn primary')
+      : btn('Home', home, 'btn primary');
+
+  show(h('div', { class: 'results' },
+    h('div', { class: 'score-ring', style: `background:conic-gradient(${won ? 'var(--blue)' : 'var(--red)'} 0 ${pct}%,var(--track) 0)` },
+      h('div', { class: 'score-hole' }, right + '/' + total)),
+    h('div', { class: 'col center gap-xs' },
+      h('div', { class: 'res-title' }, headline),
+      h('div', { class: 'res-sub' }, sub)),
+    h('div', { class: 'stats3' },
+      h('div', { class: 'stat' }, img('icons/star'), h('b', {}, '+' + num(run.earned + bonus)), h('span', {}, 'Points')),
+      h('div', { class: 'stat' }, img('icons/flame'), h('b', {}, String(state.streak)), h('span', {}, 'Answer streak')),
+      h('div', { class: 'stat' }, img('icons/timer'), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
     stars ? h('div', { class: 'stars big' }, '★'.repeat(stars) + '☆'.repeat(3 - stars)) : null,
-    h('div', { class: 'gold big-line' }, '+' + money(run.earned + bonus)),
-    after.next ? h('div', { class: 'progress-bar' }, h('i', { style: `width:${Math.min(100, (state.cash - after.min) / (after.next.min - after.min) * 100)}%` })) : null,
-    after.next ? h('div', { class: 'mono small dim' }, money(after.next.min - state.cash) + ' TO ' + after.next.name.toUpperCase()) : null,
-    h('div', { class: 'row gap-s wide' },
-      run.results.some(r => r === false) ? btn('REVIEW', reviewStart, 'btn ghost grow') : btn('MAP', map, 'btn ghost grow'),
+    h('div', { class: 'rank-card' },
+      img(after.badge, rankUp ? 'pop' : ''),
+      h('div', { class: 'col' },
+        h('div', { class: 'rank-name' }, rankUp ? 'Rank up: ' + after.name : after.name),
+        after.next
+          ? h('div', { class: 'progress-bar' }, h('i', { style: `width:${Math.min(100, (state.cash - after.min) / (after.next.min - after.min) * 100)}%` }))
+          : h('div', { class: 'small dim' }, 'Top rank reached'),
+        after.next ? h('div', { class: 'small dim' }, money(after.next.min - state.cash) + ' to ' + after.next.name) : null)),
+    h('div', { class: 'res-actions' },
+      run.results.some(r => r === false) ? btn('Review', reviewStart, 'btn ghost') : btn('Map', map, 'btn ghost'),
       next)
+  ));
+}
+
+/* ---------- lesson results ---------- */
+
+// Lesson runs close the loop here: the attempt is saved, which is what the
+// Learn path and the readiness ring read, then the results screen shows the
+// score, the points, and a way back into the missed questions.
+function lessonResults(run, right, total) {
+  const pct = Math.round(right / total * 100);
+  const ok = pct >= PASS_MARK;
+  const missedQs = run.list.filter((q, i) => run.results[i] === false);
+  const secs = Math.max(0, Math.round((Date.now() - (run.started || Date.now())) / 1000));
+  const attempt = recordAttempt({
+    lessonId: run.lesson,
+    scorePercent: pct,
+    points: run.earned,
+    seconds: secs,
+    missedIds: missedQs.map(q => q.id)
+  });
+  const lesson = lessonById(run.lesson);
+  const nextLesson = LESSONS[LESSONS.findIndex(l => l.id === lesson.id) + 1];
+  audio.sfx(ok ? 'win' : 'cash');
+  show(h('div', { class: 'results' },
+    h('div', { class: 'res-top' },
+      h('button', { class: 'icon-btn', 'aria-label': 'Close', onClick: () => { audio.sfx('tap'); home(); } }, ico.close(22))),
+    h('div', { class: 'score-ring', style: `background:conic-gradient(${ok ? 'var(--blue)' : 'var(--red)'} 0 ${pct}%,var(--track) 0)` },
+      h('div', { class: 'score-hole' }, right + '/' + total)),
+    h('div', { class: 'col center gap-xs' },
+      h('div', { class: 'res-title' }, ok ? 'Passed' : 'Not passed'),
+      h('div', { class: 'res-sub' }, topicById(lesson.topic).name + ' · Lesson ' + lessonNumber(lesson.id))),
+    h('div', { class: 'stats3' },
+      h('div', { class: 'stat' }, ico.star(26), h('b', {}, '+' + num(attempt.points_earned)), h('span', {}, 'XP')),
+      h('div', { class: 'stat' }, ico.flame(26), h('b', {}, String(state.streak)), h('span', {}, 'Day streak')),
+      h('div', { class: 'stat' }, ico.timer(26), h('b', {}, mmss(secs)), h('span', {}, 'Time'))),
+    missedQs.length
+      ? h('button', {
+        class: 'review-row',
+        onClick: () => { audio.sfx('tap'); play({ mode: 'review', list: missedQs.map(q => ({ ...q })) }); }
+      },
+        ico.xCircle(24),
+        h('b', {}, 'Review ' + missedQs.length + (missedQs.length === 1 ? ' mistake' : ' mistakes')),
+        h('span', { class: 'chev' }, ico.chev(18)))
+      : null,
+    h('button', {
+      class: 'cta blue',
+      onClick: () => { audio.sfx('tap'); ok && nextLesson ? startLesson(nextLesson.id) : startLesson(run.lesson); }
+    }, ok && nextLesson ? 'Next lesson' : 'Try again')
   ));
 }
 
@@ -686,7 +826,10 @@ function results(run, failed, timeUp) {
 
 function trophies() {
   const r = rankFor(state.cash);
-  show(h('div', { class: 'col gap-m' }, header('TROPHIES', home),
+  show(h('div', { class: 'col gap-m' },
+    h('div', { class: 'learn-head' },
+      h('h1', { class: 'learn-title' }, 'Me'),
+      h('button', { class: 'round-btn', 'aria-label': 'Settings', onClick: settings }, ico.gear(20))),
     h('div', { class: 'panel col center gap-s' },
       img(r.badge, 'rank-badge'),
       h('div', { class: 'big-title' }, r.name.toUpperCase()),
@@ -700,8 +843,10 @@ function trophies() {
     h('h3', { class: 'section' }, 'MY BEST'),
     h('div', { class: 'panel stats' },
       stat('Best streak', state.bestStreak), stat('Practice test', state.test.best + ' / 20'), stat('Speed run', state.test.speedBest + ' / 10'),
-      stat('Districts cleared', state.districts.filter(d => d.stars).length + ' / ' + DISTRICTS.length))
-  ));
+      stat('Districts cleared', state.districts.filter(d => d.stars).length + ' / ' + DISTRICTS.length),
+      stat('Lessons passed', readiness().passed + ' / ' + LESSONS.length)),
+    tabBar('profile', go)
+  ), 'has-tabs');
 }
 const stat = (k, v) => h('div', { class: 'row between' }, h('span', { class: 'muted' }, k), h('b', {}, String(v)));
 
@@ -718,7 +863,7 @@ function settings() {
   vol.addEventListener('input', () => { s.musicVol = +vol.value; audio.setMusic(s.music, s.musicVol); save(); });
   const per = h('div', { class: 'seg' }, [4, 6, 8].map(n => h('button', { class: s.perMission === n ? 'on' : '', onClick: () => { s.perMission = n; save(); settings(); } }, String(n))));
 
-  show(h('div', { class: 'col gap-m' }, header('SETTINGS', home),
+  show(h('div', { class: 'col gap-m' }, header('Settings', trophies),
     toggle('music', 'Music', 'Calm background beats.', () => audio.setMusic(s.music, s.musicVol)),
     h('div', { class: 'setting' }, h('b', {}, 'Music volume'), vol),
     toggle('sfx', 'Sound effects', 'Dings for right answers.'),
@@ -757,4 +902,4 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // For automated checks.
-window.__permitRun = { state, DISTRICTS, go: { home, map, trophies, settings, testMenu, missionIntro, learn, startMission, play, results, roadMenu, roadDrive } };
+window.__permitRun = { state, DISTRICTS, TOPICS, LESSONS, go: { home, handbook, map, trophies, settings, testMenu, missionIntro, learn, startMission, startLesson, play, results } };

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="512" height="512"><defs>
+<linearGradient id="sheen" x1="0" y1="0" x2=".85" y2="1">
+<stop offset="0" stop-color="#ffffff" stop-opacity=".30"/><stop offset=".30" stop-color="#ffffff" stop-opacity=".10"/>
+<stop offset=".52" stop-color="#ffffff" stop-opacity="0"/><stop offset=".80" stop-color="#000000" stop-opacity=".06"/>
+<stop offset="1" stop-color="#000000" stop-opacity=".16"/></linearGradient>
+<radialGradient id="vig" cx=".42" cy=".36" r=".78">
+<stop offset=".55" stop-color="#000000" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity=".16"/></radialGradient>
+<filter id="grain" x="0" y="0" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch" result="n"/>
+<feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 .6 .6 0 0"/></filter>
+<filter id="lift" x="-14%" y="-14%" width="128%" height="128%">
+<feDropShadow dx="2" dy="4" stdDeviation="3.2" flood-color="#000" flood-opacity=".30"/></filter>
+</defs><defs><clipPath id="face"><rect x="53.0" y="28.0" width="150" height="200" rx="7"/></clipPath></defs><g transform="rotate(-1.7 128 128)"><g transform="translate(3.2 4.2)" fill="#8B8B85" opacity=".95"><rect x="53.0" y="28.0" width="150" height="200" rx="7"/></g><g filter="url(#lift)"><rect x="40.0" y="15.0" width="176" height="226" rx="20" fill="#B3202C"/><rect x="53.0" y="28.0" width="150" height="200" rx="7" fill="#F5F4EF"/></g><g clip-path="url(#face)"><rect width="256" height="256" fill="url(#sheen)"/><rect width="256" height="256" fill="url(#vig)"/><rect width="256" height="256" filter="url(#grain)" opacity=".18"/><text x="128" y="103.4" text-anchor="middle" font-family="'Highway Gothic','Arial Narrow','Liberation Sans Narrow','Helvetica Neue',Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="0.5" fill="#B3202C" textLength="36" lengthAdjust="spacingAndGlyphs">NO</text><text x="128" y="138.2" text-anchor="middle" font-family="'Highway Gothic','Arial Narrow','Liberation Sans Narrow','Helvetica Neue',Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="0.5" fill="#B3202C" textLength="124" lengthAdjust="spacingAndGlyphs">PARKING</text><text x="128" y="173.0" text-anchor="middle" font-family="'Highway Gothic','Arial Narrow','Liberation Sans Narrow','Helvetica Neue',Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="0.5" fill="#B3202C" textLength="124" lengthAdjust="spacingAndGlyphs">ANY TIME</text><rect width="256" height="256" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="5"/></g></g></svg>
